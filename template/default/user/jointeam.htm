@@ -1,0 +1,23 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2"><h2>我加入的{$db_teamname}</h2></td></tr>
+<tr align='center' height="20"><td class="head_2" width='5%'>ID</td><td class="head_2">{$db_teamname}名称</td><td class="head_2">{$db_teamname}分类</td><td class="head_2">管理员</td><td class="head_2">退出</td></tr>
+<!--
+EOT;
+$id=0;
+foreach($teamdb as $key => $team){
+$id++;
+print <<<EOT
+-->
+<tr align='center'><td class="b">$id</td><td class="b">$team[name]</td><td class="b">$team[cname]</td><td class="b">$team[username]</td><td class="b"><a href="$basename&job=leave&teamid=$team[teamid]">退出</a></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<!--
+EOT;
+?>

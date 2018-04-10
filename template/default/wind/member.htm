@@ -1,0 +1,122 @@
+<!--<?php print <<<EOT
+-->
+<!--main-->
+<div id="main">
+  <div>
+	<!--main content -->
+	<div class="boxA">
+	  <h5 class="tabB">
+		<a href="$db_blogurl">首页</a> &raquo; <a href="member.php">同城博客</a>$shownav &raquo; 用户列表
+	  </h5>
+	  <div class="c"></div>
+	  <div class="listArticle">
+		<form action="member.php?" method="post">
+		<div style="font-size:12px; text-align:right;padding:0 0 .5em 1em; margin:0 1em;border-bottom:1px solid #E6EBEF; ">
+		  城市：<script src="js/initcity.js"></script>
+		  <select onChange="initcity();" id="province" name="province">
+			<script>creatprovince('$sltdb[province]');</script>
+		  </select>
+		  <select id="city" name="city">
+			<script>initcity('$sltdb[city]');</script>
+		  </select>
+		  性别：<select name="gender">
+			<option value="">不限制</option>
+			<option value="1"{$sltdb[gender][1]}>男</option>
+			<option value="2"{$sltdb[gender][2]}>女</option>
+		  </select>
+		  排序：<select name="orderby">
+			<option value="username"{$sltdb[orderby][username]}>用户名</option>
+			<option value="regdate"{$sltdb[orderby][regdate]}>注册时间</option>
+			<option value="lastvisit"{$sltdb[orderby][lastvisit]}>最后登陆</option>
+		  </select>
+		  <select name="sc">
+			<option value="asc"{$sltdb[sc][asc]}>升序</option>
+			<option value="desc"{$sltdb[sc][desc]}>降序</option>
+		  </select>
+		  <input type="submit" value="GO" class="bt" />
+		</div>
+		</form>
+		<script language="JavaScript" src="js/ajax.js"></script>
+		<table width="95%" align="center" cellspacing="1" cellpadding="3" style="font-size:12px;">
+		  <tr align="center">
+			<td><img src="$imgpath/$stylepath/nonemini.gif"></td>
+			<td>用户名</td>
+			<td>性 别</td>
+			<td>来 自</td>
+			<td>QQ</td>
+			<td>MSN</td>
+			<td>注册时间</td>
+			<td>最后登陆</td>
+			<td>加为好友</td>
+			<td></td>
+		  </tr>
+<!--
+EOT;
+foreach($userdb as $value){
+!$value[qq] && $value[qq]='';print <<<EOT
+-->
+		  <tr align="center">
+			<td><img src="$value[icon]" width="28"></td>
+			<td><a href="blog.php?uid=$value[uid]">$value[username]</a></td>
+			<td><a href="member.php?gender=$value[genderurl]">$value[gender]</a></td>
+			<td><a href="member.php?province=$value[provinceurl]">$value[province]</a> <a href="member.php?city=$value[cityurl]">$value[city]</a></td>
+			<td>$value[qq]</td>
+			<td>$value[msn]</td>
+			<td>$value[regdate]</td>
+			<td>$value[lastvisit]</td>
+			<td><a href="javascript:;" onclick="AddFriend('$value[uid]')">加为好友</a></td>
+			<td>
+<!--
+EOT;
+if($value[site]){print <<<EOT
+-->
+			  <a href="$value[site]">主页</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</td>
+		  </tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</table>
+<script language="JavaScript">
+function AddFriend(uid){
+	if (!winduid) {
+		alert('您还没有登陆或注册，暂时不能使用此功能！');
+		return false;
+	}
+	if (winduid == uid) {
+		alert('不能添加自己');
+		return false;
+	}
+	var url = ajaxurl + '?action=friend';
+	var param = 'fuid=' + ajax_convert(uid);
+	send_request(url,AddFriendResponse,param);
+}
+function AddFriendResponse(){
+	if (http_request.responseText == 'not_login') {
+		alert('您还没有登陆或注册，暂时不能使用此功能！');
+	} else if (http_request.responseText == 'not_myself') {
+		alert('不能添加自己');
+	} else if (http_request.responseText == 'have_friend') {
+		alert('对方已经是你的好友');
+	} else {
+		alert('添加好友成功');
+	}
+	return false;
+}
+</script>
+	  </div>
+	  $pages
+	</div>
+  </div>
+  <div class="c"></div>
+</div>
+<!--main end-->
+<!--
+EOT;
+?>
+-->

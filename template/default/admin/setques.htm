@@ -1,0 +1,86 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename" method="post">
+<a name="setques"></a>
+<table width=98% align=center cellspacing=1 cellpadding=3 class=i_table>
+	<tr><td class="head" colspan="2" align="center"><a href="#top">验证问题设置</a></td></tr>
+	<tr class=b>
+		<td>验证问题与答案:<br />1、您可以使用简单的文字问题(例如：3+5=?，请输入中文答案)<br /> 2、也可以使用html代码(例如将问题做成一张小图片 &lt;img src="地址" /&gt;)<br />3、多个问题将随机出现一个问题</td>
+		<td><table width="256"><tbody id="qmode" style="display:none"><tr><td><input size="20" name="question[]" value=""></td><td><input size="10" name="answer[]" value=""> <a style="cursor:pointer;color:#FA891B" onclick="delq(this);">[删除]</a></td></tr></tbody>
+		<tr><td width="54%">问题</td><td>答案 <a style="cursor:pointer;color:blue" onclick="addq();">[添加]</a></td></tr>
+<!--
+EOT;
+foreach($db_question as $key=>$value){
+$value = str_replace('"','&quot;',$value);
+print <<<EOT
+-->
+		<tr><td><input size="20" name="question[]" value="$value"></td><td><input size="10" name="answer[]" value="$db_answer[$key]"> <a style="cursor:pointer;color:#FA891B" onclick="delq(this);">[删除]</a></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+		<tbody id="qbody"></tbody></table></td>
+	</tr>
+	<tr class=b>
+		<td width="60%">注册验证问题功能</td>
+		<td>
+			<input type=radio value=1 name="qcheck[reg]" $regq_Y> 开启
+			<input type=radio value=0 name="qcheck[reg]" $regq_N>关闭
+		</td>
+	</tr>
+	<tr class=b>
+		<td>前台登录验证问题功能</td>
+		<td>
+			<input type=radio value=1 name="qcheck[login]" $loginq_Y> 开启
+			<input type=radio value=0 name="qcheck[login]" $loginq_N>关闭
+		</td>
+	</tr>
+	<tr class=b>
+		<td>发日志验证问题功能<br />设置100，则发贴数小于100的会员，将显示验证问题;设置0 则关闭该功能</td>
+		<td>
+			<input type=text name="qcheck[post]" size="15" value="$postq">
+		</td>
+	</tr>
+	<tr class=b>
+		<td>是否强制开启发表留言验证码问题功能</td>
+		<td>
+			<input type=radio value=1 name="qcheck[gbook]" $gbookq_Y> 开启
+			<input type=radio value=0 name="qcheck[gbook]" $gbookq_N>关闭
+		</td>
+	</tr>
+	<tr class=b>
+		<td>是否强制开启发表评论验证问题功能</td>
+		<td>
+			<input type=radio value=1 name="qcheck[cmt]" $cmtq_Y> 开启
+			<input type=radio value=0 name="qcheck[cmt]" $cmtq_N>关闭
+		</td>
+	</tr>
+	<tr class=b>
+		<td>短消息验证问题功能</td>
+		<td>
+			<input type=radio value=1 name="qcheck[msg]" $msgq_Y> 开启
+			<input type=radio value=0 name="qcheck[msg]" $msgq_N>关闭
+		</td>
+	</tr>
+</table><br />
+<input type=hidden name="step" value="2">
+<center>
+<input type=submit value="提 交">
+</center>
+</form>
+<script language="JavaScript">
+function addq(){
+	var s = GE('qmode').firstChild.cloneNode(true);
+	GE('qbody').appendChild(s);
+}
+function delq(obj){
+	var o = obj.parentNode.parentNode;
+	o.parentNode.removeChild(o);
+}
+addq();
+</script>
+
+<!--
+EOT;
+?>-->

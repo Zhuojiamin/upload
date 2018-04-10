@@ -1,0 +1,282 @@
+<!--<?php print <<<EOT
+-->
+<div id="att_mode" style="display:none"><div>&nbsp;附件描述: <input class="input" type="text" name="atc_desc" size="20" /> &nbsp;附件: <input class="input" type="file" name="attachment_" /></div></div>
+<form id="FORM" name="FORM" action="$basename&job=$job&" method="post" enctype="multipart/form-data" onsubmit="return checkpost(document.FORM);">
+<input name="step" type="hidden" value="2">
+<!--
+EOT;
+if($job=='modify'){print<<<EOT
+-->
+<input name="itemid" type="hidden" value="$itemid">
+<input name="atc_oldcid" type="hidden" value="$cid">
+<input name="atc_pushlog" type="hidden" value="$pushlog">
+<!--
+EOT;
+}print<<<EOT
+-->
+<div class="ml ml2">
+  <table align="center" class="userbg" cellspacing="0" cellpadding="5">
+  	<tr class="b">
+  		<td>日志标题<br /><input class="input" type="text" size="45" name="atc_title" value="$atc_title"></td>
+	</tr>
+	<tr class="b">
+  		<td>心情
+			<input type="radio" name="atc_iconid1" value="1"$icon1_1><img border=0 src='$imgpath/emotion/1.gif'>
+			<input type="radio" name="atc_iconid1" value="2"$icon1_2><img border=0 src='$imgpath/emotion/2.gif'>
+			<input type="radio" name="atc_iconid1" value="3"$icon1_3><img border=0 src='$imgpath/emotion/3.gif'>
+			<input type="radio" name="atc_iconid1" value="4"$icon1_4><img border=0 src='$imgpath/emotion/4.gif'>
+			<input type="radio" name="atc_iconid1" value="5"$icon1_5><img border=0 src='$imgpath/emotion/5.gif'>
+			<input type="radio" name="atc_iconid1" value="6"$icon1_6><img border=0 src='$imgpath/emotion/6.gif'>
+			<input type="radio" name="atc_iconid1" value="7"$icon1_7><img border=0 src='$imgpath/emotion/7.gif'>
+			<input type="radio" name="atc_iconid1" value="0"$icon1_0>无
+		</td>
+	</tr>
+	<tr class="b">
+  		<td>天气
+			<input type="radio" name="atc_iconid2" value="1"$icon2_1><img border=0 src='$imgpath/weather/1.gif' alt='晴'>
+			<input type="radio" name="atc_iconid2" value="2"$icon2_2><img border=0 src='$imgpath/weather/2.gif' alt='雨'>
+			<input type="radio" name="atc_iconid2" value="3"$icon2_3><img border=0 src='$imgpath/weather/3.gif' alt='多云'>
+			<input type="radio" name="atc_iconid2" value="4"$icon2_4><img border=0 src='$imgpath/weather/4.gif' alt='阴'>
+			<input type="radio" name="atc_iconid2" value="5"$icon2_5><img border=0 src='$imgpath/weather/5.gif' alt='雪'>
+			<input type="radio" name="atc_iconid2" value="6"$icon2_6><img border=0 src='$imgpath/weather/6.gif' alt='雷阵雨'>
+			<input type="radio" name="atc_iconid2" value="7"$icon2_7><img border=0 src='$imgpath/weather/7.gif' alt='风'>
+			<input type="radio" name="atc_iconid2" value="0"$icon2_0>无
+		</td>
+	</tr>
+	<tr class="b">
+  		<td>
+<!--
+EOT;
+if($_GROUP['htmlcode']){print <<<EOT
+-->
+	<input type="checkbox" name="atc_htmlcode" id="atc_html" value="1" $html_CK> 使用html代码
+<!--
+EOT;
+}print <<<EOT
+-->
+	<input type="checkbox" name="atc_ifsign" value="1" $ifsign_CK> 使用签名
+	<input type="checkbox" name="atc_autourl" value="1" CHECKED> 自动分析url
+  </td>
+</tr>
+<tr class="b"><td>注：通过<img src="$imgpath/wysiwyg/more.gif">插入截断点截断文章，截断后将在日志列表页显示截断点之前的内容，否则全文显示</td></tr>
+<tr class="b">
+  <td width="500" valign="top">
+<!--
+EOT;
+include PrintEot('wysiwyg');print<<<EOT
+-->
+  </td>
+</tr>
+  <tr class="b">
+	  <td>
+<!--
+EOT;
+if($db_allowupload != '0' && $_GROUP['allowupload'] != '0'){
+	include_once PrintEot('upload');
+}print <<<EOT
+-->
+	  </td>
+	</tr>
+<!--
+EOT;
+if ($rawwindid) {print <<<EOT
+-->
+	<tr class="b">
+	  <td>认证码：<input name="gdcode" value="" size="5" class="input">&nbsp;<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /></td>
+	</tr>
+<!--
+EOT;
+} 
+if($postq == '1' && $db_question){
+$db_question = unserialize($db_question);
+$qkey = array_rand($db_question);
+print<<<EOT
+-->
+	<tr class="b">
+		<td>验证问题: {$db_question[$qkey]} <input class="input" type="text" name="qanswer"/><input type="hidden" name="qkey" value="$qkey" /></td>
+	</tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+  </table>
+  <div class="c"></div>
+</div>
+<div class="mr mr2">
+  <div id="last_information" class="box1 box3">
+	<h2>选项</h2>
+	<div class="box1text">
+	  <h3 onclick="schdiv('hide3',this);" class="heiyo2" style="cursor:pointer;">分类 &raquo;</h3>
+	  <div class="div1" id="hide3">
+		<table cellspacing="0" cellpadding="0">
+		  <tr class="b">
+			<td height="50">系统分类<br />
+			  <select name="atc_cid" style="width:150px;">$forumcache</select>
+			</td>
+		  </tr>
+		  <tr class="b">
+			<td height="50">个人分类<br />
+<!--
+EOT;
+include_once PrintEot('itemtype');print<<<EOT
+-->
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <h3 onclick="schdiv('hide4',this);" class="heiyo2" style="cursor:pointer;">表情 &raquo;</h3>
+	  <div class="div1" id="hide4">
+	  	<div style="padding:3px; text-align:center; width:200px;">
+	  	<div id="menu_show"></div>
+	  	<span style="float:right; margin:3px 10px 5px;"><a id="td_smile" style="cursor:pointer;" onClick="showDefault();" align="absmiddle" unselectable="on">[更多]</a></span>
+		</div>
+	  </div>
+	  <div id="menu_smile" class="menu" style="display:none;"></div>
+<!--
+EOT;
+print<<<EOT
+-->
+	  <script language="JavaScript" src="js/post.js"></script>
+	  <h3 onclick="schdiv('hide5',this);" class="heiyo2" style="cursor:pointer;">关键字(Tags) &raquo;</h3>
+	  <div class="div1" id="hide5">
+		<table cellspacing="0" cellpadding="0">
+<!--
+EOT;
+include_once PrintEot('tag');print<<<EOT
+-->
+		</table>
+	  </div>
+	  <h3 onclick="schdiv('hide6',this);" class="heiyo3" style="cursor:pointer;">其他设定 &raquo;</h3>
+	  <div class="div1" id="hide6" style="display:none;" >
+		<table cellspacing="0" cellpadding="0">
+		  <tr class="b">
+			<td width="50%" height="30">允许评论<br></td>
+			<td>
+			  <input type="radio" name="atc_allowreply" value="1" $allowreply_1> 是
+			  <input type="radio" name="atc_allowreply" value="0" $allowreply_0> 否
+			</td>
+		  </tr>
+		  <tr class="b">
+			<td width="50%" height="30">共享设置</td>
+			<td>
+			  <select name="atc_ifhide" style="width:98px;">
+			  <option value="0" $ifhide_0>完全共享</option>
+			  <option value="2" $ifhide_2>好友可见</option>
+			  <option value="1" $ifhide_1>完全隐藏</option>
+			  </select>
+			</td>
+		  </tr>
+<!--
+EOT;
+if($job=='add'){
+if($db_cbbbsopen=='1'){print <<<EOT
+-->
+		  <tr class="b">
+			<td width="50%" height="30">推送至论坛</td>
+			<td>
+			  <select name="atc_bbsfid" style="width:98px;">
+				<option value="0"></option>
+				$bbsfcache
+			  </select>
+			</td>
+		  </tr>
+<!--
+EOT;
+}
+}
+if($db_teamifopen == '1'){
+print<<<EOT
+-->
+		  <tr class="b">
+			<td width="50%" height="30">推送至{$db_teamname}</td>
+			<td>
+<!--
+EOT;
+
+foreach($teamsel as $key => $value){
+if(empty($teamid)){print<<<EOT
+-->
+<input type="checkbox" name="atc_teamid[]" value="$value[teamid]" $value[checked] />$value[name]<br />
+<!--
+EOT;
+}else{
+$ifchecked = ($teamid == $value[teamid] ? 'CHECKED' : '');
+print<<<EOT
+-->
+<input type="checkbox" name="atc_teamid[]" value="$value[teamid]" $ifchecked/>$value[name]<br />
+<!--
+EOT;
+}
+}
+print<<<EOT
+-->
+			</td>
+		  </tr>
+<!--
+EOT;
+}print<<<EOT
+-->
+		</table>
+	  </div>
+	</div>
+	<div class="c"></div>
+  </div>
+</div>
+<div class="c"></div><br/>
+<center><input type="submit" name="Submit" value="提 交" class="bt"></center>
+</form>
+<br><iframe id="hideframe" name="hideframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+<script language="JavaScript" src="data/cache/smile.js"></script>
+<script language="JavaScript" src="js/smile.js"></script>
+<script language="JavaScript">
+document.FORM.atc_title.focus();
+var cnt = 0;
+var cntck = 0;
+function checkpost(obj){
+	if (obj.atc_title.value=="") {
+		alert("标题不能为空");
+		obj.atc_title.focus();
+		cntck = 1;
+		return false;
+	} else if (strlen(obj.atc_title.value) > $db_titlemax) {
+		alert("标题超过最大长度 $db_titlemax 个字节");
+		obj.atc_title.focus();
+		cntck = 1;
+		return false;
+	}
+	if (strlen(obj.atc_content.value) < $db_postmin) {
+		alert("文章内容少于 $db_postmin 个字节");
+		editor.focusEditor();
+		cntck = 1;
+		return false;
+	} else if (strlen(obj.atc_content.value) > $db_postmax) {
+		alert("文章内容大于 $db_postmax 个字节");
+		editor.focusEditor();
+		cntck = 1;
+		return false;
+	}
+	if(cntck == 1){
+		document.FORM.Submit.disabled = true;
+	}
+	cnt++;
+	if (cnt!=1) {
+		alert('Submission Processing. Please Wait');
+		return false;
+	}
+	return true;
+}
+function schdiv(id,obj2){
+	if (GE(id).style.display=='none'){
+		obj2.className='heiyo2';
+		GE(id).style.display='';
+	} else {
+		obj2.className='heiyo1';
+		GE(id).style.display='none';
+	}
+}
+</script>
+	
+<!--
+EOT;
+?>

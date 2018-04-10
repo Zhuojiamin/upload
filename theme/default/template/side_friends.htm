@@ -1,0 +1,94 @@
+<!--<?php print <<<EOT
+-->
+<script language="JavaScript">
+var pageid = 1;
+var ajax_total = '$ajax_total';
+var sumpage = Math.ceil(ajax_total/6);
+function friendbox(fuid){
+	var url = ajaxurl + '?action=friendinfo';
+	var param = 'fuid=' + fuid;
+	send_request(url,friendboxResponse,param);
+}
+function friendboxResponse(){
+	var msg = http_request.responseText;
+	msg = msg.split("\t");
+	var showmenu_content = '';
+	var fuid = msg[0];
+	if(msg.length>1){
+		for(var i in msg){
+			if (i>0){
+				var onemsg = msg[i].split("|");
+				showmenu_content += '<a href="blog.php?do=showone&type=blog&itemid=' + onemsg[0] + '">' + onemsg[1] + '</a><br />';
+			}
+		}
+	}else{
+		showmenu_content = '该好友暂无日志';
+	}
+	var showmenu_contents = '<span class="user-infoWrap" id="friendbox"><span class="co"></span>' + showmenu_content + '</span>';
+	GE('showface').innerHTML = showmenu_contents;
+	var iconps = 'iconps_'+fuid;
+	open_menu('showface',iconps,'4');
+}
+
+function dopage(obj,uid,type){
+   document.getElementById(obj).innerHTML="正在读取数据... ";
+   var url = ajaxurl + '?action=dopage';
+   if(type == 'next'){
+   	 pageid++;
+   	 if(pageid > sumpage){
+   	 	pageid = sumpage;
+   	 }
+   }else if(type == 'prepage'){
+   	 pageid--;
+   	 if(pageid < 1){
+   	 	pageid = 1;
+   	 }
+   }else if(type == 'first'){
+   	 pageid = '1';
+   }else if(type == 'end'){
+   	 pageid = sumpage;
+   }
+   GE('page').innerHTML = pageid;
+   var param = 'pageid=' + pageid + '&uid=' + uid;
+   send_request(url,dopagetResponse,param);
+}
+
+function dopagetResponse(){
+	var msg = http_request.responseText;
+	msg = msg.split("\t");
+	var showmenu_friendlist = '';
+	for(var i in msg){
+		var onemsg = msg[i].split("|");
+		showmenu_friendlist += '<dl><dd><a href="blog.php?uid=' + onemsg[0] + '" target="_blank"><img src="' + onemsg[2] +'" onmouseover="mt=setTimeout(\'friendbox(' + onemsg[0] + ');\',700);" onmouseout="clearTimeout(mt);closem();"/><span id="sf"></span></a></dd></dl><div id="showface" style="display:none"></div><div id="showmenu" style="z-index:100;display:none;"></div>';
+	}
+	GE('listPic1').innerHTML = showmenu_friendlist;
+}
+
+</script>
+	<!--begin comment-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]($ajax_total)</h2>
+	  <div class="listPic1" id="listPic1">
+	  
+<!--
+EOT;
+$i = 0;
+foreach ($frienddb as $key => $value) {
+print <<<EOT
+-->		
+<dl>
+			<dd><table><tr><td><a href="blog.php?uid=$value[fuid]" target="_blank"><img src="$value[icon]" onmouseover="mt=setTimeout('friendbox($value[fuid]);',700);" onmouseout="clearTimeout(mt);closem();"/></a></td><td style="vertical-align:top"><span id="iconps_$value[fuid]"></span></td></tr></table>
+			<div class="user-info" id="showface" style="display:none"></div></dd>
+			</dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </div>
+	  <div class="c"></div>
+	<div id=ajaxpage class="tac"><a onclick=dopage('listPic1',$uid,'first'); style="cursor:pointer">首页</a> <a onclick=dopage('listPic1',$uid,'prepage'); style="cursor:pointer">前页</a> <a onclick="dopage('listPic1',$uid,'next');" style="cursor:pointer">后页</a> <a onclick="dopage('listPic1',$uid,'end');" style="cursor:pointer">尾页</a><br /> 第 <span id=page>1</span>页，共 $sumpage 页 </div>
+	</div>
+	<!--end comment-->
+<!--
+EOT;
+?>

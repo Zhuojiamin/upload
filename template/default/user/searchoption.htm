@@ -1,0 +1,49 @@
+<!--<?php
+print <<<EOT
+-->
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 style="margin-top:10px;">
+<tr class="head"><td colspan="2"><b>管理选项</b></td></tr>
+<tr class="b">
+	<td colspan="2">
+		<input type="checkbox" name="delete" value="1">直接删除 &nbsp;
+		<a onclick="showoption()" style="cursor: pointer;"><font color="blue">点击此处查看更多管理选项</font></a>
+	</td>
+</tr>
+<tbody id="option" style="display:none;">
+<tr class="b">
+	<td width="10%">{$lang_user[$type]}归类</td>
+	<td>
+		<select name="typeid">
+			<option>个人分类</option>
+			$itemtypeoption
+		</select>
+	</td>
+</tr>
+<tr class="b">
+	<td>允许评论</td>
+	<td>
+		<input type="radio" name="allowreply" value="-1" checked>不修改
+		<input type="radio" name="allowreply" value="1" $allowreply_1>是
+		<input type="radio" name="allowreply" value="0" $allowreply_0>否
+	</td>
+</tr>
+<tr class="b">
+	<td>私有</td>
+	<td>
+		<input type="radio" name="ifhide" value="-1" checked>不修改
+		<input type="radio" name="ifhide" value="1" $ifhide_1>是
+		<input type="radio" name="ifhide" value="0" $ifhide_0>否
+	</td>
+</tr>
+</tbody>
+</table>
+
+<script language="JavaScript">
+function showoption(){
+	var obj=GE('option').style;
+	obj.display=obj.display=='none' ? '' : 'none';
+}
+</script>
+<!--
+EOT;
+?>

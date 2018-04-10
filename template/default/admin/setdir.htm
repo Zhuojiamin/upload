@@ -1,0 +1,76 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" cellspacing="1" cellpadding="3" align="center" class="i_table">
+<!--
+EOT;
+if($job=='dir'){print <<<EOT
+-->
+<tr><td class="head" align="center" colspan="2">动态目录控制(非NT主机需要设置目录的777属性)</td></tr>
+<tr class="b"><td width="60%">图片保存目录：</td>
+<td><input name="set[picpath]" size="35" value="$picpath" $imgdisabled></td></tr>
+<tr class="b"><td>附件保存目录：</td>
+<td><input name="set[attachpath]" size="35" value="$attachpath"  $attdisabled></td></tr>
+<tr class="b"><td>附件保存方式<br />
+本设置只影响新上传的附件，不影响已上传的附件。<br />
+如使用非默认的保存方式，请确认 mkdir() 函数可正常使用，否则附件无法保存</td>
+<td><input type="radio" name="config[attachdir]" value="0" $attachdir_ck[0]> 默认(全部存入同一目录)<br />
+<input type="radio" name="config[attachdir]" value="2" $attachdir_ck[2]> 按类型存入不同目录<br />
+<input type="radio" name="config[attachdir]" value="3" $attachdir_ck[3]> 按月份存入不同目录<br />
+<input type="radio" name="config[attachdir]" value="4" $attachdir_ck[4]> 按天存入不同目录</td></tr>
+<tr class="b"><td>防止图片盗链参数设置：(定时更改图片目录，小型站点不推荐使用，设置为'0'则不启用此功能)</td>
+<td><select name="config[hour]">
+<option value="0" $hour_sel[0]>0</option>
+<option value="4" $hour_sel[4]>4</option>
+<option value="6" $hour_sel[6]>6</option>
+<option value="8" $hour_sel[8]>8</option>
+<option value="12" $hour_sel[12]>12</option>
+<option value="20" $hour_sel[20]>24</option>
+</select></td></tr>
+<tr class="b"><td>使用跨台固定图片链：(不使用请写'N',小型站点不推荐使用,请不要随意更改)</td>
+<td><input name="config[http]" size="35" value="$db_http"></td></tr>
+<!--
+EOT;
+}elseif($job=='html'){print <<<EOT
+-->
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b">
+<b>功能说明:</b><br />
+博客系统的整体设计采用了全新的思想,针对搜索引擎做了特殊处理, 系统的URL链接被设计成静态形式, 大大增加了网站内容被搜索引擎收录的机率.  默认的URL形式大致为http://www.your.com/cate.php?cid-1.html, 不过这种形式中包含有(.php?), 可能会被某些搜索引擎判定为是动态页面, 而降低网站内容被收录的机率, 为了能更好的提高您的网站被搜索引擎收录的机率, 我们设计了这个功能, 可以大大提高网站内容被各大搜索引擎收录的机率<br /><br />
+<b>使用方法：</b><br />
+此功能的目的是把URL转换成更容易被搜索引擎收录的形式, 需要相关的服务器权限,下面以apache服务器为例介绍使用方法.<br /><br />
+1.在<b>静态目录部署</b>中, 将静态目录设置为"-htm-"，将静态目录扩展名设置为:".html"<br />
+&nbsp; &nbsp;默认的URL形式为 "http://www.your.com/cate<font color="red"><b>.php?</b></font>cid-1.html"<br />
+&nbsp; &nbsp;新的URL形式为&nbsp; &nbsp; "http://www.your.com/cate<font color="red"><b>-htm-</b></font>cid-1.html"<br />
+&nbsp; &nbsp;这种纯静态形式的URL更易被搜索引擎收录<br /><br />
+2.Apache Web Server 的配置<br />
+&nbsp; &nbsp;首先确定加载了 Mod_rewrite 模块，方法: 检查 conf/httpd.conf 中是否存在以下两段代码 (具体路径可能会有所不同，但形式基本是一样的):<br /><br />
+(一)LoadModule rewrite_module libexec/mod_rewrite.so<br />
+(二)AddModule mod_rewrite.c<br /><br />
+如果存在，那么在配置文件（通常就是conf/httpd.conf）中加入如下代码。此时须注意，如果网站使用通过虚拟主机来定义，请务必加到虚拟主机配置中去，否则可能无法使用。改好后然后将 Apache 重启. <br /><br />
+&lt;IfModule mod_rewrite.c&gt;<br />
+RewriteEngine On<br />
+RewriteRule ^(.*)<font color="red"><b>-htm-</b></font>(.*)$ $1.php?$2<br />
+&lt;/IfModule&gt;</td></tr>
+</table><br />
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">静态目录部署</td></tr>
+<tr class="b"><td width="60%">是否开启静态目录部署功能</td>
+<td><input type="radio" name="config[htmifopen]" value="1" $htmifopen_Y>是
+<input type="radio" name="config[htmifopen]" value="0" $htmifopen_N>否</td></tr>
+<tr class="b"><td width="60%">静态目录</td>
+<td><input name="config[dir]" size="35" value="$db_dir"></td></tr>
+<tr class="b"><td width="60%">静态目录扩展名设置</td>
+<td><input name="config[ext]" size="35" value="$db_ext"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!-- 
+EOT;
+?>-->

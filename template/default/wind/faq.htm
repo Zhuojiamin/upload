@@ -1,0 +1,263 @@
+<!--<?php
+list($db_unioninfo,$c)=explode("\t",readover(D_P.'data/cache/info.txt'));
+print <<<EOT
+-->
+<div id="main">
+  <div id="mainav">
+	<div style="width:96%; margin:auto"> 
+	  <h3><a href="">$db_blogname </a> &raquo; <a>BLOG帮助</a></h3>
+	  <div class="coment1" style="width:92%; margin:0 auto; margin-top:15px">
+		<div class="qlh qlh2">
+		  <a class="see" onclick="showdiv(this,1);" id="k" style="cursor:pointer;">注册与会员登录</a> <a onclick="showdiv(this,2);" style="cursor:pointer;">博客使用帮助</a> <a onclick="showdiv(this,4);" style="cursor:pointer;">BLOG相关问题</a> <a onclick="showdiv(this,5);" style="cursor:pointer;">PHPWind 版权声明</a> <a onclick="showdiv(this,3);" style="cursor:pointer;">关于 Wind Code</a>
+		</div>
+		<div class="help-text" id="show"></div>
+<div class="help-text" style="display:none;" id="show1">
+
+<h3>关于注册成为BLOG会员</h3><br />
+ &nbsp; &nbsp; 您需要 <a href="register.php"><font color="blue">注册成为会员</font></a> ，如果你在论坛中有帐号，那你可以用论坛帐号登入.论坛和BLOG可以使用同一帐号.<font color="red">只有成为会员才可以使用BLOG的各种功能</font>.注册时，您需要一个用户名、密码和一个有效的email地址。输入您的email地址不会给您带来‘垃圾邮件’，您可以在注册时选择隐藏email地址。
+<br /><br />
+简要功能介绍：<br />
+ &nbsp; &nbsp; (1) 二级域名功能：可以使用个人二级域名可以直接访问博客个人主页<br />
+ &nbsp; &nbsp; (2) 可以增加和修改你的个人日志<br />
+ &nbsp; &nbsp; (3) 发表评论<br />
+ &nbsp; &nbsp; (4) 修改自己的BLOG风格<br />
+ &nbsp; &nbsp; (5) 创建自己的相册，上传照片等<br />
+ &nbsp; &nbsp; (6) 如果你有权限，你还可以创建一个朋友圈，邀请几个知心朋友，谈天说地，享受网络交流的便捷<br />
+ &nbsp; &nbsp; (7) 搜索您所需要的资料<br /><br />
+<h3>关于登录BLOG</h3><br />
+ &nbsp; &nbsp; (1) 如果您以前是该BLOG的会员，请点击 <a href="login.php"><font color="blue">登录</font></a> 进入登录界面，填写用户名和密码<br />
+ &nbsp; &nbsp; (2) 如果你在pw论坛上有会员帐号，你可以在论坛插件中心，博客插件里进入，如果你以前没用过这个帐号登入过BLOG，请先激活<br />
+ &nbsp; &nbsp; (3) Cookie 有效期介绍: 主要用于在您离开一会儿或者重新进入一个主题或者帖子的时候确认您的身份。当您登录时， 您将有一个‘cookie 有效期:’选项，您可以选择cookie保存的时间，这时系统将您的用户名和密码用cookie保存，储存在您的电脑。如果您是使用一台共用的电脑，比如在图书馆、网吧，或者其他不能完全信任的地方， 建议使用‘即时’选项，以免您的帐号被他人盗用。
+</div>
+
+
+
+<div class="help-text" style="display:none;" id="show1">
+		<h3>关于日志管理</h3><br />
+		 &nbsp; &nbsp; 添加日志：添加新的日志，可以自己增加日志内容等。<br />
+		 &nbsp; &nbsp; 日志管理：在你新的日志中，可以进行编辑，修改等操作。<br />
+		 &nbsp; &nbsp; 评论管理：你可以对前台“最新文章”中发表的评论进行管理<br />
+		 &nbsp; &nbsp; 专辑管理：这里你可以建立自己的专辑项目（分类），在你的个人博客里显示在最上面。<br /><br />
+		<h3>论坛帖子推送</h3><br />
+		 &nbsp; &nbsp;  帖子推送：可以将论坛上的你发表的文章转到你的blog中来。<br /><br />
+		<h3>关于用户设置</h3><br />
+		 &nbsp; &nbsp; 修改个人设置：这里你可以修改你的注册信息，个人资料<br />
+		 &nbsp; &nbsp; 用户自定义风格：你可以修改和增加风格。<br />
+		 &nbsp; &nbsp; 管理我的联结：可以添加和管理博客右下角的友情连接。<br />
+		 &nbsp; &nbsp; 管理我的公告：设置你的公告栏。<br /><br />
+		<h3>关于朋友圈管理</h3><br />
+		 &nbsp; &nbsp; 我的朋友圈：这里你可以创建和编辑朋友圈，当然创建朋友圈要一定的权限。<br />
+		 &nbsp; &nbsp; 朋友圈会员管理：你可以对朋友圈里的会员进行审核的功能操作。<br />
+		 &nbsp; &nbsp; 我加入的朋友圈：在这里你可以退出你所在的朋友圈。<br />
+		 &nbsp; &nbsp; 朋友圈文章管理：你可以对朋友圈的文章进行管理。<br /><br />
+		<h3>上传文件管理</h3><br />
+		 &nbsp; &nbsp; 将显示上传到blog上的文件信息，你可以对它进行各种操作如：删除<br /><br />
+		<h3>关于相册管理</h3><br />
+		 &nbsp; &nbsp; 这里可以创建相册，以及对你的相册进行编辑,添加，删除图片等
+		 
+		 </div>
+<div class="help-text" style="display:none;" id="show2">
+		<h3>关于Wind Code</h3><br />
+		 &nbsp; &nbsp; 可以使用Wind Code 编辑您的帖子、签名，您可以设置帖子文字的字体、颜色等格式。<a href="faq.php?faqjob=1#5"><font color="blue">Wind Code</font></a> 代码使用简单。<br /><br />
+		<h3>关于创建朋友圈</h3><br />
+		 &nbsp; &nbsp; 只有当会员有一定权限的时候才可以创建朋友圈。朋友圈是为了让一些特定的人聚集在一起，可以互相学习，交流，和结识新朋友。<br /><br />
+		<h3>关于BLOG上传附件问题</h3><br />
+		 &nbsp; &nbsp; 上传附件首先要在BLOG后台管理里打开这个功能，上传的文件有特定的类型，后台可以添加(注意这里说的不是个人博客后台)，附件的大小也可以限制，只有符合要求的附件才可以上传。附件将显示在您所发布的信息中.  <font color="red">注意：</font>放附件的文件要"777" 一般 附件保存方式使用"预设(全部存入同一目录)"<br /><br />
+		<h3>关于管理员如何添加风格</h3><br />
+		  &nbsp; &nbsp; 找到template/default/skin/ 目录，复制或创建新文件夹命名为2， 如果你是自己制作新风格，那么就复制风格1文件夹内的所有文件到风格2文件夹里进行文件修改和编辑，如果是别人提供的模版，就按照提示放到 风格2目录里 （添加更多风格只需按照同样办法建立文件包并按顺序命名即可）进入管理后台 风格管理 创建新风格 完成后编辑该风格属性即可</div>
+<div class="help-text" style="display:none;" id="show3">
+$db_unioninfo
+<!--
+EOT;
+if(!$db_unioninfo){print <<<EOT
+-->
+<center><a href="http://www.ofstar.com/bbs/" target=_blank><b>流星 ofstar.com</b><br /><br />流星时尚 (服饰、美容、旅游、运动、美食)<br />流星数码(数码影像, 潮流手机, 随身听, 掌上电脑) <br />流星文联( 文学 ,情感 )<br />流星娱乐(最新音乐推荐 , 影视)</a></center>
+<!--
+EOT;
+}print <<<EOT
+-->
+<table width="100%" cellpadding="0" class="itable itable2">
+<tr><td class=right_head colspan=2><a name=6></a><b>Wind Code</b>
+</td></tr>
+<tr class="f_one"><td valign=center align=left>
+<ul>
+<font color=#5a6633 face=verdana>[quote]</font>
+引用标签，引用其他内容的作用
+<font color=#5a6633 face=verdana>[/quote]</font> 
+</ul>
+</td>
+<td valign=center align=left>
+<div class="quote">引用标签，引用其他内容的作用</div>
+</td></tr>
+<tr class="f_one"><td valign=center align=left>
+<ul>
+<font color=#5a6633 face=verdana>[code]</font><font color=#5a6633></font>
+<br /><font face=courier color=#333333><br />
+	 unset(\$txt[\$i]);<br />
+     \$txt=implode('',\$txt);<br />
+     \$f=fopen('userdata/xuni/market.data','w');<br />
+     fputs(\$f,\$txt);<br />
+	 fclose(\$f);<br />
+</font><font color=#5a6633 face=verdana>[/code]</font> 
+</ul>
+</td>
+<td valign=center align=left> 
+<font color=red>Code:</font><br />
+<textarea name=textfield rows=5 style="width:80%;">
+unset(\$txt[\$i]);
+\$txt=implode('',\$txt);
+\$f=fopen('userdata/xuni/market.data','w');
+fputs(\$f,\$txt);
+fclose(\$f);
+</textarea><br /><font color=red>[Ctrl+A Select All]</font>
+</td></tr>
+<tr class="f_one"><td valign=center align=middle>
+<font face=verdana color=5a6633>[url]</font>
+<font face=verdana>http://www.phpwind.net</font><font color=5a6633>[/url] 
+</font>
+</td>
+<td valign=center align=middle>
+<a href=http://www.phpwind.net target=_blank>
+<font color=#000066>http://www.phpwind.net</font></a></td></tr>
+<tr class="f_one"><td valign=center align=middle>
+<font face=verdana color=5a6633>[url=http://www.phpwind.net]</font>
+<font face=verdana>PHPwind</font><font color=5a6633>[/url]</font></td>
+<td valign=center align=middle>
+<a href=http://www.phpwind.net>
+<font color=000066>PHPwind</font></a></td></tr>
+<tr class="f_one">
+<td valign=center align=middle>
+<font face=verdana color=5a6633>[email]</font><font face=verdana>fengyu@163.com</font>
+<font color=5a6633>[/email]</font></td>
+<td valign=center align=middle>
+<a href=mailto:fengyu@163.com><font color=000066>fengyu@163.com</font></a></td></tr>
+<tr class="f_one"><td valign=center align=middle>
+<font face=verdana color=5a6633>[email=fengyu@163.com]</font>
+<font face=verdana>email me</font><font color=5a6633>[/email]</font></td>
+<td valign=center align=middle>
+<a href=mailto:fengyu@163.com><font color=000066>email me</font></a></td></tr>
+<tr class="f_one"> 
+<td valign=center align=middle><font face=verdana color=5a6633>[b]</font>
+<font face=verdana>粗体字</font><font color=5a6633 face=verdana>[/b]</font> 
+</td>
+<td valign=center align=middle><font face=verdana><b>粗体字</b></font> 
+</td></tr>
+<tr class="f_one"><td valign=center align=middle><font face=verdana color=5a6633>[i]</font>
+<font face=verdana>斜体字<font color=5a6633>[/i]</font> 
+</font></td>
+<td valign=center align=middle><font face=verdana><i>斜体字</i></font> 
+</td></tr>
+<tr class="f_one"><td valign=center align=middle><font face=verdana color=5a6633>[u]</font>
+<font face=verdana>下划线</font><font color=5a6633>[/u]</font></td>
+<td valign=center align=middle><font face=verdana><u>下划线</u></font> 
+</td>
+</tr>
+<tr class="f_one"> 
+<td valign=center align=middle>
+<font face=verdana color=5a6633>[align=center(可以是向左left，向右right)]</font>位于中间<font color=5a6633>[/align]</font></td>
+<td valign=center align=middle><font face=verdana><div align=center>中间对齐</div></font></td></tr>
+<tr class="f_one"> 
+<td valign=center align=middle><font face=verdana color=5a6633>[size=4]</font>
+<font face=verdana>改变字体大小<font color=5a6633>[/size] 
+</font> </font></td>
+<td valign=center align=middle><font face=verdana>改变字体大小</font></td></tr>
+<tr class="f_one"> 
+<td valign=center align=middle><font face=verdana color=5a6633>[font=</font>
+<font color=5a6633>楷体_gb2312<font face=verdana>]</font></font>
+<font face=verdana>改变字体<font color=5a6633>[/font] 
+</font> </font></td>
+<td valign=center align=middle><font face=verdana><font face="楷体_gb2312">改变字体</font> 
+</font></td>
+</tr>
+<tr class="f_one"> 
+<td valign=center align=middle><font face=verdana color=5a6633>[color=red]</font>
+<font face=verdana>改变颜色<font color=5a6633>[/color] 
+</font> </font></td>
+<td valign=center align=middle><font face=verdana color=red>改变颜色</font><font face=verdana> 
+</font></td>
+
+</tr>
+<tr class="f_one"> 
+<td valign=center align=middle><font face=verdana color=5a6633>[img]</font>
+<font face=verdana>http://www.phpwind.net/logo.gif<font color=5a6633>[/img]</font> 
+</font></td>
+<td align=center><font face=verdana>
+<img src="logo.gif" /></font> </td>
+</tr>
+<tr class="f_one"> 
+<td valign=center align=middle>
+<font face="宋体" color=#333333><font color=#5a6633>[fly]</font>飞行文字特效
+<font color=#5a6633>[/fly]</font> </font></td>
+<td valign=center align=left>
+<font face="宋体"	color=#333333>
+<marquee scrollamount=3 behavior=alternate width=90%>飞行文字特效</marquee></font></td>
+</tr>
+<tr class="f_one"> 
+<td valign=center align=middle>
+<font face="宋体" color=#333333><font color=#5a6633>[move]</font>滚动文字特效
+<font color=#5a6633>[/move]</font> </font></td>
+<td valign=center align=left>
+<font face="宋体" color=#333333> <marquee scrollamount=3 width=90%>滚动文字特效</marquee></font></td>
+</tr>
+<tr class="f_one">
+<td valign=center align=middle>
+<font face="宋体" color=#333333>
+<font color=#5a6633>[flash=400,300]</font>http://www.phpwind.net/wind.swf
+<font color=#5a6633>[/flash]</font> </font></td>
+<td valign=center align=middle>
+<font face="宋体" color=#333333>将显示flash文件</font> </td>
+</tr>
+<tr class="f_one">
+<td valign=center align=middle>
+<font face="宋体" color=#333333>
+<font color=#5a6633>[iframe]</font>http://www.phpwind.net<font color=#5a6633>[/iframe]</font> </font></td>
+<td valign=center align=middle>
+<font face="宋体" color=#333333>将在帖子中粘贴网页(后台默认关闭)</font> </td>
+</tr>
+<tr class="f_one">
+<td align=center>
+<font color=#5a6633>[glow=255(宽度)，red(颜色)，1(边界)]</font><br />要产生光晕效果的文字<font color=#5a6633>[/glow]</font>
+</td>
+<td align=center><font face="宋体" color=#333333>
+<table width=255 style="filter:glow(color=red， direction=1)">
+<tr><td align=center>要产生彩色发光效果的文字</td>
+</tr>
+</table></td></tr>
+</table></div>
+<div class="help-text" style="display:none;" id="show4">
+<h3>WAP 说明</h3>
+
+$db_blogname 目前已开通支持 WAP (手机移动论坛)功能.
+手机访问地址：<a href="$db_blogurl/wap/"><font color=blue>$db_blogurl/wap/</font></a>
+说明：只要您开通了移动GPRS或联通CDMA的数据服务，在支持WAP的手机上即可通过此网址访问 $db_blogname
+手机资费说明：移动GPRS或联通CDMA的数据服务包月或流量费用，无需任何额外的费用支出
+主要应用范围：
+    通过手机您可以随时随地的浏览您在网络论坛上的活动信息，了解您发表的帖子的阅读、回复情况。
+	
+	</div>
+	<div class="help-text" style="display:none;" id="show5">
+<h3>PHPWind 版权声明</h3>
+
+<!--
+EOT;
+$wind_licence= readover('licence.txt');
+$wind_licence = str_replace('  ', '&nbsp; ', nl2br($wind_licence));
+print <<<EOT
+-->
+$wind_licence
+</div>
+<script language="JavaScript">
+var k=GE('k');
+var ajxurl='$db_ajxurl';
+GE('show').innerHTML=GE('show1').innerHTML;
+function showdiv(obj,id){
+	k.className='';
+	obj.className='see';
+	GE('show').innerHTML=GE('show'+id).innerHTML;
+	k=obj;
+}
+</script>
+</div></div></div><div class="c"></div></div>
+<!--
+EOT;
+?>-->

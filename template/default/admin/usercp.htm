@@ -1,0 +1,174 @@
+<!--<?php
+include_once PrintEot('left');
+if($job!='list'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b"><br />
+<ul>主要功能：用户组管理，未验证会员审核，帐号激活(手动激活需要email激活的帐号)，会员资料编辑，删除会员<br /><br />
+1.用户组管理：<br />
+<font color='red'><b>搜索会员并可设置会员为管理员.总版主.和其他特殊组.</b></font><br /><br />
+2.未验证会员审核：<br />
+当开启新注册会员需要管理员验证功能时可以对需要验证的新会员进行管理，在 '系统组头衔' 处选择 '<font color='red'>未验证会员</font>' 选项，提交进入未验证会员的管理，选择通过验证的会员，将这些会员批量加入普通会员组<br /><br />
+3.单个会员管理：<br />
+在 '用户名包含' 处填写会员ID（可以使用通配符进行模糊查找），提交进入对会员资料编辑<br />
+注:只有<font color='red'>创始人</font>才能编辑<font color='red'>管理员</font>的资料</ul></td></tr>
+</table><br />
+<form action="$basename&job=list&" method="post">
+<table width="80%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">搜索用户</td></tr>
+<tr class="b"><td width="30%">会员头衔</td>
+<td><select name="usermid" style="width:100px;">
+<option value="-1">不限制</option>
+$memgpslt
+</select></td></tr>
+<tr class="b"><td>系统头衔</td>
+<td><select name="usergid" style="width:100px;">
+<option value="-2">不限制</option>
+$sysgpslt
+</select></td></tr>
+<tr class="b"><td>博客分类</td>
+<td><select name="usercid" style="width:100px;">
+<option value="-1">不限制</option>
+<option value="0">未分类</option>
+$categpslt
+</select></td></tr>
+<tr class="b"><td>推荐博客</td>
+<td><select name="commend" style="width:100px;">
+<option value="-1">不限制</option>
+<option value="1">推荐</option>
+<option value="2">未审核</option>
+<option value="0">不推荐</option>
+</select></td></tr>
+<tr class="b"><td>用户名(可使用通配符 "*")</td>
+<td><input name="username" size="30" value="">
+<input type="checkbox" name="ckusername" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>个性域名(可使用通配符 "*")</td>
+<td><input name="domainname" size="30" value="">
+<input type="checkbox" name="ckdomain" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>Email(可使用通配符 "*")</td>
+<td><input name="email" size="30" value="">
+<input type="checkbox" name="ckemail" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>Email激活</td>
+<td><select name="emlailjh" style="width:100px;">
+<option value="-1">不限制</option>
+<option value="1">已激活</option>
+<option value="0">未激活</option>
+</select></td></tr>
+<tr class="b"><td>最后登录IP(可使用通配符 "*")</td>
+<td><input name="userip" size="30" value="">
+<input type="checkbox" name="ckip" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>注册日期(格式 yyyy-mm-dd)</td>
+<td><input name="regdate1" size="30" value="$regdate1">
+- <input name="regdate2" size="30" value="$regdate2"></td></tr>
+<tr class="b"><td>多久未登录</td>
+<td><input name="userlv" size="20" value="">
+<input type="radio" name="lvtype" value="day" CHECKED>日
+<input type="radio" name="lvtype" value="month">月
+<input type="radio" name="lvtype" value="year">年</td></tr>
+<tr class="b"><td>排序</td>
+<td><select name="orderby" style="width:100px;">
+<option value="username">用户名</option>
+<option value="regdate">注册时间</option>
+<option value="lastvisit">最后登陆</option>
+</select>
+<input type="radio" name="sc" value="asc" CHECKED> 升序
+<input type="radio" name="sc" value="desc"> 降序</td></tr>
+<tr class="b"><td>每页显示行数</td>
+<td><input name="perpage" size="15" value="30"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<form action="$basename&job=list&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr class="b"><td>用户名(可使用通配符 "*"): <input name="username" size="10" value="">
+用户头衔: <select name="usergid" style="width:100px;">
+<option value="-2">不限制</option>
+<option value="-1">普通会员</option>
+$sysgpslt
+</select>
+博客分类: <select name="usercid" style="width:100px;">
+<option value="-1">不限制</option>
+<option value="0">未分类</option>
+$categpslt
+</select>
+排序: <select name="sc">
+<option value="asc">升序</option>
+<option value="desc">降序</option>
+</select>
+显示行数: <input name="perpage" size="3" value="30">
+<input type="submit" value="提 交"></center></td></tr>
+</table>
+</form>
+<form action="$basename&job=update&" method="post">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="11">用户列表</td></tr>
+<tr class="head_2" align="center">
+<td width="5%">ID</td>
+<td width="10%">用户名</td>
+<td width="10%">个性域名</td>
+<td width="20%">Email</td>
+<td width="10%">用户头衔</td>
+<td width="10%">注册时间</td>
+<td width="10%">博客分类</td>
+<td width="10%">IP</td>
+<td width="5%">推荐</td>
+<td width="5%">编辑</td>
+<td width="5%"></td></tr>
+<!--
+EOT;
+$id = ($page-1)*$perpage;
+foreach($userdb as $value){
+$value[commend] = $value[commend] == 1 ? '推荐' : ($value[commend] == 2 ? '未审' : '--');
+!$value[cate] && $value[cate]='未分类';
+$id++;print <<<EOT
+-->
+<tr class="b" align="center">
+<td>$id</td>
+<td>$value[username]</td>
+<td>$value[domainname]</td>
+<td>$value[email]</td>
+<td>$value[group]</td>
+<td>$value[regdate]</td>
+<td>$value[cate]</td>
+<td>$value[onlineip]</td>
+<td>$value[commend]</td>
+<td><a href="$admin_file?action=userort&job=edit&uid=$value[uid]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[uid]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+<tr><td align="right"><input type="radio" name="type" id="delete" value="delete" CHECKED> 删除
+<input type="radio" name="type" value="emlailjh"> 激活
+<input type="radio" name="type" value="cmd"> 设为推荐
+<input type="radio" name="type" value="uncmd"> 取消推荐
+<input type="radio" name="type" value="cggroup" id="cggroup"> 修改用户组
+<select name="usergid" style="width:100px;" onclick="Changselect('cggroup')">
+<option value="-1">普通会员</option>
+$sysgpslt
+</select>
+<input type="radio" name="type" value="cgcid" id="cgcid"> 修改分类
+<select name="usercid" style="width:100px;" onclick="Changselect('cgcid')">
+<option value="0">未分类</option>
+$categpslt
+</select>
+</td></tr>
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中用户？');"></center>
+</form>
+<!--
+EOT;
+}?>-->

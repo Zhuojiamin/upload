@@ -1,0 +1,172 @@
+<!--<?php print <<<EOT
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$db_blogname} {$db_metatitle} - powered by lxblog.net</title>
+<meta name="keywords" content="$db_metakeyword" />
+<meta name="description" content="$db_metadescrip" />
+<style type="text/css">
+.ip{ border:1px solid #7DE7FD; padding:2px;color:#666 ; height:15px; vertical-align:middle; font-size:14px}
+p{ margin:0 0 1em}
+.bt{ padding-top:.1em ;padding-left:.5em ;padding-right:.5em; background:url($imgpath/$stylepath/bt.gif) left top; border:1px solid #7DE7FD; color:#35A0B6; font-size:12px; font-family:Tahoma}
+.c{clear:both;height:1px;font:1px/1px Arial; margin-top:-1px}
+.fr,.right{float:right}
+/*login*/
+.logintable td{ padding:.2em 0}
+</style>
+</head>
+<body style="font-size:12px">
+<form action="$loginurl?" method="post">
+	<input type="hidden" name="jumpurl" value="$pre_url">
+	<input type="hidden" name="step" value="2">
+	<input type="hidden" name="forward" value="$forward" />
+	<div style="width:400px; padding:1px 0;background:#fff; border:1px solid #D2E8F1;margin:50px auto">
+		<div style="width:396px; margin:auto ;background:url($imgpath/$stylepath/bodybg.gif) ;height:60px; overflow:hidden"> <a href="$db_blogurl"><img src="$imgpath/$stylepath/logo.gif" border="0" /></a> </div>
+		<div style="width:350px;margin: auto">
+			<div style="margin-top:1em">
+				<h4 style="color:#8BC5DC">用户登录</h4>
+				<div id="showmsg" style="width:90%;margin:-.5em auto 1em;display:none;"></div>
+				<div style="width:90%;margin:-.5em auto 3em;">
+					<p>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="logintable">
+						<tr>
+							<td style=" width:22%">
+<!--
+EOT;
+if(!$lgslt){print <<<EOT
+-->
+								用户名
+								<input type="hidden" name="pwtypen" value="username" tabindex="1">
+<!--
+EOT;
+}else{print <<<EOT
+-->
+								<select name="pwtypen" style="width:65px; vertical-align:middle" onchange="CheckTypeName(this.value);">
+									<option value="username">用户名</option>
+									$lgslt
+								</select>
+<!--
+EOT;
+}print <<<EOT
+-->
+							</td>
+							<td><input name="pwtypev" value="" size="40" class="ip" style="width:150px" tabindex="1"/><a href="$regurl" style="color: #0066CC" tabindex="7" >立即注册</a><span id="showdomain" style="display:none;"></span></td>
+						</tr> 
+						<tr>
+							<td>密　码</td>
+							<td><input type="password" name="pwpwd" value="" size="40" class="ip" style="width:150px" tabindex="2" /><a href="$sendpwdurl" style="color: #0066CC" tabindex="8" >找回密码</a></td>
+						</tr>
+						<tr>
+							<td>有效期</td>
+							<td><select name="cktime" style="width:75px;" tabindex="3">
+									<option value="31536000">一年</option>
+									<option value="2592000">一个月</option>
+									<option value="86400">一天</option>
+									<option value="3600">一小时</option>
+									<option value="0">即时</option>
+								</select></td>
+						</tr>
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+						<tr>
+							<td>认证码</td>
+							<td><input name="gdcode" value="" size="5" class="ip" tabindex="4" >
+								<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /></td>
+						</tr>
+<!--
+EOT;
+if($loginq == '1' && !empty($db_question)){
+	$db_question = unserialize($db_question);
+	$qkey = array_rand($db_question);
+print<<<EOT
+-->
+						<tr>
+							<td>验证问题</td>
+							<td>
+							{$db_question[$qkey]}
+							<input name="qanswer" id="qanswer" value="" class="ip" tabindex="5" >
+							<input type="hidden" name="qkey" id="qkey" value="$qkey" />
+							</td>
+						</tr>
+<!--
+EOT;
+}
+
+}print <<<EOT
+-->
+					</table>
+					</p>
+					<div class="tac"> <span class="fr"><a href="$regurl" style="color: #0066CC" tabindex="9" >注册新用户</a></span>
+						<input type="submit" value="  提 交  " class="bt" onclick="return CheckLogin(this.form);" tabindex="6" />
+						<div class="c"></div>
+					</div>
+				</div>
+				<div class="c"></div>
+			</div>
+		</div>
+		<div class="c"></div>
+	</div>
+</form>
+<script language="JavaScript">
+function CheckLogin(form){
+	if ((form.pwtypen.value!='username' && form.pwtypen.value!='uid' && form.pwtypen.value!='email' && form.pwtypen.value!='domainname') || form.pwtypev.value=='' || form.pwpwd.value===''
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+ || form.gdcode.value==''
+<!--
+EOT;
+}print <<<EOT
+-->
+ ) {
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+		newgdcode(document.getElementById('ck'),'$ckurl?windid=$rawwindid');
+<!--
+EOT;
+}print <<<EOT
+-->
+		document.getElementById('showmsg').style.display = '';
+		document.getElementById('showmsg').style.color = '#FF0000';
+		document.getElementById('showmsg').innerHTML = '任意项没有填写，请检查每项是否填写正确';
+		return false;
+	}
+}
+function newgdcode(obj,url) {
+	obj.src = url + '&nowtime=' + new Date().getTime();
+}
+function CheckTypeName(value) {
+	document.getElementById('showmsg').style.display = '';
+	document.getElementById('showmsg').style.color = '#FF0000';
+	if (value == 'uid') {
+		document.getElementById('showdomain').style.display = '';
+		document.getElementById('showdomain').innerHTML = '（用户ID）';
+		document.getElementById('showmsg').innerHTML = '';
+		document.getElementById('showmsg').style.color = '';
+		document.getElementById('showmsg').style.display = 'none';
+	} else if (value == 'domainname') {
+		document.getElementById('showdomain').style.display = '';
+		document.getElementById('showdomain').innerHTML = '.$db_domain';
+		document.getElementById('showmsg').innerHTML = '（采用此登陆时，必须保持唯一性，确定只有你有一个用此个性域名，才选择登陆）';
+	} else if (value == 'email') {
+		document.getElementById('showmsg').innerHTML = '（采用此登陆时，必须保持唯一性，确定只有你有一个用此Email，才选择登陆）';
+	} else {
+		document.getElementById('showmsg').innerHTML = '';
+		document.getElementById('showmsg').style.color = '';
+		document.getElementById('showmsg').style.display = 'none';
+	}
+	return true;
+}
+</script>
+</body>
+</html>
+<!--
+EOT;
+?>-->

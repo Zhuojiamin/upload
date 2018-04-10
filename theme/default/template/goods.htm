@@ -1,0 +1,111 @@
+<!--<?php print <<<EOT
+-->
+	<div class="box">
+	  <h2>$left_name[newgoods]</h2>
+<!--
+EOT;
+if($goods[subject]){print <<<EOT
+-->
+	  <div class="text">
+		<div class="gray">$goods[postdate] 创建</div>
+		<h3>$goods[subject]</h3>
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <div>
+				<p class="left front-cover" id="photo_img">
+				  <a href="{$goods[picurl]}" rel="external" onclick="externallinks()" class="tdn" title="点击看原图片"><img src="{$goods[picurl]}" width="360" alt="点击看原图片" /><br />查看原图 &gt;&gt;</a>
+				</p>
+				<ul class="left pic-list">
+<!--
+EOT;
+foreach($goods[attachurl] as $aid => $pic){print <<<EOT
+-->
+				  <li><a href="javascript:cgpic('aid_{$aid}')" title="{$goods[descrip][$aid]}"><img id="aid_{$aid}" src="$pic" width="75" height="75" alt="{$goods[descrip][$aid]}" border="0" /></a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+				</ul>
+				<dl class="fsn goods-dl left">
+				  <dd>商品卖家：$goods[author]</dd>
+				  <dd>商品价格：$goods[price]元</dd>
+				  <dd>商品类型：$goods[quality]</dd>
+				  <dd>所 在 地：$goods[province] $goods[city]</dd>
+				  <dd>浏览次数：$goods[hits] 次</dd>
+				  <dd>付款方式：</dd>
+				  <dd>{$goods[paypal]} {$goods[alipay]} {$goods[pay99bill]}</dd>
+				</dl>			
+			  </div>
+			  <div class="c"></div>
+			  <p>宝贝描述：<br />{$goods[content]}
+<!--
+EOT;
+foreach($attachdb['down'] as $key => $value){print <<<EOT
+-->
+			  <br /><br />
+<!--
+EOT;
+if($value[3]){print <<<EOT
+-->
+			  描述： $value[3]<br />
+<!--
+EOT;
+}print <<<EOT
+-->
+			  附件： <img src="theme/$style/images/$value[2].gif" align="absbottom" />
+		  <a href="job.php?action=download&itemid=$itemid&aid=$key" target="_blank"><font color=red>$value[0]</font></a> ($value[1] K)
+<!--
+EOT;
+}print <<<EOT
+-->
+</p>
+<!--
+EOT;
+if(!empty($goods[tagsdb])){print <<<EOT
+-->
+			  <p>Tags：
+<!--
+EOT;
+foreach($goods[tagsdb] as $tag){print <<<EOT
+-->
+			  <a href="tags.php?tagname=$tag[tagname]" class="tags">$tag[name]</a> &nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->
+			  </p>
+<!--
+EOT;
+}print <<<EOT
+-->	
+			</td>
+		  </tr>
+		</table>
+<!--
+EOT;
+$do == 'showone' && $goods['allowreply'] && @include_once(getPath('comment'));print <<<EOT
+-->
+	  </div>
+<!--
+EOT;
+}print <<<EOT
+-->	
+	</div>
+<script language="JavaScript">
+function showleft(dirid){
+	var obj  = GE('bloglist');
+	var objs = obj.getElementsByTagName('li');
+	for (var i=0;i<objs.length;i++) {
+		if (objs[i].id==dirid) {
+			GE('list_' + dirid).style.display = 'none';
+		} else {
+			GE('list_' + dirid).style.display = '';
+		}
+	}
+}
+showleft('$dirid');
+</script>
+<!--
+EOT;
+?>

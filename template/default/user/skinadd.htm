@@ -1,0 +1,46 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+
+<form method="post" action="$basename&job=addcustom&">
+<input type="hidden" name="step" value="2">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2"><h2>添加风格</h2></td></tr>
+<tr class="b">
+	<td width="30%">选择默认模板</td>
+	<td>
+		<select name="id" onchange="showdemo(this.value);">
+<!--
+EOT;
+foreach($skindb as $key=>$value){print <<<EOT
+-->
+			<option value="$value[id]">$value[name]</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</select>
+	</td>
+	<td>
+	<img id='demo' src='{$skindb[0][demo]}' width="80px" height="100px" onclick="window.open(this.src);">
+	</td>
+</tr>
+</table>
+<br>
+<center><input class="bt" type="submit" value="下一步"></center>
+</form>
+<script language="JavaScript">
+var demo = new Array();
+EOT;
+foreach($skindb as $key=>$value){print <<<EOT
+demo[$value[id]]='$value[demo]';
+EOT;
+}print <<<EOT
+function showdemo(demosrc){
+GE("demo").src=demo[demosrc];
+}
+</script>
+<!--
+EOT;
+?>

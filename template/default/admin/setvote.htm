@@ -1,0 +1,112 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&job=$job" method="post">
+<input type="hidden" name="step" value="2">
+<!--
+EOT;
+if($job != 'ort'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="6">投票列表</td></tr>
+<tr align="center" class="head_2">
+<td width="40%">主 题</td>
+<td width="22%">发表日期</td>
+<td width="10%">类 型</td>
+<td width="10%">显 示</td>
+<td width="10%">编 辑</td>
+<td width="8%">操 作</td></tr>
+<!--
+EOT;
+foreach($votedb as $value){
+$value[type]=$value[type]?'多选':'单选';
+$value[ifshow]=$value[ifshow]?'显示':'不显示';print <<<EOT
+-->
+<tr align="center" class="b">
+<td align="left">$value[subject]</td>
+<td>$value[votedate]</td>
+<td>$value[type]</td>
+<td>$value[ifshow]</td>
+<td><a href="$basename&job=ort&set=edit&id=$value[id]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[id]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+<tr><td align="right"><input type="radio" name="type" id="delete" value="delete" CHECKED> 删除
+<input type="radio" name="type" value="cgshow" id="cgshow"> 设置显示
+<select name="ifshow" style="width:100px;" onclick="Changselect('cgshow')">
+<option value="1">显示</option>
+<option value="0">不显示</option>
+</select></td></tr>
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中投票？');"></center>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<!--
+EOT;
+if($set!='edit'){print <<<EOT
+-->
+<tr><td class="head" colspan="2">添加投票</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="head" colspan="2">编辑投票<input type="hidden" name="id" value="$id"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr class="b"><td width="30%">主 题: </td>
+<td><input name="subject" size="35" value="$votedb[subject]"></td></tr>
+<tr class="b"><td>投票类型: </td>
+<td><input type="radio" name="type" value="0" $type_N> 单选
+<input type="radio" name="type" value="1" $type_Y> 多选</td></tr>
+<tr class="b"><td>最多可选项(留空或0为不限制): </td>
+<td><input name="maxnum" size="8" value="$votedb[maxnum]"></td></tr>
+<tr class="b"><td>是否前台显示: </td>
+<td><input type="radio" name="ifshow" value="1" $ifshow_Y> 是
+<input type="radio" name="ifshow" value="0" $ifshow_N> 否</td></tr>
+<tr class="b"><td>是否允许未投票用户查看结果: </td>
+<td><input type="radio" name="ifview" value="1" $ifview_Y> 是
+<input type="radio" name="ifview" value="0" $ifview_N> 否</td></tr>
+<tr class="b"><td>投票选项: </td>
+<td><table cellspacing="0" cellpadding="0" width="100%">
+<tr class="b"><td width="30%" height="30">
+<!--
+EOT;
+foreach($votedb['items'] as $key => $value){print <<<EOT
+-->
+<input name="oldvitemdb[$key]" size="35" value="$value">
+<!--
+EOT;
+}print <<<EOT
+-->
+<input name="newvitemdb[]" size="35" value=""><span id="addvitem"></span>
+<td valign="top"><input type="button" value="增加选项" onclick="addvitem();"></td></tr>
+</table>
+<script language="JavaScript">
+function addvitem(){
+	GE("addvitem").innerHTML += '<br /><input name="newvitemdb[]" size="35" value="">';
+}
+</script>
+</td></tr>
+<tr class="b"><td>投票描述: </td>
+<td><textarea name="content" rows="10" cols="80" wrap="hard">$votedb[content]</textarea></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

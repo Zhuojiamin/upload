@@ -1,0 +1,129 @@
+<!--<?php
+//include_once PrintEot('top');
+if(empty($job)){
+print <<<EOT
+-->
+
+<script language="JavaScript">
+var tempid;
+function delfv(id){
+	if(confirm('确定删除书签?')) {
+		var url="$db_ajxurl/user_index.php?action=favors&job=del&id=" + id;
+		send_request(url,del_fv(id));
+	}
+}
+function del_fv(id){
+	GE("fv_"+id).style.display='none';
+}
+function editfv(id){
+	GE("name_"+id).innerHTML='<input type="text" size=12 id="name2_'+id+'" value="'+GE("name_"+id).innerHTML+'">';
+	GE("dsp_"+id).innerHTML='<input type="text" size=12 id="dsp2_'+id+'" value="'+GE("dsp_"+id).innerHTML+'">';
+	GE("url_"+id).innerHTML='<input type="text" size=20 id="url2_'+id+'" value="'+GE("temp_"+id).innerHTML+'">';
+	GE("save_"+id).innerHTML='<a href="javascript:" onclick="saveedit('+id+');"><img src="$imgpath/$stylepath/page_save.gif"></a>';
+}
+function saveedit(id){
+	var url="$db_ajxurl/user_index.php?action=favors&job=saveedit&id=" + id;
+	var param = "id=" + id + "&name=" + ajax_convert(GE("name2_"+id).value)+"&url="+ ajax_convert(GE("url2_"+id).value)+"&dsp=" + ajax_convert(GE("dsp2_"+id).value);
+	send_request(url,save_edit(id),param);
+}
+function save_edit(id){
+	GE("name_"+id).innerHTML=GE("name2_"+id).value;
+	GE("dsp_"+id).innerHTML=GE("dsp2_"+id).value;
+	GE("url_"+id).innerHTML='<a href="'+ GE("url2_"+id).value +'" target="_blank">点击查看</a>';
+	GE("save_"+id).innerHTML='<a href="javascript:" onclick="editfv('+id+');"><img src="$imgpath/$stylepath/page_edit.gif"></a>';
+}
+function changeshow(id){
+	var url="$db_ajxurl/user_index.php?action=favors&job=changeshow&id=" + id;
+	tempid=id;
+	send_request(url,change_show);
+}
+function change_show(){
+	if(http_request.responseText==1){
+		GE("show_"+tempid).innerHTML='<a href="javascript:" onclick="changeshow('+tempid+');">是</a>';
+	}else{
+		GE("show_"+tempid).innerHTML='<a href="javascript:" onclick="changeshow('+tempid+');">否</a>';
+	}
+}
+</script>
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr height="25"><td colspan="2"><h2>书签管理</h2><a href="user_index.php?action=favors&job=add">添加书签</a></td></tr>
+	<tr align=center>
+		<td class="head_2">名称</td>
+		<td class="head_2" width='25%'>描述</td>
+		<td class="head_2" width='15%'>地址</td>
+		<td class="head_2" width='15%'>添加时间</td>
+		<td class="head_2" width='8%'>删除</td>
+		<td class="head_2" width='8%'>编辑</td>
+		<td class="head_2" width='8%'>公开</td>
+	</tr>
+<!--
+EOT;
+foreach($favdb as $key=>$val){
+print <<<EOT
+-->
+	<tr align=center id="fv_$val[id]">
+	<td style="display:none;" id="temp_$val[id]">$val[url]</td>
+		<td class="b" id="name_$val[id]">$val[name]</td>
+		<td class="b" id="dsp_$val[id]">$val[dsp]</td>
+		<td class="b" id="url_$val[id]"><a href="$val[url]" target="_blank">点击查看</a></td>
+		<td class="b">$val[adddate]</td>
+		<td class="b"><a href="javascript:" onclick="delfv($val[id]);">删除</a></td>
+		<td class="b" id="save_$val[id]"><a href="javascript:" onclick="editfv($val[id]);"><img src="$imgpath/$stylepath/page_edit.gif"></a></td>
+		<td class="b" id="show_$val[id]">
+<!--
+EOT;
+if($val[ifshow]){
+print <<<EOT
+-->		
+<a href="javascript:" onclick="changeshow($val[id]);">是</a>
+<!--
+EOT;
+}else{
+print <<<EOT
+-->			
+<a href="javascript:" onclick="changeshow($val[id]);">否</a>
+<!--
+EOT;
+}print <<<EOT
+-->	
+		</td>
+	</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<!--
+EOT;
+}elseif($job=='add'){print <<<EOT
+-->
+<form name="form1" method="post" action="$basename&">
+<input name="job" type=hidden value="add">
+<input name="step" type=hidden value=2>
+<table width="95%" align=center cellspacing=0 cellpadding=0 class="userbg">
+<tr height="25"><td colspan="2">&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<a href="user_index.php?action=favors">书签管理</a>&nbsp;&nbsp;&nbsp;<b>添加书签</b></td></tr>
+	<tr >
+		<td class="b"  width="25%">&nbsp;名称:</td>
+		<td class="b"><input type="text" name="name"></td>
+	</tr>
+	<tr >
+		<td class="b"  width="25%">&nbsp;描述:</td>
+		<td class="b"><input type="text" name="dsp"></td>
+	</tr>
+	<tr >
+		<td class="b"  width="25%">&nbsp;地址:</td>
+		<td class="b"><input type="text" name="url"></td>
+	</tr>
+	<tr >
+		<td class="b"  width="25%">&nbsp;是否公开:</td>
+		<td class="b"><input type="radio" name="ifshow" value="1">是<input type="radio" value="0" name="ifshow" checked>否</td>
+	</tr>
+</table>
+<br>
+<br>
+<center><input class="bt" type="Submit" value="提 交" name="Submit"></center>
+</form><br>
+<!--
+EOT;
+}
+?>-->

@@ -1,0 +1,180 @@
+<!--<?php print <<<EOT
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$db_blogname} 控制面版 {$db_blogtitle} - powered by lxblog.net</title>
+<meta name="keywords" content="$db_metakeyword" />
+<meta name="description" content="$db_metadescrip" />
+<!--css--><style type="text/css">
+body{ padding:0; margin:0; background:url($imgpath/$stylepath/user/bg.jpg) repeat-x #F4F4F4; } 
+*{ font-size: 12px; font-family:Tahoma,Arial,Verdana,simsun}
+td{ font:12px/160% Tahoma }
+ul,li,input,h1,h2,h3,h4,h5,h6,h7,p,dl,dt,dd{ padding:0; margin:0; list-style: none }
+input{ padding:2px  }
+img{border:0px;}
+a{ color:#1C6C9D; text-decoration:none}
+a:hover { text-decoration:underline}
+.c{ clear: both; height: 0px ; font:0px/0px Arial }
+.abtn{cursor:pointer;border:1px solid $tablecolor;color:$linkcolor;padding:2px 8px;margin-right:2px;height:30px}
+/*h*/
+h2{ font:bold 16px Tahoma; padding: 5px 0px;color: #217EA0; }
+h3{ margin: 10px 0 5px ; }
+h3.heiyo1{ background: url($imgpath/$stylepath/user/more.gif) no-repeat 98% center; border-top: 1px solid #D9F1FD }
+h3.heiyo2{ background: url($imgpath/$stylepath/user/more2.gif) no-repeat 98% center; border-top: 1px solid #D9F1FD}
+/*header*/
+#header{ height: 49px; padding: 0 12px}
+
+#guide1{ width:900px;margin:10px auto 0 2%;  }
+#guide1 li { float:left  }
+#guide1 a{ line-height:15px ;font: 12px/13px Arial;  color:#fff; margin: 0 5px ;padding:0px 5px 0;  }
+#guide1 li a.a2{ font:bold 14px/22px Arial; margin: 0px 5px ;padding:4px 18px 0px;  background: #696969; border-right:1px solid #CAC9CE ;display:block}
+
+#guide2{padding:9px 0 0; margin:0 auto 0 2%;  width: 900px; height: 40px;font: 12px Verdana ; clear:left}
+#guide2 li  { margin: 0px 10px; float: left;line-height: 18px;padding:2px 0 }
+#guide2 a{ color:#C8DEEA;padding:2px }
+#guide2 a:hover{ background: #000; color: #fff; text-decoration: none  }
+#guide2 li.li2{ font: bold 13px/16px Arial; background: url($imgpath/$stylepath/user/g2a.jpg) no-repeat #F4F4F4; margin: 0px 5px;padding:0px 0px 0px 18px; text-align: center}
+#guide2 li.li2 a{ color: #29749E;cursor: text; display:block;background: url($imgpath/$stylepath/user/g2a.jpg) right top #F4F4F4; padding:6px 18px 2px 0px }
+#guide2 li.li2 a:hover{ background: url($imgpath/$stylepath/user/g2a.jpg) right top;color:#54B5D8;  }
+#main {width:840px; margin:30px auto ; border:1px solid #A8A6A7;   padding: 30px 30px 40px 30px; height: auto; background: #fff ; color: #666}
+#main table td{ font: 13px/20px Arial; }
+#main .text { font:13px/20px Arial }
+.ml{ width: 60%; float: left }
+.ml2{ width: 70% }
+.user_pic{ border: 1px solid #000 ;float:left; width:50px; overflow: hidden;}
+.user_pic img {  width: 48px; padding: 1px}
+/*welcome*/
+
+#welcome .bb b{ color:#FF8000 ;}
+#welcome .bb { width:80%; float:left; margin-left:3% ; line-height: 160% }
+#welcome span{ font-size: 12px }
+.mr{ width: 34% ; float: right; }
+.mr2{ width: 30% ; font-family: Tahoma; padding-top: 20px}
+
+/* box_1*/
+.box1{ background: url($imgpath/$stylepath/user/h1bg.gif) repeat-x #fff;border:1px solid #e0e0e0;}
+.box1text{ padding: 0px 10px 10px 15px; font: 12px/160% Arial; }
+.box1text ul.ul1{  padding-left:20px }
+.box1text ul.ul1 li{ list-style: disc; font: 12px Tahoma}
+.box1text div.div1{ padding-left:5px  }
+.box1text div.div1 span.span1{ color:#00AE00; font-weight: bold }
+
+/*box_2*/
+.box2 ul.ul1 { padding: 0 }
+.box2 ul.ul1 li { display: block;border-bottom: 1px solid #e0e0f0; list-style-position: inside; padding: 5px 0 5px 0; }
+.box2 ul.ul1 li em{ float:right;font: normal 9px/10px Verdana normal; color: #ccc ; }
+
+/*box3*/
+.box3{ background: url($imgpath/$stylepath/user/box3bg.gif) repeat-x #fff;}
+
+/*quick entry*/
+#lg p { font: bold 14px/200% Arial;color: #666 }
+p{ margin:5px 0;}
+.fr{ float: right }
+.fl{ float: left }
+.ip,.input2,textarea,.input { border:1px solid #bebebe; padding:3px  }
+.btn2,.buttun,.bt{ padding:1px 2px; height:22px ; background: url($imgpath/$stylepath/user/btn.gif) 0 80% repeat-x  #fff; border: 1px solid #D7D7D7; color: #666}
+/*old*/
+.b{border-bottom:1px solid #e0e0e0; height:20px;}
+.head { border-bottom: 1px solid #e0e0e0 }
+.head b{color: #000;}
+.head a{color: #BF3165;}
+.head_2 { border-bottom:1px solid #e0e0e0; height:20px;}
+.head_2 td{color: #000000;}
+.i_table{border: 1px solid #e0e0e0;background:#DEE3EF;}
+
+#topword { font:14px/28px Tahoma; color: #fff;   }
+#topword a{ font:12px/28px Verdana;color:#fff}
+
+/*pages*/
+.page { margin-top:10px; margin-bottom:10px; text-align: center }
+.page * { vertical-align: middle;}
+.page a{padding:1px 4px ; background:#f9fcff;  border:1px solid #ADD2E1; margin:0 1px; color: #002F79; text-align: center; text-decoration: none; font:normal 10px Tahoma ; }
+.page a:hover { border:#37A717 1px solid; background:#EDFFE4; text-decoration:none; color: #002F79}
+.page input { border:1px solid #ccc; height: 14px; font: 9px Tahoma; padding-top:1px;text-align: center; }
+.page b { padding:2px ;  margin: 0 3px;font:bold  10px/12px Tahoma}
+/*aihao*/
+.hobby { margin:20px auto; width: 92% }
+.hobby-a { line-height:30px; margin:10px atuo ; padding: 10px ; border: 1px solid #D9F1FD}
+.hobby-a span{ margin-right: 12px }
+.hobby-a input{ vertical-align: middle }
+h4{ padding-left:12px; background: url(qllb.png) 0 center no-repeat; font:bold 12px/200% Tahoma; color: #217EA0 }
+
+/*menu*/
+.menu{position:absolute;background:#fff;border:1px solid $tablecolor;}
+.menu td, .menu li,.menu ul{background:#fff;padding:0; margin:0}
+.menu li{list-style:none;}
+.menu a{display:block;padding:3px 15px 3px 15px;background:#fff;}
+.menu a:hover{background:$linkcolor;text-decoration:none;color:#fff;}
+.menu ul.ul1 li a{display:inline;padding:0}
+
+.listPic{ margin:2% 0 2% 2%}
+.listPic dl{ width:24%; height:100px; float:left; display:block; text-align:center}
+.listPic dl,.listPic dt,.listPic dd{text-align:left;padding:0;margin:0; display:block;text-indent:0;}
+.listPic dt a{color:#333}
+.listPic dd{ padding:0 0 .5em 0; margin:0;  vertical-align:middle}
+.listPic dd img{width:85px;height:85px; padding:2px; border:1px solid #eee;}
+.listPic-albumn dd { height:105px;}
+.listPic-albumn dd img { width:90px; height:90px; padding:4px 4px 8px; border:0; background:url(image/albumn-bg.gif)}
+
+.smile{ height:23px;padding:7px 0 0 8px;text-align:left;background:#E0F0F9 url($imgpath/$stylepath/th1.png);cursor:move}
+.smile div{ width:56px;height:18px;text-align:center;padding:5px 0 0;cursor:pointer;}
+.smile div.lian{ background:#ffffff url($imgpath/$stylepath/tag.jpg) no-repeat;cursor:auto;}
+
+.c{ clear:both; height:1px ; overflow:hidden; margin-top:-1px}
+.tac{ text-align:center}
+.albumn-pic{ background:url(images/albumn-bg.gif) no-repeat; width:90px; height:90px; padding:4px 4px 15px}
+.pic-list {  padding:0 1em; width:75%; float:right}
+.pic-list ul{ padding:0; margin:0; list-style:none}
+.pic-list li{ padding:0 2.5% 1em; margin:0; width:20%; float:left; }
+.pic-list li div{ padding-bottom:.5em}
+.pic-list li div img{ padding:2px; border:1px solid #eee; height:90px;width:90px;}
+
+.list { margin:1em .5em 1.5em 2.5em;color:#333;}
+.list ul{ margin:0 0 1em 1em;}
+.list ul li{ margin:.5em 0;}
+.list li{ margin:.5em 0;}
+
+/*a link 基本连接颜色*/
+a.active{background:#3D7DB3; color:#fff}
+
+.font-999 {color:#999;}
+.left {float:left;}
+</style><!--css-->
+</head>
+<body>
+<script language="JavaScript" src="js/global.js"></script>
+<script language="JavaScript">
+var uid='$admin_uid';
+var ajaxurl='$db_blogurl/ajaxuser.php';
+var ajaxtype='user';
+</script>
+<div id="header" style="background:url($imgpath/$stylepath/user/pwlogo.jpg) no-repeat">
+  <span class="fr" id="topword">您好,$admin_name ！
+	<a href="index.php" target="_blank">网站首页</a> | 
+	<a href="blog.php?uid=$admin_uid" target="_blank"><b>个人首页</b></a> | 
+<!--
+EOT;
+if ($db_pptifopen && $db_ppttype == 'client') {
+$pptforward  = rawurlencode($db_blogurl);
+print<<<EOT
+-->
+	<a href="$db_pptserverurl/$db_pptloginouturl&forward=$pptforward">退出登录</a>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<a href="login.php?action=quit">退出登录</a>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+  </span>
+  <a href="$user_file" style="display:block; float:left; height:48px ; width:200px"></a>
+</div>
+<!--
+EOT;
+?>

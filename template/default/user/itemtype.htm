@@ -1,0 +1,36 @@
+<!--<?php print <<<EOT
+-->
+<select name="atc_dirid" id="dirgpslt" style="width:150px;">
+<option></option>
+$itemcache
+</select>
+<input id="dirbutton" type="button" class="bt" value="管理" onclick="ShowDir()">
+<div id="dirspan" class="div_itemtype" style="width:300;margin:5px 0px 0px 0px;z-index:100;display:none;">
+  <table align="center" cellspacing="0" cellpadding="3">
+	<tbody id="dirtbody">
+	  <tr>
+		<td>分类名称</td>
+		<td>顺序</td>
+	  </tr>
+	  <tr>
+		<td align="center"><input type="text" class="input" size="13" maxLength="50" name="dirname" id="dirname"></td>
+		<td><input type="text" class="input" size="5" name="dirorder" id="dirorder">&nbsp;&nbsp;<input type="button" value="添加" class="bt" onclick="AddDir()"></td>
+	  </tr>
+<!--
+EOT;
+foreach($itemarray as $key => $value){print <<<EOT
+-->
+	  <tr id="dir{$key}">
+		<td align="center"><input type="text" class="input" size="13" maxLength="50" id="dirnames{$key}" value="{$value[name]}"></td>
+		<td><input type="text" class="input" size="5" id="dirorders{$key}" value="{$value[vieworder]}">&nbsp;&nbsp;<a href="javascript:" onclick="EditDir('{$key}')" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';">修改</a>&nbsp;<a href="javascript:" onclick="DeleteDir('{$key}')" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';">删除</a></td>
+	  </tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+	</tbody>
+  </table>
+</div>
+<!--
+EOT;
+?>

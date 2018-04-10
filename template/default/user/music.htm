@@ -1,0 +1,115 @@
+<!--<?php
+if($job == 'modify'){print<<<EOT
+-->
+<form action="$basename&job=$job&" method="post">
+<input type="hidden" name="mid" value="$mid">
+<input type="hidden" name="oldtags" value="$tags">
+<table style="width:100%;">
+	<tr><td><h2 class="left"><a href="$basename&">{$index_name[$type]}管理 </a> &raquo;</h2> <div style="float:left;padding:5px 0px;"> 编辑歌曲 </div><div style="float:left;color:#999;padding:5px 0px;">&raquo; $name</div></td></tr>
+	<tr>
+	  <td style="padding:1em 1em;">
+	    <table width="100%">
+	      <tr><td width="10%">歌曲名： </td><td><input name="name" size="30" value="$name"></td></tr>
+          <tr><td width="10%">歌手名： </td><td><input name="singer" size="30" value="$singer"></td></tr>
+          <tr><td width="10%">歌曲url： </td><td><input name="murl" size="30" value="$murl"></td></tr>
+          <tr><td width="10%">tags： </td><td><input name="tags" size="30" value="$tags"></td></tr>
+          <tr><td width="10%">简介： </td><td><textarea class="input" rows="6" cols="80" size="250" name="descrip" value="">$descrip</textarea></td></tr>
+<!--
+EOT;
+if ($rawwindid) {print <<<EOT
+-->
+	<tr class="b">
+	  <td>认证码：</td><td><input name="gdcode" value="" size="5" class="input">&nbsp;<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /></td>
+	</tr>
+<!--
+EOT;
+} 
+if($postq == '1' && $db_question){
+$db_question = unserialize($db_question);
+$qkey = array_rand($db_question);
+print<<<EOT
+-->
+	<tr class="b">
+		<td>验证问题：</td><td> {$db_question[$qkey]} <input class="input" type="text" name="qanswer"/><input type="hidden" name="qkey" value="$qkey" /></td>
+	</tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+         </table>
+	  </td>
+	</tr>
+</table>
+<input type="hidden" name="step" value="2">
+<center><input type="submit" name="submit" value="提交"></center>
+</form>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<script language="JavaScript">
+var agt = navigator.userAgent.toLowerCase();
+var is_ie = ((agt.indexOf("msie") != -1) && (agt.indexOf("opera") == -1));
+</script>
+<form id="FORM" name="FORM" action="$basename&" method="post">
+<table style="width:100%;">
+<tr><td><div style="float:right">音乐专辑
+	<select name="maid" id="dirgpslt" style="width:150px;">
+	$itemcache
+	</select>
+	<a href="user_index.php?action=addmalbum&type=music&job=add" class="">添加专辑</a></div><h2>添加音乐</h2></td></tr>
+<tr class="b">
+  <td>
+  </td>
+</tr>
+<tr class="b">
+  <td style="padding:1em 0 3em;">
+  <table ><tbody id="musicmode" style="display:none"><tr> <td><input size="15" name="name[]" value=""></td> <td><input size="15" name="singer[]" value=""><td><input size="20" name="murl[]" value=""></td><td><input size="15" name="tags[]" value=""></td><td><input size="20" name="descrip[]" value=""><a style="cursor:pointer;color:#FA891B" onclick="delmusic(this);"> [删除]</a></td></tr></tbody>
+		<tr><td>歌曲名</td> <td>歌手名</td> <td>歌曲url</td> <td>tags</td> <td>简介 </td>  <a style="cursor:pointer;color:blue" onclick="addmusic();">[添加]</a></td></tr>
+		<tbody id="musicbody"></tbody>
+  </table>
+  </td>
+</tr><br />
+<!--
+EOT;
+if ($rawwindid) {print <<<EOT
+-->
+	<tr class="b">
+	  <td>认证码：<input name="gdcode" value="" size="5" class="input">&nbsp;<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /></td>
+	</tr>
+<!--
+EOT;
+} 
+if($postq == '1' && $db_question){
+$db_question = unserialize($db_question);
+$qkey = array_rand($db_question);
+print<<<EOT
+-->
+	<tr class="b">
+		<td>验证问题： {$db_question[$qkey]} <input class="input" type="text" name="qanswer"/><input type="hidden" name="qkey" value="$qkey" /></td>
+	</tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<input type="hidden" name="step" value="2">
+</table>
+<center><input type="submit" name="submit" value="提交"></center>
+</form>
+<script language="JavaScript">
+function addmusic(){
+	var s = GE('musicmode').firstChild.cloneNode(true);
+	GE('musicbody').appendChild(s);
+}
+function delmusic(obj){
+	var o = obj.parentNode.parentNode;
+	o.parentNode.removeChild(o);
+}
+addmusic();
+</script>
+<!--
+EOT;
+}
+?>

@@ -1,0 +1,140 @@
+<!--<?php print <<<EOT
+-->
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	<h2>$left_name[$type]列表 
+<!--
+EOT;
+if ($dirdb[$dirid][name]){print <<<EOT
+-->
+--> {$dirdb[$dirid][name]}
+<!--
+EOT;
+}
+if($winduid == $uid){print<<<EOT
+-->
+<a href="blog.php?do=list&uid=$uid&type=$type$urladd&ifhide=1" class="noul"><span class="gray fn">隐藏日志</span></a>
+<a href="blog.php?do=list&uid=$uid&type=$type$urladd&ifhide=2" class="noul"><span class="gray fn">好友可见日志</span></a>
+<img src="theme/$style/images/write.gif"><a href="user_index.php?action=post&type=blog" class="noul"><span class="gray fn">发表日志</span></a>
+<!--
+EOT;
+}
+print <<<EOT
+-->
+</h2>
+	<!--begin-->
+<!--
+EOT;
+foreach($_ITEMDB as $key => $value){print <<<EOT
+-->
+	  <div class="text">
+		<div class="gray">$value[postdate]
+<!--
+EOT;
+if(!empty($value['transfer'][0])){print<<<EOT
+-->
+（转自：<a href="blog.php?uid={$value['transfer'][0]}">{$value['transfer'][1]}</a>）
+<!--
+EOT;
+}
+if(!empty($value[icon][1])){print<<<EOT
+-->
+		<img src="$imgpath/weather/{$value[icon][1]}.gif" align="absmiddle" \>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</div>
+		<h3>
+<!--
+EOT;
+if ($value[icon][0]){print <<<EOT
+-->
+		  <img src="$imgpath/emotion/{$value[icon][0]}.gif" align="absmiddle" \>
+<!--
+EOT;
+}print <<<EOT
+-->
+		<a href="blog.php?do=showone&uid=$uid&type=$type&itemid=$value[itemid]" class="noul">$value[subject]</a>
+<!--
+EOT;
+if ($value[ifhide] == '1'){print <<<EOT
+-->
+		<span class="gray fn">(隐藏)</span>
+<!--
+EOT;
+}elseif($value[ifhide] == '2'){print <<<EOT
+-->
+		<span class="gray fn">(好友可见)</span>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</h3>
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <p>{$value[content]}</p>
+<!--
+EOT;
+if($value[ifmore] == 1){print<<<EOT
+-->
+			  <p><a href="blog.php?do=showone&uid=$uid&type=$type&itemid=$value[itemid]" class="big">阅读全文&gt;&gt;</a></p>
+
+<!--
+EOT;
+}
+if (!empty($value[tagsdb])){print <<<EOT
+-->
+			  <p><div>Tags：
+<!--
+EOT;
+foreach($value[tagsdb] as $tags){print <<<EOT
+-->
+			  <a href="tags.php?tagname=$tags[tagname]" class="tags">$tags[name]</a> &nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->	  
+			  </div></p>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</td>
+		  </tr>
+		</table>
+		<div class="bb">
+		  <div>类别：
+<!--
+EOT;
+if (!$value[dirname] || $value[dirname] == 'none'){print <<<EOT
+-->
+		  <a href="blog.php?do=list&uid=$uid&type=$type&dirid=0">无分类</a>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+		  <a href="blog.php?do=list&uid=$uid&type=$type&dirid=$value[dirid]">$value[dirname]</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  | &nbsp;<a href="blog.php?do=showone&uid=$uid&itemid=$value[itemid]&type=$type#c0">评论</a>($value[replies]) | &nbsp;<a href="blog.php?do=showone&uid=$uid&type=$type&itemid=$value[itemid]">浏览</a>($value[hits]) | &nbsp;<a style="cursor:pointer;" title="加入书签" onclick="Addboxes('blog','collecitems','$value[itemid]');">收藏</a></div>
+		  <div class="c"></div>
+		</div>
+	  </div>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  <div class="big">$pages</div>
+	<!--end-->
+	</div>
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>

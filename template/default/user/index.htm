@@ -1,0 +1,236 @@
+<!--<?php print <<<EOT
+-->
+<div class="ml">
+  <div id="welcome">
+	<div class="user_pic">
+	  <a href="$user_file?action=userinfo"><img src="$admin_icon" alt="更改头像？" border="0" /></a>
+	</div>
+	<div class="bb">
+	  敬爱的 <b>$admin_name</b> 欢迎进入{$db_blogname},现在可以开始您的博客之旅了！<br />
+	  <span style="color:#CCCCCC">点击头像进行个人资料维护</span>
+	</div>
+	<div class="c"></div>
+  </div>
+  <div id="system_news" class="box2" style="margin-top:50px">
+	<script language="JavaScript" src="js/ajax.js"></script>
+	<h2>快速发布日志</h2>
+	<div id="quick_entry" style="padding-left:12px; width:90%">
+	  <p>
+		文章标题<br />
+		<span class="fr"><input type="checkbox" align="absbottom" id="ifhide" />私有</span>
+		<input id="subject" size="35" class="input2" style="width:60%" />
+	  </p>
+	  <p>
+		选择分类<br />
+		<select id="cid">$categpslt</select>
+	  </p>
+	  <p>
+		内 容<br />
+		<textarea id="content" rows="10" class="input2" style="width:100%" /></textarea>
+	  </p>
+	  <p>
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+		认证码 <input id="gdcode" value="" size="5" class="ip">
+		<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /><br />
+<!--
+EOT;
+}
+if($postq == '1' && !empty($db_question)){
+$db_question = unserialize($db_question);
+$qkey = array_rand($db_question);
+print<<<EOT
+-->
+	验证问题: {$db_question[$qkey]} <input class="input" type="text"  id="qanswer" name="qanswer"/><input type="hidden" id="qkey" name="qkey" value="$qkey" />
+<!--
+EOT;
+}print <<<EOT
+-->
+		<input type="button" value="发布文章" onclick="QuickPost();" class="btn btn2" valign="middle" style="margin:0 20px 0 0">
+		<a href="$user_file?action=post&type=blog">切换到完整编辑模式?</a>
+	  </p>
+	</div>
+<script language="JavaScript">
+function QuickPost(){
+	if (GE('subject').value == '' || GE('content').value == ''
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+	 || GE('gdcode').value == ''
+<!--
+EOT;
+}
+if($postq == '1' && !empty($db_question)){print<<<EOT
+-->
+	|| GE('qanswer').value == ''
+<!--
+EOT;
+}
+print <<<EOT
+-->
+	) {
+		Showalert('操作失败，请检查数据完整性',0);
+		return false;
+	}
+	if (GE('ifhide').checked == false) {
+		var ifhide = 0;
+	} else {
+		var ifhide = 1;
+	}
+	var url = ajaxurl + '?action=quickpost';
+	var param = 'subject=' + ajax_convert(GE('subject').value) + '&content=' + ajax_convert(GE('content').value) + '&ifhide=' + ifhide + '&cid=' + ajax_convert(GE('cid').value);
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+	param += '&gdcode=' + ajax_convert(GE('gdcode').value);
+<!--
+EOT;
+}
+if($postq == '1' && !empty($db_question)){print<<<EOT
+-->
+	param += '&qanswer=' + ajax_convert(GE('qanswer').value) + '&qkey=' + ajax_convert(GE('qkey').value);
+<!--
+EOT;
+}
+print <<<EOT
+-->
+	send_request(url,QuickPostResponse,param);
+}
+function QuickPostResponse(){
+	var msg = http_request.responseText;
+	msg = msg.split("\t");
+	if (msg[0] == 'post_right') {
+	    Showalert('用户组权限:您所属的用户组没有发表日志的权限!');
+	} else if (msg[0] == 'operate_fail') {
+		Showalert('操作失败，请检查数据完整性');
+	} else if (msg[0] == 'gdcode_error') {
+		Showalert('认证码不正确');
+	} else if (msg[0] == 'title_limit') {
+		Showalert('标题为空或标题长度大于 $db_titlemax');
+	} else if (msg[0] == 'time_limit') {
+		Showalert('刷新不要快于 ' + msg[1] + ' 秒');
+	} else if (msg[0] == 'post_limit') {
+		Showalert('每天你只能发表 ' + msg[1] + ' 篇评论');
+	} else if (msg[0] == 'word_ban') {
+		Showalert('有不良词语，被禁用');
+	} else if (msg[0] == 'content_limit') {
+		Showalert('内容为空或内容长度错误,请控制在 $db_postmin - $db_postmax 字节以内');
+	} else if (msg[0] == 'qanswer_error') {
+		Showalert('验证问题的答案错误');
+	} else {
+		GE('subject').value = '';
+		GE('content').value = '';
+		GE('ifhide').check = false;
+		GE('cid').value = '$fcid';
+		Showalert('完成相应操作');
+	}
+}
+function Showalert(msg){
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+	GE('gdcode').value = '';
+	newgdcode(GE('ck'),'$ckurl?windid=$rawwindid');
+<!--
+EOT;
+}
+if($postq == '1' && !empty($db_question)){print <<<EOT
+-->
+	GE('qanswer').value = '';
+<!--
+EOT;
+}
+print <<<EOT
+-->
+	alert(msg);
+}
+</script>
+	<div class="c"></div>
+  </div>
+  <div class="c"></div>
+</div>
+<div class="mr">
+  <div id="last_information" class="box1">
+	<h2>最新情况</h2>
+	<div class="box1text">
+	  <h3>空间状态 &raquo;</h3>
+	  <div class="div1">
+		您用了 <span class="span1">$usersizes</span> k <a href="$user_file?action=attachcp">空间</a>，
+<!--
+EOT;
+if((int)$_GROUP['uploadsize'] > 0) {print <<<EOT
+-->
+		共有 <span class="span1">$_GROUP[uploadsize]</span> k 空间
+<!--
+EOT;
+}else{print <<<EOT
+-->
+		空间不限
+<!--
+EOT;
+}print <<<EOT
+-->
+		。
+	  </div>
+	  <h3>留言 &raquo;</h3>
+	  <ul class="ul1">
+<!--
+EOT;
+foreach($commentdb as $value){print <<<EOT
+-->
+		<li><a href="blog.php?do=list&uid=$admin_uid&type=gbook" target="_blank">$value[content]</a> (<a href="$user_file?action=gbook&job=reply&id=$value[id]">回复</a>)</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	  <h3>主题 &raquo;</h3>
+	  <ul class="ul1">
+<!--
+EOT;
+foreach($itemdb as $value){print <<<EOT
+-->
+		<li><a href="blog.php?do=showone&type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	  <h3>网志统计 &raquo;</h3>
+	  <div class="div1">
+		主 题 数：<span class="span1">$items</span> 篇<br />
+        评 论 数：<span class="span1">$comments</span> 篇<br />
+        个人分类：<span class="span1">$dirs</span> 个
+      </div>
+	</div>
+	<div class="c"></div>
+  </div>
+</div>
+<div class="mr" style="margin-top:12px">
+  <div id="last_information" class="box1">
+	<h2>系统公告</h2>
+	<div class="box1text">
+	  <ul class="ul1">
+<!--
+EOT;
+foreach($_NOTICE as $value){print <<<EOT
+-->
+		<li><a href="notice.php?id={$value[aid]}#{$value[aid]}" target="_blank">{$value[subject]}</a>
+        <div style="font-size:10px">$value[startdate]</div></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	</div>
+  </div>
+</div>
+<div class="c"></div>
+<!--
+EOT;
+?>

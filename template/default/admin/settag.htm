@@ -1,0 +1,114 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&&job=$job" method="post">
+<!--
+EOT;
+if($job != 'edit'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr class="b"><td>作者(可使用通配符"*"): <input name="username" size="10" value="">
+关键字(可使用通配符"*"): <input name="keyword" size="20" value="">
+排序: <select name="orderby">
+<option value="">不限制</option>
+<!--
+EOT;
+foreach($typedb as $key => $value){print <<<EOT
+-->
+<option value="$key">{$value}个数</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+</select>
+<select name="sc">
+<option value="asc">升序</option>
+<option value="desc">降序</option>
+</select>
+显示行数: <input name="perpage" size="3" value="30">
+<input type="submit" value="提 交"></center></td></tr>
+</table><br />
+</form>
+<form action="$basename&&job=delete" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="10">标签列表</td></tr>
+<tr align="center" class="head_2">
+<td width="25%">名 称</td>
+<!--
+EOT;
+foreach($typedb as $value){print <<<EOT
+-->
+<td width="10%">$value</td>
+<!--
+EOT;
+}print <<<EOT
+-->
+<td width="5%">锁 定</td>
+<td width="5%">编 辑</td>
+<td width="5%">操 作</td></tr>
+<!--
+EOT;
+foreach($tagdb as $value){print <<<EOT
+-->
+<tr align="center" class="b">
+<td align="left">$value[tagname]</td>
+<!--
+EOT;
+foreach($typenumdb as $tagnum){print <<<EOT
+-->
+<td>$value[$tagnum]</td>
+<!--
+EOT;
+}
+if($value['iflock'] == 0){print<<<EOT
+-->
+<td>--</td>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+	<td>是</td>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<td><a href="$basename&job=edit&tagid=$value[tagid]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[tagid]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+</table><br />
+<center><input type="radio" name="deal" id="delete" value="deltag" checked />删除标签
+<input type="radio" name="deal" value="lock" />锁定
+<select name="lock" style="width:100px;"">
+<option value="0">锁定</option>
+<option value="1">取消锁定</option>
+</select> (标签被锁定后不允许为热门标签)</center><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中标签？');"></center>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="tagid" value="$tagid">
+<table width="65%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑标签</td></tr>
+<tr class="b"><td width="30%">标签名称: </td>
+<td><input name="tagname" size="10" value="$tagname"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

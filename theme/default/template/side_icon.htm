@@ -1,0 +1,126 @@
+<!--<?php print <<<EOT
+-->
+	<!--begin icon-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]</h2>
+	  <div class="profile">
+		<div class="text">
+		  <div class="profile-pic">
+		  	<span id="msg"></span>
+			<div><img src="$blogdb[icon]" style="width:{$iconw}px;height:{$iconh}px"/></div>
+		  </div>
+		  <dl class="profile">
+			<dd class="tac" style="word-break:keep-all">
+			  <img src="theme/$style/images/talk.gif" align="absmiddle" /><a href="blog.php?do=list&uid=$uid&type=gbook">留言</a><img src="theme/$style/images/message.gif" align="absmiddle" /><a href="user_index.php?action=message&type=write&touid=$uid">短消息</a>
+<!--
+EOT;
+if($winduid == $uid && $blogdb[newpm]>0){print<<<EOT
+-->
+	$msgsound
+	<style>.new-msg-tips{ position:absolute;width:115px;height:50px;margin:-45px auto auto -20px;background:url(theme/$style/images/new-msg-tips.png);}</style>
+<!--[if ie 6]>
+	<style>
+	.new-msg-tips{background:none;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src="theme/$style/images/new-msg-tips.png")}
+	</style>
+<![endif]-->
+	<span id="msgbox" style="display:none">
+	<span class="new-msg-tips"></span><span style="position:absolute;margin-top:-38px;margin-left:-.5em;line-height:1.3em;">
+	<a style="color:#000; font-family:'宋体'" href="user_index.php?action=message">您有新的消息</a><img style="cursor:pointer;position:absolute;margin-left:.3em" onclick="closemsgbox()" src="theme/$style/images/tips-close.png" />
+	</span>
+	</span>
+<script language="JavaScript">
+function showmsgbox(){
+	GE('msgbox').style.display="";
+}
+function closemsgbox(){
+	GE('msgbox').style.display="none";
+}
+setTimeout('showmsgbox();',1500);
+</script>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<img src="theme/$style/images/team.gif" align="absmiddle" /><a href="javascript:;" onclick="AddFriend('$uid')">加为好友</a> <img src="theme/$style/images/addto.gif" align="absmiddle" /><a href="javascript:;" style="cursor:pointer;" title="加入书签" onclick="Addboxes('user','collecusers','$uid');">收藏</a>
+<!--
+EOT;
+if($windgroup['cmduser']){print <<<EOT
+-->
+			  <img src="theme/$style/images/jian.png" align="absmiddle" /> <a href="javascript:;" id="cmdusers" onclick="Addboxes('user','cmdusers','$uid');">$blogdb[commend]</a>
+<!--
+EOT;
+}if($windgroup['deluser']){print <<<EOT
+-->
+			  <img src="theme/$style/images/del.png" align="absmiddle" /> <a href="javascript:;" onclick="Addboxes('user','deluser','$uid');">删除用户</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</dd>
+			<dd><br />用户ID：&nbsp; $blogdb[uid]</dd>
+			<dd>昵称：&nbsp; $blogdb[username]</dd>
+<!--
+EOT;
+if ($blogdb[province]) {print <<<EOT
+-->
+			<dd>来自：&nbsp; $blogdb[province] $blogdb[city]</dd>
+<!--
+EOT;
+}if ($blogdb[age]) {print <<<EOT
+-->
+			<dd>年龄：&nbsp; $blogdb[age]</dd>
+<!--
+EOT;
+}if (!empty($hobbydb)) {print <<<EOT
+-->
+			<dd class="keep">爱好：
+<!--
+EOT;
+foreach ($hobbydb as $key => $value) {print <<<EOT
+-->
+			  <a href="hobbysc.php?hobbyid=$key">$value</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</dd>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  </dl>
+		</div>
+	  </div>
+	</div>
+	<!--end icon-->
+<script language="JavaScript">
+function AddFriend(uid){
+	if (!winduid) {
+		alert('您还没有登陆或注册，暂时不能使用此功能！');
+		return false;
+	}
+	if (winduid == uid) {
+		alert('不能添加自己');
+		return false;
+	}
+	var url = ajaxurl + '?action=friend';
+	var param = 'fuid=' + ajax_convert(uid);
+	send_request(url,AddFriendResponse,param);
+}
+function AddFriendResponse(){
+	if (http_request.responseText == 'not_login') {
+		alert('您还没有登陆或注册，暂时不能使用此功能！');
+	} else if (http_request.responseText == 'not_myself') {
+		alert('不能添加自己');
+	} else if (http_request.responseText == 'have_friend') {
+		alert('对方已经是你的好友');
+	} else {
+		alert('添加好友成功');
+	}
+	return false;
+}
+</script>
+<!--
+EOT;
+?>

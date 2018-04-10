@@ -1,0 +1,53 @@
+<!--<?php
+print <<<EOT
+-->
+<br />
+<table cellspacing=1 cellpadding=8 width="$tablewidth" $i_table align=center>
+<tr>
+	<td bgcolor="#FFFFFF">
+		<div style="float:left;">
+			<b>
+				<a href="simple/index.php">{$db_blogname}</a> -&gt; <a href="simple/index.php?type=$type">$catename</a> -&gt; <a href='simple/index.php?type=$type&cid=$cid'>$cidname</a> -&gt; <a href="simple/index.php?type=$type&itemid=$itemid">$title</a>
+			</b>
+		</div>
+		<div style="float:right;">
+			<b>
+				<a href="login.php">登陆</a> -&gt;
+				<a href="register.php">注册</a> -&gt;
+				<a href="user_index.php">博客管理</a> -&gt;
+				<a href="search.php">搜索</A> -&gt;
+				<a href="{$articleurl}type=$type&itemid=$itemid#comment" target=_blank>回复主题</a>
+			</b>
+		</div>
+	</td>
+</tr>
+</table>
+<br />
+<!--
+EOT;
+foreach($readdb as $value){print <<<EOT
+-->
+<table cellspacing="1" cellpadding="3" width="$tablewidth" class=i_table align=center>
+<tr class=head>
+	<td>
+		<div style="float:left;">
+			<b><a href="simple/index.php?uid=$value[uid]">$value[author]</a></b>
+		</div>
+		<div style="float:right;">$value[postdate]</div>
+	</td>
+</tr>
+<tr bgcolor="#FFFFFF"><td colspan=2 class=tpc_content>
+$value[content]
+</td></tr>
+</table>
+<br />
+<!--
+EOT;
+}print <<<EOT
+-->
+<table cellspacing=1 cellpadding=0 width="$tablewidth" align=center>
+<tr><td bgcolor="#FFFFFF">$pages 共:{$replies}条记录 </td></tr></table>
+<center><b>查看完整版本: [-- <a href="{$articleurl}type=$type&itemid=$itemid" target="_blank">$title</a> --] [-- <a href="javascript:scroll(0,0)">top</a> --]</b></center>
+<!--
+EOT;
+?>-->

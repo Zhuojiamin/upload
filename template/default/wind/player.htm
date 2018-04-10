@@ -1,0 +1,89 @@
+<!--<?php print<<<EOT
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$title {$db_blogname} {$db_metatitle} - powered by lxblog.net</title>
+<meta name="keywords" content="$db_metakeyword" />
+<meta name="description" content="$db_metadescrip" />
+<style>
+body{ background:url(image/bg.gif) repeat-x #000; font-size:12px; color:#FFF; padding:0; margin:0}
+</style>
+</head>
+
+<body>
+<!--
+EOT;
+$singer = $singer ? $singer : '匿名';
+$descrip = $descrip ? $descrip : '无';
+print<<<EOT
+-->
+<div style="background:url(image/boxbg.gif) left bottom #454545; height:190px; width:360px; margin:5px auto; border:1px solid #626262">
+<div style="height:120px;">
+	<div style="width:350px; margin:5px auto; background:#3A3A3A; height:18px; line-height:18px;">
+		<span style="padding:0 .5em;color:#ACACAC">地址：<a href="$songdb[murl]" style="color:#ACACAC">$murl</a></span>
+	</div>
+	<div style="margin:.5em; color:#fff; line-height:20px; font-size:14px;">
+		名称：$name <br />
+		歌手：$singer
+		<div style="font-size:12px;color:#999; line-height:15px; margin-top:.5em">
+		简介：$descrip
+		</div>
+	</div>
+</div>
+<div style="width:350px; margin:auto">
+<!--
+EOT;
+if($type == 'wmv'){print<<<EOT
+-->
+<object id="MediaPlayer1" width="350" height="64" classid="CLSID:6BF52A52-394A-11d3-B153-00C04F79FAA6" 
+codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112"
+align="baseline" border="0" standby="Loading Microsoft Windows Media Player components..." 
+type="application/x-oleobject">
+    <param name="URL" value="$songdb[murl]">
+    <param name="autoStart" value="true">
+    <param name="invokeURLs" value="false">
+    <param name="playCount" value="100">
+    <param name="defaultFrame" value="datawindow">
+		<embed src="$songdb[murl]" align="baseline" border="0" width="350" height="68"
+			type="application/x-mplayer2"
+			pluginspage=""
+			name="MediaPlayer1" showcontrols="1" showpositioncontrols="0"
+			showaudiocontrols="1" showtracker="1" showdisplay="0"
+			showstatusbar="1"
+			autosize="0"
+			showgotobar="0" showcaptioning="0" autostart="1" autorewind="0"
+			animationatstart="0" transparentatstart="0" allowscan="1"
+			enablecontextmenu="1" clicktoplay="0" 
+			defaultframe="datawindow" invokeurls="0">
+		</embed>
+</object>
+<!--
+EOT;
+}elseif($type == 'rm'){print<<<EOT
+-->
+<embed id="RealPlayer1" autogotourl=false type="audio/x-pn-realaudio-plugin" src="$songdb[murl]" controls="ControlPanel,StatusBar" width=350 height=68 border=0 autostart=true loop=true></embed>
+<!--
+EOT;
+}elseif($type == 'qt'){print<<<EOT
+-->
+<embed src="$songdb[murl]" autoplay="true" loop="false" controller="true" playeveryframe="false" cache="false" scale="TOFIT" bgcolor="#000000" kioskmode="false" targetcache="false" pluginspage="http://www.apple.com/quicktime/" />
+<!--
+EOT;
+}else{print<<<EOT
+-->
+类型错误
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</div>
+</div>
+</body>
+</html>
+<!--
+EOT;
+?>
+-->

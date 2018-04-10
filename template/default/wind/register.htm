@@ -1,0 +1,234 @@
+<!--<?php print <<<EOT
+-->
+<!--main-->
+<div id="main">
+  <div id="in-content">
+	<h4 class="colorA">用户注册</h4>
+	<div class="boxA">
+	  <form action="$regurl" method="post">
+	  <input type="hidden" name="step" value="$gostep" />
+	  <input type="hidden" name="forward" value="$forward" />
+<!--
+EOT;
+if($step!=1){print <<<EOT
+-->
+	  <div class="tabB"><h5>用户协议</h5></div>
+	  <div class="post">
+		<div class="post-content">
+		  $rg_permit
+		  <div class="tac">
+			<input class="bt" type="button" value="取 消" onclick="window.location = '$db_blogurl'" />
+			<input class="bt b" type="submit" value=" 同  意 " />			
+		  </div>
+		  <div class="c"></div>
+		</div>
+	  </div>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+	  <div class="tabB"><h5>注册信息</h5></div>
+	  <div class="post">
+		<div class="post-content">
+		  <table width="98%" align="center" cellspacing="1" cellpadding="3">
+		  	<tr><td width="15%"><h5>必填信息</h5></td></tr>
+			<tr>
+			  <td>*用户名</td>
+			  <td style="vertical-align:absmiddle">
+				<input name="username" value="" size="30" class="ip" onblur="CheckReg(this);" style="vertical-align:bottom" />
+				<span id="username_info" style="color:#FF0000"></span>
+			  </td>
+			</tr>
+			<tr>
+			  <td>*密 码</td>
+			  <td style="vertical-align:absmiddle">
+				<input type="password" name="password" id="password" value="" size="30" class="ip" onblur="CheckReg(this);" style="vertical-align:bottom" />
+				<span id="password_info" style="color:#FF0000"></span>
+			  </td>
+			</tr>
+			<tr>
+			  <td>*确认密码</td>
+			  <td style="vertical-align:absmiddle">
+				<input type="password" name="ckpassword" value="" size="30" class="ip" onblur="CheckReg(this);" style="vertical-align:bottom" />
+				<span id="ckpassword_info" style="color:#FF0000"></span>
+			  </td>
+			</tr>
+			<tr>
+			  <td>*Email</td>
+			  <td style="vertical-align:absmiddle">
+				<input name="email" value="" size="30" class="ip" onblur="CheckReg(this);" style="vertical-align:bottom" />
+				<input type="checkbox" name="publicemail" value="1" CHECKED />
+				<font color="#000000">公开邮箱</font>
+				<span id="email_info" style="color:#FF0000"></span>
+			  </td>
+			</tr>
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+			<tr>
+			  <td>*认证码</td>
+			  <td style="vertical-align:absmiddle">
+				<input name="gdcode" value="" size="5" maxlength="5" class="ip" onblur="CheckReg(this);" style="vertical-align:bottom" />
+				<img id="ck" src="ck.php?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /> 请将图片中的数字填入到文本框中
+				<span id="gdcode_info" style="color:#FF0000"></span>
+			  </td>
+			</tr>
+<!--
+EOT;
+if($regq == 1 && !empty($db_question)){
+$db_question = unserialize($db_question);
+$qkey = array_rand($db_question);
+print<<<EOT
+-->
+			<tr>
+			  <td>*验证问题</td>
+			  <td style="vertical-align:absmiddle">
+				{$db_question[$qkey]}
+				<input class="input" type="text" name="qanswer" id="qanswer" onblur="CheckReg(this);" /><input type="hidden" name="qkey" id="qkey" value="$qkey" />
+				请将右边问题的答案填入到文本框中
+				<span id="qanswer_info" style="color:#FF0000"></span>
+			  </td>
+			</tr>
+
+<!--
+EOT;
+}
+}foreach ($needdb as $value){print <<<EOT
+-->
+			<tr>
+			  <td>* {$ilang[$value]}</td>
+			  <td style="vertical-align:absmiddle">
+				{$allregdb[$value]}
+				<span id="{$value}_info" style="color:#FF0000"></span>
+			  </td>
+			</tr>
+<!--
+EOT;
+}if(!empty($unneeddb)){print <<<EOT
+-->
+		  	<tr><td><h5>选填信息</h5></td></tr>
+<!--
+EOT;
+foreach ($unneeddb as $value){print <<<EOT
+-->
+			<tr>
+			  <td>{$ilang[$value]}</td>
+			  <td style="vertical-align:absmiddle">
+				{$allregdb[$value]}
+			  </td>
+			</tr>
+<!--
+EOT;
+}}print <<<EOT
+-->
+		  </table>
+		  <div class="c"></div>
+		  <div class="tac" style=" margin:1em">
+			<input class="bt" type="button" value="取 消" onclick="window.location = '$db_blogurl'" />
+			<input class="bt b" type="submit" value="  提  交  " />
+		  </div>
+		</div>
+	  </div>
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript">
+var ajaxname = '';
+var ajaxvalue = '';
+function CheckReg(obj){
+	var url = ajaxurl + '?action=reg';
+	if (obj == 'city') {
+		ajaxname = 'city';
+		ajaxvalue = GE('province').value + '|' + GE('city').value;
+	} else if (obj == 'bday') {
+		ajaxname = 'bday';
+		ajaxvalue = GE('year').value + '|' + GE('month').value + '|' + GE('day').value;
+	} else {
+		ajaxname = obj.name;
+		ajaxvalue = obj.value;
+	} 
+	var param = 'ajaxname=' + ajax_convert(ajaxname) + '&ajaxvalue=' + ajax_convert(ajaxvalue);
+	if (ajaxname == 'ckpassword') {
+		param += '&ajaxckvalue=' + ajax_convert(GE('password').value);
+	}
+	if (ajaxname == 'qanswer') {
+		param += '&qkey=' + ajax_convert(GE('qkey').value);
+	}
+	send_request(url,CheckRegResponse,param);
+}
+function CheckRegResponse(){
+	GE(ajaxname + '_info').innerHTML = '';
+	if (http_request.responseText) {
+		if (ajaxname=='gdcode') {
+			newgdcode(GE('ck'),'$ckurl?windid=$rawwindid');
+		}
+		GE(ajaxname + '_info').innerHTML = '<br />' + http_request.responseText;
+	} else {
+		ajaxname = 'lxblog';
+	}
+}
+function CheckRegOut(){
+	if (ajaxname != 'lxblog') {
+		alert('填写错误，请检查每项是否填写正确！');
+		return false;
+	}
+	return true;
+}
+</script>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </form>
+	</div>
+  </div>
+  <!--sidebar-->
+  <div id="in-sidebar">
+	<div>
+	  <h3>您所在的注册步骤</h3>
+	  <ul>
+<!--
+EOT;
+if(!$step){print <<<EOT
+-->
+		<li><h4 class="green">● 阅读用户协议</h4></li>
+		<li class="gray">● 填写注册信息</li>
+		<li class="gray">● 提交，完成注册</li>
+<!--
+EOT;
+}elseif($step==1){
+if($rg_showpermit){print <<<EOT
+-->
+		<li class="gray">● 阅读用户协议</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+		<li><h4 class="green">● 填写注册信息</h4></li>
+		<li class="gray">● 提交，完成注册</li>
+<!--
+EOT;
+}else{
+if($rg_showpermit){print <<<EOT
+-->
+		<li class="gray">● 阅读用户协议</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+		<li class="gray">● 填写注册信息</li>
+		<li><h4 class="green">● 提交，完成注册</h4></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	</div>
+	<!--sidebar  end-->
+	<div class="c"></div>
+  </div>
+</div>
+<!--main end-->
+<div class="c"></div>
+<!--
+EOT;
+?>

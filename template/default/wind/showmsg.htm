@@ -1,0 +1,36 @@
+<!--<?php print <<<EOT
+-->
+<!--main-->
+<div id="main">
+  <div id="in-content">
+	<!--main content -->
+	<div class="boxA" style="margin:2em 0">
+	  <h3 style=" padding:1em; margin:0">提示信息</h3>
+	  <div class="tac" style="padding:2em">
+		<p>$msg_info</p>
+		<p><input type="button" class="bt" value="  返回继续操作  " onclick="javascript:history.go(-1);" /></p>
+	  </div>
+	</div>
+  </div>
+  <!--sidebar-->
+  <div id="in-sidebar">
+	<div id="system-notes" style="margin:2em 0">
+	  <h3>系统公告</h3>
+	  <ul class="listE">
+<!--
+EOT;
+foreach ($_NOTICE as $value){print <<<EOT
+-->
+		<li><a href="notice.php#$value[aid]" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	</div>
+  <div class="c"></div>
+</div>
+<!--main end-->
+<!--
+EOT;
+?>

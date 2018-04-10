@@ -1,0 +1,48 @@
+<!--<?php print <<<EOT
+-->
+	<!--begin comment-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]</h2>
+<!--
+EOT;
+$id = 0;
+foreach ($teamdb as $key => $value) {
+$id++;print <<<EOT
+-->
+	<dl class="text">
+		<dt>$id.<a href="team.php?job=showteam&cid=$value[cid]&teamid=$value[teamid]">$value[name]</a> （共$value[bloggers]个成员） </dt>
+		<dd>日志：$value[blogs] 篇 </dd>
+		<dd>相册：$value[albums] 个 </dd>
+		<dd>音乐专辑:$value[malbums] 个 </dd>
+		<dd>最新：
+<!--
+EOT;
+if($value[type] == 'blog'){print<<<EOT
+-->
+<a href="article.php?type=blog&cid=$value[cid]&itemid=$value[itemid]&">$value[subject]</a>
+<!--
+EOT;
+}elseif($value[type] == 'photo'){print<<<EOT
+-->
+<a href="cate.php?type=photo&job=plist&cid=$value[cid]&aid=$value[itemid]&">$value[subject]</a>
+<!--
+EOT;
+}elseif($value[type] == 'music'){print<<<EOT
+-->
+<a href="article.php?type=music&cid=$value[cid]&maid=$value[itemid]&">$value[subject]</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</dd>
+	</dl>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	</div>
+	<!--end comment-->
+<!--
+EOT;
+?>

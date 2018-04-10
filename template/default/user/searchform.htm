@@ -1,0 +1,41 @@
+<!--<?php
+print <<<EOT
+-->
+<form method=post action="$basename&">
+<table width="95%" align="center" cellspacing=0 cellpadding=5 style="margin-bottom:6px;background-color:#EEEEEE;border-bottom:1px solid #999999;border-top:1px solid #999999;">
+<tr class="b">
+	<td colspan="7">
+		查看：
+		<select name="folder">
+			<option>文件夹</option>
+			<option value="1" $folder_1>发布箱</option>
+			<option value="2" $folder_2>草稿箱</option>
+		</select>
+		<select name="cid">
+			<option>所有分类</option>
+			$forumcache
+		</select>
+		<select name="typeid">
+			<option>个人分类</option>
+			$itemtypeoption
+		</select>
+		排序：
+		<select name="orderby">
+			<option>默认排序</option>
+			<option value="postdate" $orderby_postdate>发布时间</option>
+			<option value="lastpost" $orderby_lastpost>最后回复</option>
+			<option value="hits" $orderby_hits>查看数</option>
+			<option value="replies" $orderby_replies>回复数</option>
+		</select>
+		<select name="desc">
+			<option value="desc" $desc_desc>降序</option>
+			<option value="asc" $desc_asc>升序</option>
+		</select>
+		<input class="bt" type="submit" value="提交">
+	</td>
+</tr>
+</table>
+</form>
+<!--
+EOT;
+?>

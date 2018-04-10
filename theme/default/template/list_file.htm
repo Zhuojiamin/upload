@@ -1,0 +1,97 @@
+<!--<?php print <<<EOT
+-->
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	<h2>$left_name[$type]列表</h2>
+	<!--begin-->
+<!--
+EOT;
+foreach($_ITEMDB as $value){print <<<EOT
+-->
+	  <div class="text">
+		<div class="gray">$value[postdate]</div>
+		<h3>
+<!--
+EOT;
+if ($value[icon]){print <<<EOT
+-->
+		  <img src="$imgpath/emotion/$value[icon].gif" align="absmiddle" \>
+<!--
+EOT;
+}print <<<EOT
+-->
+		$value[subject]
+<!--
+EOT;
+if ($value[ifhide]){print <<<EOT
+-->
+		<span class="gray fn">(私密)</span>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</h3>
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <p>{$value[content]}</p>
+			  <p><a href="blog.php?do=showone&uid=$uid&type=$type&itemid=$value[itemid]" class="big">阅读全文&gt;&gt;</a></p>
+<!--
+EOT;
+if (!empty($value[tagsdb])){print <<<EOT
+-->
+			  <p><div>Tags：
+<!--
+EOT;
+foreach($value[tagsdb] as $tags){print <<<EOT
+-->
+			  <a href="tags.php?tagname=$tags[tagname]" class="tags">$tags[name]</a> &nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->	  
+			  </div></p>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</td>
+		  </tr>
+		</table>
+		<div class="bb">
+		  <div>运行环境：$value[version] | &nbsp;类型：$value[type] | &nbsp;大小：$value[size] $value[unit]</div>
+		  <div class="c"></div>
+		</div>
+		<div class="bb">
+		  <div>类别：
+<!--
+EOT;
+if (!$value[dirname]){print <<<EOT
+-->
+		  <a href="blog.php?do=list&uid=$uid&type=$type&dirid=0">无分类</a>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+		  <a href="blog.php?do=list&uid=$uid&type=$type&dirid=$value[dirid]">$value[dirname]</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  | &nbsp;<a href="">评论</a>($value[replies]) | &nbsp;<a href="blog.php?do=showone&uid=$uid&type=$type&itemid=$value[itemid]">浏览</a>($value[hits]) | &nbsp;<a style="cursor:pointer;" title="加入书签" onclick="Addboxes('collecitems','$value[itemid]');">收藏</a></div>
+		  <div class="c"></div>
+		</div>
+	  </div>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  <div class="big">$pages</div>
+	<!--end-->
+	</div>
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>

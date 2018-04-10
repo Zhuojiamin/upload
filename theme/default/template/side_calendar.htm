@@ -1,0 +1,33 @@
+<!--<?php
+if (!empty($calendar)) {print <<<EOT
+-->
+	<!--begin calendar-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]</h2>
+	  <div class="calendar">
+		<table border="0" width="100%" cellspacing="2" cellpadding="0">
+		  <tr>
+			<th	colspan=7 height="20">$ny - $nm</th>
+		  </tr>
+		  <tr>
+			<td>日</td>
+			<td>一</td>
+			<td>二</td>
+			<td>三</td>
+			<td>四</td>
+			<td>五</td>
+			<td>六</td>
+		  </tr>
+		  {$calendar[days]}
+		  <tr>
+			<td colspan=2><a href="blog.php?do=list&uid=$uid&type=$type&y=$ny&m=$calendar[pm]">&laquo;</a>月<a href="blog.php?do=list&uid=$uid&type=$type&y=$ny&m=$calendar[nm]">&raquo;</a></td>
+			<td colspan=3>$ny - $nm</td>
+			<td colspan=2><a href="blog.php?do=list&uid=$uid&type=$type&y=$calendar[py]&m={$nm}">&laquo;</a>年<a href="blog.php?do=list&uid=$uid&type=$type&y=$calendar[ny]&m=$nm">&raquo;</a></td>
+		  </tr>
+		</table>
+	  </div>
+	</div>
+	<!--end calendar-->
+<!--
+EOT;
+}?>-->

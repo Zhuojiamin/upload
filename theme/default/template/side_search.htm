@@ -1,0 +1,20 @@
+<!--<?php print <<<EOT
+-->
+	<!--begin search-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]</h2>
+	  <form action="search.php?action=dosearch&" method="post" target="_blank">
+	  <input type="hidden" name="schuid" value="$uid" />
+	  <input type="hidden" name="types" value="$type" />
+	  <div class="text">
+		<label>
+		  <input class="ip" type="text" name="keyword" size="15" />
+		  <input class="bt" name="submit" type="submit" value=" Go "/>
+		</label>
+	  </div>
+	  </form>
+	</div>
+	<!--end search-->
+<!--
+EOT;
+?>

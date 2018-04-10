@@ -1,0 +1,107 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息:</td></tr>
+<tr><td class="b">
+<ul><br />替换词语：<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在浏览帖子时，会将帖子中的需要替换的词语替换为对应内容<br /><br />
+禁用词语：<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在发表文章时，检查文章内容中是否含有禁用词语，如果含有禁用词语将被禁止发表，已经发表的文章中如果含有禁用词语将被替换为对应的内容</ul></td></tr>
+</table><br />
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="b">[<a href="$basename&job=replace">替换词语</a>] [<a href="$basename&job=forbid">禁用词语</a>] [<a href="$basename&job=add">新增词语</a>]</td></tr>
+</table><br />
+<form action="$basename&job=$job" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<!--
+EOT;
+if($job=='replace' || $job=='forbid'){
+if($job=='replace'){print <<<EOT
+-->
+<tr><td class="head" colspan="4">替换词语</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="head" colspan="4">禁用词语</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr class="head_2" align="center"><td width="10%">ID</td>
+<td width="40%">不良词语</td>
+<td width="40%">替换为</td>
+<td width="10%">删 除</td></tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($typedb as $value){
+$id++;print <<<EOT
+-->
+<tr class="b" align="center"><td>$id</td>
+<td><input name="word[$value[id]]" value="$value[word]" size="32"></td>
+<td><input name="reword[$value[id]]" value="$value[wordreplace]" size="32"></td>
+<td><input type="checkbox" name="selid[]" value="$value[id]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+</table><br />
+<input type="hidden" id="delete" value="1">
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中词语？');"></center>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="head" colspan="2">新增词语 <a href="javascript:addact();">[+]</a>
+<a href="javascript:removeact();">[-]</a></td></tr>
+<tr class="head_2"><td>不良词语</td>
+<td>替换为</td></tr>
+<tr class="b" align="center"><td><input name="word[0]" value="" size="35"></td>
+<td><input name="reword[0]" value="" size="35"></td></tr>
+<!--
+EOT;
+for($i=1;$i<=10;$i++){
+$id = 'word_'.$i;print <<<EOT
+-->
+<tr class="b" align="center" id="$id" style="display:none"><td><input name="word[$i]" value="" size="35"></td>
+<td><input name="reword[$i]" value="" size="35"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td align="right"><input type="radio" name="type" value="replace" CHECKED> 替换词语
+<input type="radio" name="type" value="forbid"> 禁用词语</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<script language="JavaScript">
+var wordID = 0;
+function addact(){
+	if (wordID < 10) {
+		wordID++;
+		GE('word_' + wordID).style.display = '';
+	}
+}
+function removeact(){
+	if (wordID > 0) {
+		GE('word_' + wordID).style.display = 'none';
+		wordID--;
+	}
+}
+</script>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

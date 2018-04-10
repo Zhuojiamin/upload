@@ -1,0 +1,119 @@
+<!--<?php print <<<EOT
+-->
+<html>
+<head>
+<title>Insert Table</title>
+<script type="text/javascript" src="js/dialog.js"></script>
+<script type="text/javascript">
+window.resizeTo(350, 90);
+function Init() {
+  __dlg_init();
+  document.getElementById("f_rows").focus();
+};
+function onOK() {
+  var fields = ["f_rows", "f_cols", "f_width", "f_unit","f_bgcolor","f_bdcolor",
+                "f_align", "f_border", "f_spacing", "f_padding"];
+  var param = new Object();
+  for (var i in fields) {
+    var id = fields[i];
+    var el = document.getElementById(id);
+    param[id] = el.value;
+  }
+  __dlg_close(param);
+  return false;
+};
+function onCancel() {
+  __dlg_close(null);
+  return false;
+};
+</script>
+<style type="text/css">
+html, body {
+  background: ButtonFace;
+  color: ButtonText;
+  font: 11px Tahoma,Verdana,sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+body { padding: 5px; }
+table { font: 11px Tahoma,Verdana,sans-serif;}
+select, input, button { font: 11px Tahoma,Verdana}
+button { width: 70px; }
+form { padding: 0px; margin: 0px; }
+</style>
+</head>
+<body onload="Init()">
+<form name="form">
+<table border="0" style="padding: 0px; margin: 0px">
+  <tbody>
+  <tr>
+    <td>表格行数:</td>
+    <td><input type="text" name="rows" id="f_rows" size="5" value="2" /></td>
+    <td>表格列数:</td>
+    <td><input type="text" name="cols" id="f_cols" size="5" value="4" /></td>
+  </tr>
+  <tr>
+    <td>表格宽度:</td>
+    <td><input type="text" name="width" id="f_width" size="5" value="100" /></td>
+    <td>
+		<select size="1" name="unit" id="f_unit">
+			<option value="%">Percent</option>
+			<option value="px">Pixels</option>
+			<option value="em">Em</option>
+		</select>
+	</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>背景颜色:</td>
+    <td><input type="text" name="bgcolor" id="f_bgcolor" size="5" ondblclick="fetchColor()"/></td>
+    <td>边框颜色:</td>
+    <td><input type="text" name="bdcolor" id="f_bdcolor" size="5" ondblclick="fetchColor()"/></td>
+  </tr>
+  <tr>
+    <td>边框宽度:</td>
+    <td><input type="text" name="border" id="f_border" size="5" value="1" /></td>
+    <td>对齐方式:</td>
+    <td><select name="align" id="f_align">
+  <option value="">Not set</option>
+  <option value="left">Left</option>
+  <option value="right">Right</option>
+  <option value="texttop">Texttop</option>
+  <option value="absmiddle">Absmiddle</option>
+  <option value="baseline">Baseline</option>
+  <option value="absbottom">Absbottom</option>
+  <option value="bottom">Bottom</option>
+  <option value="middle">Middle</option>
+  <option value="top">Top</option>
+</select></td>
+  </tr>
+  <tr>
+    <td>单元间距:</td>
+    <td><input type="text" name="spacing" id="f_spacing" size="5" value="1" /></td>
+    <td>单元边距:</td>
+    <td><input type="text" name="padding" id="f_padding" size="5" value="1" /></td>
+  </tr>
+  </tbody>
+</table>
+<div style="margin:10px 0px 10px 0px; padding:2px; text-align:center;">
+<button type="button" name="ok" onclick="return onOK();">提 交</button>
+<button type="button" name="cancel" onclick="return onCancel();">取消</button>
+</div>
+</form>
+</body>
+</html>
+<OBJECT id=dlgHelper CLASSID="clsid:3050f819-98b5-11cf-bb82-00aa00bdce0b" width="0px" height="0px"></OBJECT>
+<script>
+var sInitColor ='#FFFFFF'; 
+function fetchColor(){
+    var Color = dlgHelper.ChooseColorDlg(sInitColor).toString(16);
+    with(event.srcElement){
+        value = "#"+((Color.length<6)?"000000".substring(0,6-Color.length):"") + Color;    
+        style.backgroundColor = "#"+((Color.length<6)?"000000".substring(0,6-Color.length):"") + Color;    
+    }
+    sInitColor = Color
+}
+</script>
+<!--
+EOT;
+?>-->

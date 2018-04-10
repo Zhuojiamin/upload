@@ -1,0 +1,422 @@
+<!--<?php
+include_once PrintEot('left');
+if($job!='level'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3">成员统计</td></tr>
+<!--
+EOT;
+foreach($statsdb as $gid => $stats){
+$gid == '-1' && $stats[1]='普通会员';print<<<EOT
+-->
+<tr class="b" align=center><td width=30%>$stats[1]</td>
+<td>$stats[0](个)</td>
+<td>[<a href="$admin_file?action=usercp&job=list&usergid=$gid&emlailjh=-2">查看用户组会员</a>]</td></tr>
+<!--
+EOT;
+}print<<<EOT
+-->
+</table>
+<!--
+EOT;
+}else{
+if(!$set){print<<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b"><br />
+<ul>用户组分为会员组和系统组，会员组级别按照会员发表的日志数自动进行级别判断并更新。<br />
+系统组为属于管理层，系统组成员由管理员设定，管理员可以在<a href="$admin_file?action=usercp"><font color="red">用户管理</font></a>内编辑用户组成员。</b><br /><br />
+<b>默认组说明：</b><br />
+<b>default</b>：默认权限设置（没设置过权限的用户组使用，可以节约不必要的资源）<br />
+<b>guest</b>：游客权限设置<br /><br />
+<b>系统组说明：</b><br />
+<b>管理员</b>：由创始人在<a href="$admin_file?action=usercp"><font color="red">用户管理</font></a>内进行设置<br />
+<b>总版主</b>：前台管理员，拥有前台所有管理权限<br />
+<b>禁言组</b>：此用户组禁止发言<br />
+<b>未验证会员</b>：等待验证的用户组</ul></td></tr>
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr><td class="bold">[<a href="#default">默认用户组编辑</a>] [<a href="#member">会员组编辑</a>] [<a href="#system">系统组编辑</a>] [<a href="#special">特殊组编辑</a>]</td></tr>
+</table><br />
+<a name="default"></a>
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="default">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3"><a href="#top"><b>默认用户组编辑</b></a></td></tr>
+<tr class="head_2" align="center"><td width="40%">头衔</td>
+<td width="20%">等级图片号</td>
+<td width="10%">操作</td></tr>
+<!--
+EOT;
+foreach($_gdefault as $key => $value){print <<<EOT
+-->
+<tr class="b" align="center"><td>组ID为:$key <input name="dtitle[$key]" size="30" value="$value[title]"></td>
+<td><input name="dimg[$key]" size="15" value="$value[img]"></td>
+<td><input type="button" value="权限" onclick="location.href='$basename&set=edit&gid=$key'"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form><br /><br />
+<a name="member"></a>
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="member">
+<input type="hidden" name="ort" value="edit">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="4"><a href="#top"><b>会员组编辑</b></a></td></tr>
+<tr class="head_2" align="center"><td width="40%">头衔</td>
+<td width="20%">等级图片号</td>
+<td width="20%">升级点数需求</td>
+<td width="10%">操作</td></tr>
+<!--
+EOT;
+foreach($_gmember as $key => $value){print <<<EOT
+-->
+<tr class="b" align="center"><td>组ID为:$key <input name="mtitle[$key]" size="30" value="$value[title]"></td>
+<td><input name="mimg[$key]" size="15" value="$value[img]"></td>
+<td><input name="mcredit[$key]" size="15" value="$value[creditneed]"></td>
+<td><input type="button" value="权限" onclick="location.href='$basename&set=edit&gid=$key'">
+<input type="button" value="删除" onclick="return deleteslt('$basename&set=delete&gid=$key','确定删除吗? 如果您删除了此用户组,请到系统缓存数据管理更新用户头衔缓冲!')"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form><br /><br />
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="member">
+<input type="hidden" name="ort" value="add">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>新增会员组</b></a></td></tr>
+<tr class="b" align="center"><td width="40%">头衔</td>
+<td><input name="mtitle" size="30" value=""></td></tr>
+<tr class="b" align="center"><td>等级图片号</td>
+<td><input name="mimg" size="30" value=""></td></tr>
+<tr class="b" align="center"><td>升级点数需求</td>
+<td><input name="mcredit" size="30" value=""></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form><br /><br />
+<a name="system"></a>
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="system">
+<input type="hidden" name="ort" value="edit">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3"><a href="#top"><b>系统组编辑</b></a></td></tr>
+<tr class="head_2" align="center"><td width="40%">头衔</td>
+<td width="20%">等级图片号</td>
+<td width="10%">操作</td></tr>
+<!--
+EOT;
+foreach($_gsystem as $key => $value){print <<<EOT
+-->
+<tr class="b" align="center"><td>组ID为:$key <input name="stitle[$key]" size="30" value="$value[title]"></td>
+<td><input name="simg[$key]" size="15" value="$value[img]"></td>
+<td><input type="button" value="权限" onclick="location.href='$basename&set=edit&gid=$key'">
+<!--
+EOT;
+if($key > 7){print<<<EOT
+-->
+<input type="button" value="删除" onclick="return deleteslt('$basename&set=delete&gid=$key','确定删除吗? 如果您删除了此用户组,请到系统缓存数据管理更新用户头衔缓冲!')">
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form><br /><br />
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="system">
+<input type="hidden" name="ort" value="add">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>新增系统组</b></a></td></tr>
+<tr class="b" align="center"><td width="40%">头衔</td>
+<td><input name="stitle" size="30" value=""></td></tr>
+<tr class="b" align="center"><td>等级图片号</td>
+<td><input name="simg" size="30" value=""></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form><br /><br />
+<a name="special"></a>
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="special">
+<input type="hidden" name="ort" value="edit">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3"><a href="#top"><b>特殊组编辑</b></a></td></tr>
+<tr class="head_2" align="center"><td width="40%">头衔</td>
+<td width="20%">等级图片号</td>
+<td width="10%">操作</td></tr>
+<!--
+EOT;
+foreach($_gspecial as $key => $value){print <<<EOT
+-->
+<tr class="b" align="center"><td>组ID为:$key <input name="sptitle[$key]" size="30" value="$value[title]"></td>
+<td><input name="spimg[$key]" size="15" value="$value[img]"></td>
+<td><input type="button" value="权限" onclick="location.href='$basename&set=edit&gid=$key'">
+<input type="button" value="删除" onclick="return deleteslt('$basename&set=delete&gid=$key','确定删除吗? 如果您删除了此用户组,请到系统缓存数据管理更新用户头衔缓冲!')"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form><br /><br />
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="special">
+<input type="hidden" name="ort" value="add">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>新增特殊组</b></a></td></tr>
+<tr class="b" align="center"><td width="40%">头衔</td>
+<td><input name="sptitle" size="30" value=""></td></tr>
+<tr class="b" align="center"><td>等级图片号</td>
+<td><input name="spimg" size="30" value=""></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}elseif($set == 'edit'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="gid" value="$gid">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">用户组编辑</td></tr>
+<tr class="b"><td width="53%">用户组头衔</td>
+<td><select name="selectgid" id="selectgid" onChange="level_jump('selectgid','$basename&gid')">
+$gpslt
+</select>
+<!--
+EOT;
+if($gid == '1'){print <<<EOT
+-->
+<font color="blue">默认用户组</font>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<font color="red">独立用户组权限</font>
+<!--
+EOT;
+if ($_gmember[$gid]) {print<<<EOT
+-->
+-- <a href='$basename&step=3&gid=$gid'>点击采用默认用户组权限</a>
+<!--
+EOT;
+}}print <<<EOT
+-->
+</td></tr>
+</table><br /><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr><td class="bold">[<a href="#set">基本设置</a>] [<a href="#article">文章权限</a>] [<a href="#attach">附件权限</a>]
+<!--
+EOT;
+if (in_array($_GROUP[type],array('system','special'))) {print<<<EOT
+-->
+[<a href="#admin">管理权限</a>]
+<!--
+EOT;
+}print<<<EOT
+-->
+[<a href="#other">高级设置</a>]</td></tr>
+</table><br /><br />
+<a name="set"></a>
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3"><a href="#top"><b>基本设置</b></a></td></tr>
+<tr class="b"><td width="3%"><input type="checkbox" name="othergroup[]" value="module"></td>
+<td width="50%">允许使用的模块：</td>
+<td><input type="checkbox" name="module[]" value="blog" $blog_CK> 日志
+<input type="checkbox" name="module[]" value="photo" $photo_CK> 图片
+<input type="checkbox" name="module[]" value="bookmark" $bookmark_CK> 书签
+<input type="checkbox" name="module[]" value="music" $music_CK> 音乐</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="allowread"></td>
+<td>是否允许浏览内容：</td>
+<td><input type="radio" value="1" $allowread_Y name="group[allowread]"> 是
+<input type="radio" value="0" $allowread_N name="group[allowread]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="allowsearch"></td>
+<td>搜索权限控制：</td>
+<td><input type="radio" value="0" $allowsch_0 name="group[allowsearch]"> 不允许
+<input type="radio" value="1" $allowsch_1 name="group[allowsearch]"> 只允许搜索标题
+<input type="radio" value="2" $allowsch_2 name="group[allowsearch]"> 允许搜索标题和内容</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="searchtime"></td>
+<td>两次搜索时间间隔(秒)：</td>
+<td><input name="group[searchtime]" size="30" value="$_GROUP[searchtime]"></td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="ifdomain"></td>
+<td>个性域名权限控制(核心里开启2级域名才生效)：</td>
+<td><input type="radio" value="0" $ifdomain_0 name="group[ifdomain]"> 不允许使用
+<input type="radio" value="1" $ifdomain_1 name="group[ifdomain]"> 不允许修改
+<input type="radio" value="2" $ifdomain_2 name="group[ifdomain]"> 允许修改</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="allowportait"></td>
+<td>是否允许使用自定义头像：</td>
+<td><input type="radio" value="1" $portait_Y name="group[allowportait]"> 是
+<input type="radio" value="0" $portait_N name="group[allowportait]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="allowupface"></td>
+<td>是否允许使用头像上传：</td>
+<td><input type="radio" value="1" $upface_Y name="group[allowupface]"> 是
+<input type="radio" value="0" $upface_N name="group[allowupface]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="upfacewh"></td>
+<td>上传头像宽高：</td>
+<td><input name="upfacewh[]" size="10" value="$_GROUP[upfacew]"> 宽
+<input name="upfacewh[]" size="10" value="$_GROUP[upfaceh]"> 高</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="ifexport"></td>
+<td>是否允许使用日志导入/备份功能：</td>
+<td><input type="radio" value="1" $ifexport_Y name="group[ifexport]"> 是
+<input type="radio" value="0" $ifexport_N name="group[ifexport]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="intrnum"></td>
+<td>自我简介最大字节数：</td>
+<td><input name="group[intrnum]" size="30" value="$_GROUP[intrnum]"></td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="signnum"></td>
+<td>个人签名最大字节数：</td>
+<td><input name="group[signnum]" size="30" value="$_GROUP[signnum]"></td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="allowmsg"></td>
+<td>是否允许发送短消息：</td>
+<td><input type="radio" value="1" $allowmsg_Y name="group[allowmsg]"> 是
+<input type="radio" value="0" $allowmsg_N name="group[allowmsg]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="msgmax"></td>
+<td>短消息最大存储数目：</td>
+<td><input name="group[msgmax]" size="30" value="$_GROUP[msgmax]"></td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="maxsendmsg"></td>
+<td>每日最大发送短消息数目：</td>
+<td><input name="group[maxsendmsg]" size="30" value="$_GROUP[maxsendmsg]"></td></tr>
+</table><br /><br />
+<a name="article"></a>
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3"><a href="#top"><b>文章权限</b></a></td></tr>
+<tr class="b"><td width="3%"><input type="checkbox" name="othergroup[]" value="allowpost">
+<td width="50%">是否允许发表主题：</td>
+<td><input type="radio" value="1" $allowpost_Y name="group[allowpost]"> 是
+<input type="radio" value="0" $allowpost_N name="group[allowpost]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="closecmt">
+<td>是否<font color="red">强制关闭</font>评论主题：</td>
+<td><input type="radio" value="1" $closecmt_Y name="group[closecmt]"> 是
+<input type="radio" value="0" $closecmt_N name="group[closecmt]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="closegbook">
+<td>是否<font color="red">强制关闭</font>发表留言：</td>
+<td><input type="radio" value="1" $closegbook_Y name="group[closegbook]"> 是
+<input type="radio" value="0" $closegbook_N name="group[closegbook]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="htmlcode">
+<td>是否允许发html帖：<br />
+这将使用户拥有直接编辑 html 源代码的权利!</td>
+<td><input type="radio" value="1" $htmlcode_Y name="group[htmlcode]"> 是
+<input type="radio" value="0" $htmlcode_N name="group[htmlcode]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="postnum">
+<td>每天最多允许发表多少篇<br />
+0则不做限制</td>
+<td><input name="postnum[]" size="30" value="$_GROUP[patcnum]"> 主题<br />
+<input name="postnum[]" size="30" value="$_GROUP[pcmtnum]"> 评论<br />
+<input name="postnum[]" size="30" value="$_GROUP[pgbooknum]"> 留言</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="limitnum">
+<td>灌水预防(多少秒间隔内不能)：<br />
+0则不做限制</td>
+<td><input name="limitnum[]" size="30" value="$_GROUP[latcnum]"> 主题<br />
+<input name="limitnum[]" size="30" value="$_GROUP[lcmtnum]"> 评论<br />
+<input name="limitnum[]" size="30" value="$_GROUP[lgbooknum]"> 留言</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="keywordlink">
+<td>是否开启自定义关键字链接：<br /></td>
+<td><input type="radio" value="1" $keywordlink_Y name="group[keywordlink]"> 是
+<input type="radio" value="0" $keywordlink_N name="group[keywordlink]"> 否</td></td></tr>
+</table><br /><br />
+<a name="attach"></a>
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3"><a href="#top"><b>附件权限</b></a> <a>核心附件设置里设置允许上传才有效</a></td></tr>
+<tr class="b"><td width="3%"><input type="checkbox" name="othergroup[]" value="allowupload">
+<td width="50%">是否允许上传附件：</td>
+<td><input type="radio" value="1" $allowupload_Y name="group[allowupload]"> 是
+<input type="radio" value="0" $allowupload_N name="group[allowupload]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="allowdown">
+<td>是否允许下载附件：</td>
+<td><input type="radio" value="1" $allowdown_Y name="group[allowdown]"> 是
+<input type="radio" value="0" $allowdown_N name="group[allowdown]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="uploadnum">
+<td>一天最多上传附件个数：</td>
+<td><input name="group[uploadnum]" size="30" value="$_GROUP[uploadnum]"></td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="attachsize">
+<td>上传附件大小上限(k)<br />
+<font color="blue">说明</font>：留空或设置为"0"使用核心设置中的设置：</td>
+<td><input name="group[attachsize]" size="30" value="$_GROUP[attachsize]"></td></tr>
+<tr class="b"><td width="3%"><input type="checkbox" name="othergroup[]" value='uploadsize'></td>
+<td>附件空间：用户允许上传附件的总大小限制（设置‘0’不限制）(k)</td>
+<td><input size=30 value="$_GROUP[uploadsize]" name=group[uploadsize]></td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="attachext">
+<td>上传附件允许后缀(空格隔开)<br />
+<font color="blue">说明</font>：留空使用核心设置中的设置：</td>
+<td><input name="group[attachext]" size="30" value="$_GROUP[attachext]"></td></tr>
+</table><br /><br />
+<!--
+EOT;
+if (in_array($_GROUP[type],array('system','special'))) {print<<<EOT
+-->
+<a name="admin"></a>
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3"><a href="#top"><b>管理权限</b></a></td></tr>
+<tr class="b"><td width="3%"><input type="checkbox" name="othergroup[]" value="admincp">
+<td width="50%">是否允许进后台：</td>
+<td><input type="radio" value="1" $admincp_Y name="agroup[admincp]"> 是
+<input type="radio" value="0" $admincp_N name="agroup[admincp]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="allowlimit">
+<td>是否允许灌水：<br />
+<font color="blue">说明</font>：不受灌水时间限制</td>
+<td><input type="radio" value="1" $allowlimit_Y name="agroup[allowlimit]"> 是
+<input type="radio" value="0" $allowlimit_N name="agroup[allowlimit]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="deluser">
+<td>是否允许删除用户（可批量包括用户相关的文章）：<br />
+<font color="blue">说明</font>：前台帖子管理权限</td>
+<td><input type="radio" value="1" $deluser_Y name="agroup[deluser]"> 是
+<input type="radio" value="0" $deluser_N name="agroup[deluser]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="delatc">
+<td>是否允许删除主题（可批量包括评论）：<br />
+<font color="blue">说明</font>：前台帖子管理权限</td>
+<td><input type="radio" value="1" $delatc_Y name="agroup[delatc]"> 是
+<input type="radio" value="0" $delatc_N name="agroup[delatc]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="delcmt">
+<td>是否允许删除评论（可批量）：<br />
+<font color="blue">说明</font>：前台帖子管理权限</td>
+<td><input type="radio" value="1" $delcmt_Y name="agroup[delcmt]"> 是
+<input type="radio" value="0" $delcmt_N name="agroup[delcmt]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="delattach">
+<td>是否允许删除附件：</td>
+<td><input type="radio" value="1" $delattach_Y name="agroup[delattach]"> 是
+<input type="radio" value="0" $delattach_N name="agroup[delattach]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="cmduser">
+<td>是否允许推荐用户：</td>
+<td><input type="radio" value="1" $cmduser_Y name="agroup[cmduser]"> 是
+<input type="radio" value="0" $cmduser_N name="agroup[cmduser]"> 否</td></tr>
+<tr class="b"><td><input type="checkbox" name="othergroup[]" value="cmdact">
+<td>是否允许推荐主题：</td>
+<td><input type="radio" value="1" $cmdact_Y name="agroup[cmdact]"> 是
+<input type="radio" value="0" $cmdact_N name="agroup[cmdact]"> 否</td></tr>
+</table><br />
+<!--
+EOT;
+}print<<<EOT
+-->
+<a name="other"></a>
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>高级设置</b></a></td></tr>
+<tr class="b"><td width="53%">用户组权限横向操作<br /><br />
+功能说明：<br />
+利用此功能可将一个或多个权限设置同时应用到其它用户组中，不再需要逐个用户组设置，使操作更加简便<br /><br />
+操作说明：<br />
+1. <font color="blue">选中</font>需要进行横向操作的<font color="blue">权限设置前面的复选框</font><br />
+2. 在右边的复选框中<font color="blue">选择</font>需要进行横向操作的<font color="blue">用户组</font><br />
+3. 然后提交即可完成用户组横向操作<br /><br />
+注：<br />
+1. 选择用户组时可使用 ‘Ctrl’ 键进行多选，也可使用 ‘Shift’ 键或拖动鼠标连续选择多个用户组<br />
+2. 不使用此功能，请不要选中<font color="blue">权限设置前面的复选框</font>和右边的复选框中<font color="blue">用户组</font></td>
+<td><select name="othergid[]" size="22" multiple>$gpslt</select></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<br />
+</form>
+<!--
+EOT;
+}}?>-->

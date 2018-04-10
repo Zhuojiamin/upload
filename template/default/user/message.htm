@@ -1,0 +1,392 @@
+<!--<?php print<<<EOT
+-->
+<script language="JavaScript">
+var imgpath = '$imgpath';
+function addsmile(NewCode){
+    GE('atc_content').value += ' [s:'+NewCode+'] ';
+}
+</script>
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript" src="js/message.js"></script>
+<!--
+EOT;
+if(!$type){print<<<EOT
+-->
+<form action="$basename&type=del&" method="post">
+<input name="towhere" type="hidden" value="receivebox" />
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+  <tr class="head">
+  	<td colspan="10">
+		<h2>收件箱(【信箱状态：目前有短消息 $msgcount 条；最多可存消息 $maxmsg 条；使用率 ($msgpercent%) 】)</h2>
+ 	</td>
+	<td colspan="10">
+<!--
+EOT;
+if($db_cbbbsopen == '1'){print<<<EOT
+-->
+<tr><td class='b' colspan="10"><a href="javascript:;" onclick="equate_msg('rebox')">同步论坛收件箱</a></td></tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	</td>
+  </tr>
+  <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">标题</td>
+	<td class="b">发件人</td>
+	<td class="b">收件人</td>
+	<td class="b">时间</td>
+	<td class="b">已读</td>
+	<td class="b">操作</td>
+  </tr>
+<!--
+EOT;
+if(!empty($pmsgdb)){print<<<EOT
+-->
+	<tr align="left"><td colspan="7">群发消息</td></tr>
+<!--
+EOT;
+foreach($pmsgdb as $key=>$message){
+$key++;
+print <<<EOT
+-->
+  <tr align="center">
+		<td class="b">$key</td>
+		<td class="b"><a href="$basename&type=read&job=pub&mid=$message[mid]">$message[title]</a></td>
+		<td class="b">$message[from]</td>
+		<td class="b">群发消息</td>
+		<td class="b">$message[mdate]</td>
+		<td class="b">
+<!--
+EOT;
+if($message['ifnew']){print <<<EOT
+-->
+			<font color="red">否</font>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+			是
+<!--
+EOT;
+}print <<<EOT
+-->
+		</td>
+		<td class="b"><input type="checkbox" name="pdelid[]" value="$message[mid]" /></td>
+	</tr>
+<!--
+EOT;
+}
+}
+print<<<EOT
+-->
+  <tr align="left"><td colspan="7">个人消息</td></tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($messages as $key => $value){
+$id++;print <<<EOT
+-->
+  <tr align="center">
+	<td class="b">$id</td>
+	<td class="b" align="left"><a href="$basename&type=read&towhere=receivebox&job=pri&mid=$value[mid]">$value[title]</a>
+<!--
+EOT;
+if($value[bbsmid] != '-1'){print<<<EOT
+-->
+（论坛）
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	</td>
+	<td class="b"><a href="blog.php?uid=$value[fromuid]" target="_blank">$value[username]</a></td>
+	<td class="b"><a href="blog.php?uid=$value[touid]" target="_blank">$admin_name</a></td>
+	<td class="b">$value[mdate]</td>
+	<td class="b">$value[ifnew]</td>
+	<td class="b"><input type="checkbox" name="delid[]" value="$value[mid]"></td>
+  </tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+  <tr>
+	<td>$pages</td>
+  </tr>
+</table><br />
+<center>
+  <input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)" class="bt">
+  <input type="submit" value="删除" class="bt">
+</center>
+</form>
+<!--
+EOT;
+}elseif($type == 'sendbox'){print<<<EOT
+-->
+<form action="$basename&type=del&" method="post">
+<input name="towhere" type="hidden" value="sendbox" />
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+  <tr class="head">
+	<td colspan="10">
+	<h2>发件箱</h2>
+<!--
+EOT;
+if($db_cbbbsopen == '1'){print<<<EOT
+-->
+<tr><td class='b' colspan="10"><a href="javascript:;" onclick="equate_msg('sebox')">同步论坛发件箱</a></td></tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</td>
+  </tr>
+  <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">标题</td>
+	<td class="b">发件人</td>
+	<td class="b">收件人</td>
+	<td class="b">时间</td>
+	<td class="b">操作</td>
+  </tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($messages as $key => $value){
+$id++;print <<<EOT
+-->
+  <tr align="center">
+	<td class="b">$id</td>
+	<td class="b" align="left"><a href="$basename&type=read&&job=pri&towhere=$type&mid=$value[mid]">$value[title]
+<!--
+EOT;
+if($value[bbsmid] != '-1'){print<<<EOT
+-->
+（论坛）
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	</td>
+	<td class="b"><a href="blog.php?uid=$value[fromuid]" target="_blank">$admin_name</a></td>
+	<td class="b"><a href="blog.php?uid=$value[touid]" target="_blank">$value[username]</a></td>
+	<td class="b">$value[mdate]</td>
+	<td class="b"><input type="checkbox" name="delid[]" value="$value[mid]"></td>
+  </tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+  <tr>
+	<td>$pages</td>
+  </tr>
+</table><br />
+<center>
+  <input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)" class="bt">
+  <input type="submit" value="删除" class="bt">
+</center>
+</form>
+<!--
+EOT;
+}elseif($type == 'scout'){print<<<EOT
+-->
+<form action="$basename&type=del&" method="post">
+<input name="towhere" type="hidden" value="scout" />
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+  <tr class="head">
+	<td colspan="10">
+	<h2>消息跟踪</h2>
+	</td>
+  </tr>
+  <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">标题</td>
+	<td class="b">发件人</td>
+	<td class="b">收件人</td>
+	<td class="b">时间</td>
+    <td class="b">已读</td>
+	<td class="b">编辑</td>
+	<td class="b">操作</td>
+  </tr>
+<!--
+EOT;
+foreach($messages as $key => $value){
+$id++;
+print <<<EOT
+-->
+  <tr align="center">
+	<td class="b">$id</td>
+	<td class="b" align="left"><a href="$basename&type=read&towhere=$type&job=pri&mid=$value[mid]">$value[title]</a></td>
+	<td class="b"><a href="blog.php?uid=$value[fromuid]" target="_blank">$admin_name</a></td>
+	<td class="b"><a href="blog.php?uid=$value[touid]" target="_blank">$value[to]</a></td>
+	<td class="b">$value[mdate]</td>
+<!--
+EOT;
+if($value[ifnew] == '1'){print<<<EOT
+-->
+	<td class="b">否</td>
+	<td class="b"><a href="$basename&type=write&edmid=$value[mid]">编辑</a></td>
+	<td class="b"><input type="checkbox" name="delid[]" value="$value[mid]"></td>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+	<td class="b">是</td>
+	<td class="b">--</td>
+	<td class="b">--</td>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	
+	
+  </tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+  <tr>
+	<td>$pages</td>
+  </tr>
+</table><br />
+<center>
+  <input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)" class="bt">
+  <input type="submit" value="删除" class="bt">
+</center>
+</form>
+<!--
+EOT;
+}elseif($type == 'write'){print<<<EOT
+-->
+<form name="FORM" action="$basename&type=write&" method="post">
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+  <tr class="head">
+	<td colspan="3"><h2>短消息</h2></td>
+  </tr>
+  <tr align="left">
+	<td class="b" width="10%">用户名</td><td colspan="2"><input type="text" name="pwuser" maxlength="75" size="73" $msgid/></td>
+  </tr>
+  <tr align="left">
+	<td class="b" width="10%">标题</td><td colspan="2"><input type="text" name="msg_title" maxlength="75" size="73" value="$subject" /></td>
+  </tr>
+  <tr align="left">
+  <td class="b" width="10%">内容</td><td>
+<!--
+EOT;
+require_once (R_P.'template/default/wind/editor.htm');
+print<<<EOT
+-->
+						</td><td>
+  						<div style="padding:3px; text-align:right; width:200px;">
+						<fieldset id="smiliebox" style="border:1px solid $tdcolor">
+						<legend>表情</legend>
+						<div id="menu_show"></div>
+						<span style="float:right; margin:3px 10px 5px;"><a id="td_smile" style="cursor:pointer;" onClick="showDefault();" align="absmiddle">[更多]</a></span>
+						</fieldset></div>
+						<div id="menu_generalface" class="menu" style="display:none;"></div>
+						<div id="showmenu" style="z-index:100;display:none;"></div>
+						<div id="menu_smile" class="menu" style="display:none;"></div>
+						<script language="JavaScript" src="data/cache/smile.js"></script>
+						<script language="JavaScript" src="js/post.js"></script>
+						<script language="JavaScript" src="js/smile.js"></script>
+						<br />
+  </td>
+  </tr>
+  <tr align="left">
+    <td colspan='3'><div style="margin:4px 0 2px"><input type="checkbox" name="ifsave" value="Y" />保存到发件箱中</td>
+  </tr>
+<!--
+EOT;
+if ($rawwindid) {print <<<EOT
+-->
+	<tr class="b">
+	  <td colspan="2">认证码：<input name="gdcode" value="" size="5" class="input">&nbsp;<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /></td>
+	</tr>
+<!--
+EOT;
+} 
+if($msgq == '1' && $db_question){
+$db_question = unserialize($db_question);
+$qkey = array_rand($db_question);
+print<<<EOT
+-->
+	<tr class="b">
+		<td colspan="2">验证问题: {$db_question[$qkey]} <input class="input" type="text" name="qanswer"/><input type="hidden" name="qkey" value="$qkey" /></td>
+	</tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</table>
+<center>
+  <input type="hidden" name="step" value="1">
+  <input type="submit" value="提交">
+</center>
+<!--
+EOT;
+if($edinfo){ print <<<EOT
+-->
+<input type="hidden" name="edmid" value="$edmid" />
+<!--
+EOT;
+} print <<<EOT
+-->
+</form>
+<!--
+EOT;
+}elseif($type == 'read'){print<<<EOT
+-->
+	<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+		 <tr class="head">
+			<td colspan="2"><h2>查看消息</h2></td>
+  		 </tr>
+  		<tr align="left">
+			<td class="b" width="10%">作者</td><td class="b" >{$msginfo['username']}</td>
+  		</tr>
+  		<tr align="left">
+			<td class="b" width="10%">标题</td><td class="b">{$msginfo['title']}</td>
+  		</tr>
+  		<tr align="left">
+			<td class="b" width="10%">时间</td><td class="b">{$msginfo['mdate']}</td>
+  		</tr>
+  		<tr align="left">
+			<td class="b" width="10%">内容</td><td class="b">{$msginfo['content']}</td>
+  		</tr>
+<!--
+EOT;
+if($job == 'pri'){print<<<EOT
+-->
+  		<tr align="left">
+			<td class="b" clospan="2">[<a href="$basename&type=write&remid=$msginfo[mid]">回复</a>]
+			[<a href="$basename&type=del$towhere&delids=$msginfo[mid]">删除</a>]</td>
+  		</tr>
+<!--
+EOT;
+}elseif($job == 'pub'){print<<<EOT
+-->
+		<tr align="left">
+			<td>[<a href="$basename&type=del&towhere=receivebox&pdelids=$msginfo[mid]">删除</a>]</td>
+  		</tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	</table>
+<!--
+EOT;
+}
+?>
+-->

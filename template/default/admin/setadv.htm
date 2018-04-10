@@ -1,0 +1,104 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<!--
+EOT;
+if($job != 'ort'){print<<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="7">广告列表</td></tr>
+<tr align="center" class="head_2">
+<td width="40%">广告标题</td>
+<td width="20%">加入时间</td>
+<td width="10%">显示类型</td>
+<td width="10%">查看代码</td>
+<td width="10%">点击数</td>
+<td width="5%">编辑</td>
+<td width="5%">删除</td></tr>
+<!--
+EOT;
+foreach($advdb as $value){print<<<EOT
+-->
+<tr align="center" class="b">
+<td>$value[subject]</td>
+<td>$value[postdate]</td>
+<td>$value[type]</td>
+<td><a href="$admin_file?action=setadv&job=ort&set=show&id=$value[id]">查看代码</a></td>
+<td>$value[hits]</td>
+<td><a href="$admin_file?action=setadv&job=ort&set=edit&id=$value[id]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[id]"></td></tr>
+<!--
+EOT;
+}print<<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+</table><br />
+<input type="hidden" id="delete" value="1">
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中广告？');"></center>
+<!--
+EOT;
+}else{
+if($set == 'add' || $set == 'edit'){print<<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<!--
+EOT;
+if($set == 'add'){print<<<EOT
+-->
+<tr><td class="head" colspan="2">添加广告</td></tr>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<tr><td class="head" colspan="2">编辑广告<input type="hidden" name="id" value="$id"></td></tr>
+<!--
+EOT;
+}print<<<EOT
+-->
+<tr class="b"><td width="60%">广告标题: </td>
+<td><input name="subject" size="35" value="{$_AD[$id][subject]}"></td></tr>
+<tr class="b"><td>宽度(px): </td>
+<td><input name="width" size="35" value="{$_AD[$id][width]}"></td></tr>
+<tr class="b"><td>高度(px): </td>
+<td><input name="height" size="35" value="{$_AD[$id][height]}"></td></tr>
+<tr class="b"><td>显示类型: </td>
+<td><input type="radio" name="type" value="1" $type_1> 直接调用
+<input type="radio" name="type" value="2" $type_2> iframe调用
+<input type="radio" name="type" value="3" $type_3> Javascript调用</td></tr>
+<tr class="b"><td>广告内容(支持html): </td>
+<td><textarea name="advdata" rows="10" cols="40" wrap="hard">{$_AD[$id][advdata]}</textarea></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}elseif($set == 'show'){print<<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">获取代码</td></tr>
+<tr class="b"><td align="center"><textarea name="advdata" id="advdata" rows="10" cols="70" wrap="hard">$showcode</textarea><br />
+<center><input type="button" value="复制代码" onclick="CopyCode(GE('advdata'));"></center></td></tr>
+</table><br />
+<script language="JavaScript">
+function CopyCode(obj){
+	obj.select(); 
+	var js=obj.createTextRange(); 
+	js.execCommand("Copy");
+}
+</script>
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">显示效果</td></tr>
+<tr class="b"><td align="center">$runcode</td></tr>
+</table><br />
+<!--
+EOT;
+}}print<<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

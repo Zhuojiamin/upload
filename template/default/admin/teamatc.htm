@@ -1,0 +1,91 @@
+<!--<?php
+include_once PrintEot('left');
+if(!$job){print <<<EOT
+-->
+<form action="$basename&job=list&" method="post">
+<table width="80%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">{$db_teamname}文章搜索</td></tr>
+<tr class="b"><td width="30%">所属系统分类: </td>
+<td><select name="atccid" style="width:100px;">
+<option value="-1">不限制</option>
+$categpslt
+</select></td></tr>
+<tr class="b"><td>所属{$db_teamname}名称: (可使用通配符 "*")</td>
+<td><input name="name" size="30" value="">
+<input type="checkbox" name="ckname" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>推送者: (可使用通配符 "*")</td>
+<td><input name="username" size="30" value="">
+<input type="checkbox" name="ckusername" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>标题关键字: (可使用通配符 "*")</td>
+<td><input name="keyword" size="30" value="">
+<input type="checkbox" name="ckkeyword" value="1">
+精确匹配</td></tr>
+<tr class="b"><td>推送日期: (格式 yyyy-mm-dd)</td>
+<td><input name="postdate1" size="30" value="$postdate1">
+- <input name="postdate2" size="30" value="$postdate2"></td></tr>
+<tr class="b"><td>排序: </td>
+<td><input type="radio" name="sc" value="asc" CHECKED> 升序
+<input type="radio" name="sc" value="desc"> 降序</td></tr>
+<tr class="b"><td>每页显示行数: </td>
+<td><input name="perpage" size="15" value="30"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}elseif($job == 'list'){print <<<EOT
+-->
+<form action="$basename&job=list&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr class="b"><td>所属{$db_teamname}名称(可使用通配符 "*"): <input name="name" size="10" value="">
+标题关键字(可使用通配符 "*"): <input name="keyword" size="20" value="">
+排序: <select name="sc">
+<option value="asc">升序</option>
+<option value="desc">降序</option>
+</select>
+显示行数: <input name="perpage" size="3" value="30">
+<input type="submit" value="提 交"></center></td></tr>
+</table>
+</form>
+<form action="$basename&job=update&" method="post">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="7">{$db_teamname}日志列表</td></tr>
+<tr class="head_2" align="center">
+<td width="5%">ID</td>
+<td width="20%">所属系统分类</td>
+<td width="20%">所属{$db_teamname}名称</td>
+<td width="20%">标 题</td>
+<td width="20%">推送者</td>
+<td width="10%">推送日期</td>
+<td width="5%">删 除</td></tr>
+<!--
+EOT;
+$id = ($page-1)*$perpage;
+foreach($atcdb as $value){
+$id++;print <<<EOT
+-->
+<tr class="b" align="center">
+<td>$id</td>
+<td>$value[cate]</td>
+<td>$value[name]</td>
+<td>$value[subject]</td>
+<td>$value[username]</td>
+<td>$value[postdate]</td>
+<td><input type="checkbox" name="selid[]" value="$value[tid]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+</table><br />
+<input type="hidden" id="delete" value="1">
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中{$db_teamname}日志？');"></center>
+</form>
+<!--
+EOT;
+}?>-->

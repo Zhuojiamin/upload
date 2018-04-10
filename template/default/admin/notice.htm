@@ -1,0 +1,90 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&job=$job&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<!--
+EOT;
+if($job=='cp'){print <<<EOT
+-->
+<tr><td class="head" colspan="7">公告列表</td></tr>
+<tr class="head_2" align="center">
+<td width="10%">ID</td>
+<td width="20%">发布人</td>
+<td width="30%">标 题</td>
+<td width="10%">顺 序</td>
+<td width="20%">发表时间</td>
+<td width="5%">编 辑</td>
+<td width="5%">删 除</td></tr>
+<!--
+EOT;
+$id = ($page-1)*$perpage;
+foreach($notice as $value){
+$id++;print <<<EOT
+-->
+<tr class="b" align="center">
+<td>$id</td>
+<td>$value[author]</td>
+<td>$value[subject]</td>
+<td><input name="orders[$value[aid]]" value="$value[vieworder]" size="5"></td>
+<td>$value[startdate]</td>
+<td><a href="$basename&job=ort&set=edit&aid=$value[aid]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[aid]"></td></tr>
+<!--
+EOT;
+}}elseif($job=='ort'){
+if($set!='edit'){print <<<EOT
+-->
+<tr><td class="head" colspan="2">添加公告</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="head" colspan="2">编辑公告<input type="hidden" name="aid" value="$aid"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<script language="JavaScript" src="js/wysiwyg_editor.js"></script>
+<tr class="b"><td width="30%">标 题: </td>
+<td><input name="subject" size="35" value="$notice[subject]"></td></tr>
+<tr class="b"><td>顺 序: </td>
+<td><input name="vieworder" size="15" value="$notice[vieworder]"></td></tr>
+<tr class="b"><td>公告链接: <br />
+填写此处，内容无须填写，点击公告跳转至此连接，方便管理</td>
+<td><input name="url" size="35" value="$notice[url]"></td></tr>
+<tr class="b"><td valign="top">内 容: <br />
+支持HTML</td>
+<td><table cellspacing="0" cellpadding="3" width="100%">
+<tr class="b"><td height="30">
+<!--
+EOT;
+include PrintEot('wysiwyg');print <<<EOT
+-->
+</td></tr>
+</table></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center>
+<!--
+EOT;
+if($job=='cp'){print <<<EOT
+-->
+</center>
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<!--
+EOT;
+}print <<<EOT
+-->
+<input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+?>-->

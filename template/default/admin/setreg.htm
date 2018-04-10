@@ -1,0 +1,107 @@
+<!--<?php
+include_once PrintEot('left');
+if ($job!='login') {print <<<EOT
+-->
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="b">[<a href="$basename#set">基本设置</a>]
+[<a href="$basename#need">必填资料设置</a>]</td></tr>
+</table><br>
+<form action="$basename&set=set&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2"><a href="#top" name="set">基本设置</a></td></tr>
+<tr class="b"><td width="60%">允许新用户注册：(选择否将禁止游客注册成为会员,但不影响过去已注册的会员的使用)</td>
+<td><input type="radio" name="regdb[allowregister]" value="1" $allowregister_Y> 开启
+<input type="radio" name="regdb[allowregister]" value="0" $allowregister_N> 关闭</td></tr>
+<tr class="b"><td>注册时显示许可协议：(新用户注册时显示许可协议,同意后才能继续注册)</td>
+<td><input type="radio" name="regdb[showpermit]" value="1" $showpermit_Y> 开启
+<input type="radio" name="regdb[showpermit]" value="0" $showpermit_N> 关闭</td></tr>
+<tr class="b"><td>注册许可协议内容编辑:(可以使用html代码)</td>
+<td><textarea name="regdb[permit]" rows="6" cols="50">$rg_permit</textarea></td></tr>
+<tr class="b"><td>注册时显示详细注册信息：(不开启将显示快速注册！)</td>
+<td><input type="radio" name="regdb[showdetail]" value="1" $showdetail_Y> 开启
+<input type="radio" name="regdb[showdetail]" value="0" $showdetail_N> 关闭</td></tr>
+<tr class="b"><td>禁止同一IP在24小时内重复注册</td>
+<td><input type="radio" name="regdb[allowsameip]" value="1" $allowsameip_Y> 开启
+<input type="radio" name="regdb[allowsameip]" value="0" $allowsameip_N> 关闭</td></tr>
+<tr class="b"><td><font color="red">禁止在注册用户名中使用的词语，多个词之间用','分隔</font><br />
+说明：如果你禁用了'<font color="red">版主</font>'，那么所有含有'<font color="red">版主</font>'(如：我是<font color="red">版主</font>)的用户名将被禁止使用</td>
+<td><textarea name="regdb[banname]" rows="6" cols="50">$rg_banname</textarea></td></tr>
+<tr class="b"><td>新用户注册是否需要管理员在后台验证通过才能发表信息:</td>
+<td><input type="radio" name="regdb[ifcheck]" value="1" $ifcheck_Y> 开启
+<input type="radio" name="regdb[ifcheck]" value="0" $ifcheck_N> 关闭</td></tr>
+<tr class="b"><td>注册会员ID区分大小写(建议默认:关闭):</td>
+<td><input type="radio" name="regdb[lower]" value="1" $lower_Y> 开启
+<input type="radio" name="regdb[lower]" value="0" $lower_N> 关闭</td></tr>
+<tr class="b"><td>用户名最短长度:(用户在注册时的最小的用户名字符长度.)</td>
+<td><input name="reglen[minlen]" size="35" value="$rg_minlen"></td></tr>
+<tr class="b"><td>用户名最长长度:(系统稳定性考虑,请不要超过 12 字节.)</td>
+<td><input name="reglen[maxlen]" size="35" value="$rg_maxlen"></td></tr>
+<tr class="b"><td>注册时初始威望:(建议设置为1.)</td>
+<td><input name="regcredit[rvrc]" size="35" value="$rg_rvrc"></td></tr>
+<tr class="b"><td>注册时初始财富:(建议设置为0.)</td>
+<td><input name="regcredit[money]" size="35" value="$rg_money"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form><br /><br />
+<form action="$basename&set=need&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2"><a href="#top" name="need">必填资料</a></td></tr>
+<tr class="b"><td width="35%"><font color="blue">选择注册的必填资料</font><br /><br />
+被选中的选项将为注册必填资料，不选中项目将在选填资料中显示</td>
+<td>$regslt</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<form action="$basename&set=set&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">登陆方式设置</td></tr>
+<tr class="b"><td width="35%"><font color="blue">选择登陆的方式</font><br /><br />
+被选中的选项将在前台以下拉方式选择登陆方式<br />
+注意：程序将自动判断数据的唯一性，若发现相同数据，将提示选择别的方式登陆，默认用户名登陆</td>
+<td>$loginslt</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form><br /><br />
+<!--<form action="$basename&set=qt&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">登陆提问</td></tr>
+<tr class="b"><td width="35%">登陆调用问题数</td>
+<td>&nbsp;<input name="qtnum" size="35" value="$lg_qtnum"></td></tr>
+<tr class="b"><td>设置简单的问题，可有效的防止注册机注册。<br />
+如：“问题：请输入红色字：<font color="red">phpwind</font>，答案：phpwind”<br />
+多个问题则以随机的方式出现<br />
+(<font color="red">注：问题支持HTML</font>)</a></td>
+<td><table width="98%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr class="head_2" align="center"><td width="5%"></td>
+<td width="50%">问题</td><td>答案</td><td width="8%">删</td></tr>-->
+<!-- 
+EOT;
+foreach($lg_qtdb as $key => $value){
+$value = explode("\t",$value);print <<<EOT
+-->
+<!--<tr class="b" align="center"><td></td><td>$value[0]</td>
+<td>$value[1]</td>
+<td><input type="checkbox" name="selid[]" value="$key"></td></tr>-->
+<!--
+EOT;
+}print <<<EOT
+-->
+<!--<tr class="b" align="center"><td class="bold">增</td>
+<td><input name="question" size="35" value=""></td>
+<td colspan="2"><input name="answer" size="25" value=""></td></tr>
+</table></td></tr>
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交"></center>
+</form>-->
+<!-- 
+EOT;
+}?>-->

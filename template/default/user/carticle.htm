@@ -1,0 +1,38 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+<form name='form1' method="post" action="$basename">
+<input name='step' type=hidden value='del'>
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+<tr class="head" height="25"><td><h2>好友推荐文章</h2></td></tr>
+<tr>
+	<td class="b">主题</td>
+	<td class="b">推荐人</td>
+	<td class="b">推荐时间</td>
+	<td class="b">删除</td>
+</tr>
+<!--
+EOT;
+foreach($carticle as $key=>$val){
+print <<<EOT
+-->
+<tr>
+	<td class="b"><a href="blog.php?do=showone&uid=$val[uid]&type=blog&itemid=$val[itemid]" target="_blank">$val[subject]</a></td>
+	<td class="b"><a href="blog.php?uid=$val[uid]" target="_blank">$val[username]</a></td>
+	<td class="b">$val[cdate]</td>
+	<td class="b"><input type="checkbox" name="selid[]" value='$val[id]'></td>
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<br />
+<center>$pages<br />
+<input type="button" class="bt" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input class="bt" type='Submit' value='提 交' name='Submit'></center>
+</form>
+<!--
+EOT;
+?>

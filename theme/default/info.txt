@@ -1,0 +1,3 @@
+name:LxBlog5.3默认风格
+author:phpwind ui team
+date:2007年3月

@@ -1,0 +1,77 @@
+<!--<?php print <<<EOT
+-->
+<div id="main">
+ <div id="mainav">
+  <div id="mainnav-content" class="boxA">
+		<h5 class="tabB"><a href>投票结果</a></h5>
+		<div class="c" style="height:15px"></div>
+		<div style="margin:1em">
+		<div><h4 class="colorA">投票描述</h4></div>
+			
+					<div style="margin:1em">
+					主题：$votedb[subject] <span class="gray">( 共 <span class="aa4">{$sumvote}</span> 票 )</span><br />
+					描述：$votedb[content]<br />
+					
+					</div></div>
+<div class="c" style="height:6px"></div>
+<div style="margin:1em">
+<div class="qlh"><h4 class="colorC">投票结果</h4></div>
+<table border=0 cellspacing=0 cellpadding=0 align=center  class="itable">
+<!--
+EOT;
+if($groupid==3){
+if($step=='viewvoter'){print <<<EOT
+--><tr class="tr1"><td colspan="4" class="tr">&nbsp;
+
+<a href="vote.php?vid=$vid">关闭投票会员</a>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<a href="vote.php?vid=$vid&step=viewvoter">察看投票会员</a>
+<!--
+EOT;
+}}print <<<EOT
+-->		
+</td></tr><!--
+EOT;
+foreach($votedb['items'] as $value){
+$width=$value[num]/$maxvote;
+$width=$width*100;
+$width="{$width}%";
+print <<<EOT
+-->
+<tr >
+					<td width="20%">$value[item]</td>
+					<td width="40%" >
+						<table width="$width" border=0 cellspacing=0 cellpadding=0 style="background:url($imgpath/default/bar1.gif) 0 top repeat-x;margin:0 1em 0 .2em; vertical-align:middle">
+						<tr><td style="border-bottom:0;padding:0;">&nbsp;</td><tr></table>
+					</td>
+					<td width="10%">
+					<span class="aa3" style="margin-left:1em">$value[num]</span> 票
+					</td>
+					<td>
+&nbsp;
+<!--
+EOT;
+if($groupid==3 && $voteuser[$value[id]] && $step=viewvoter){
+foreach($voteuser[$value[id]] as $val){
+print <<<EOT
+-->
+						<a href="blog.php?uid=$val[uid]" target="_blank">{$val[username]}</a> 
+<!--
+EOT;
+}}print <<<EOT
+-->
+					</td>
+				</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</table>
+	</div>
+</div></div><div class="c"></div></div>
+<!--
+EOT;
+?>-->

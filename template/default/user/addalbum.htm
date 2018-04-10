@@ -1,0 +1,140 @@
+<!--<?php print <<<EOT
+-->
+<form id="FORM" name="FORM" action="$basename&job=$job" method="post" onsubmit="return checkpost(document.FORM);">
+<input name="step" type="hidden" value="2">
+<input name="aid" type="hidden" value="$aid">
+<input name="pushlog" type="hidden" value="$pushlog">
+<div class="ml ml2">
+<table align="center" class="userbg" cellspacing="0" cellpadding="5">
+	<tr class="b">
+  		<td>相册名称<br /><input class="input" type="text" size="45" name="ab_title" value="$ab_title"></td>
+	</tr>
+	<tr class="b">
+  		<td>相册描述<br />
+<!--
+EOT;
+require_once (R_P.'template/default/wind/editor.htm');
+print<<<EOT
+-->
+</td>
+	</tr>
+</table>
+</div>
+<div class="mr mr2">
+	<div id="last_information" class="box1 box3">
+	<h2>选项</h2>
+	<div class="box1text">
+	<h3 onclick="schdiv('hide3',this);" class="heiyo2" style="cursor:pointer;">分类 &raquo;</h3>
+	  <div class="div1" id="hide3">
+		<table cellspacing="0" cellpadding="0">
+		  <tr class="b">
+			<td height="50">相册分类<br />
+			  <select name="ab_cid" style="width:150px;">$forumcache</select>
+			</td>
+		  </tr>
+	  	</table>
+	  </div>
+	<h3 onclick="schdiv('hide6',this);" class="heiyo2" style="cursor:pointer;">其他设定 &raquo;</h3>
+	  <div class="div1" id="hide6">
+		<table cellspacing="0" cellpadding="0">
+		  <tr class="b">
+			<td width="50%" height="30">允许评论<br></td>
+			<td>
+			  <input type="radio" name="ab_allowreply" value="1" $allowreply_1> 是
+			  <input type="radio" name="ab_allowreply" value="0" $allowreply_0> 否
+			</td>
+		  </tr>
+		  <tr class="b">
+			<td width="50%" height="30">共享设置</td>
+			<td>
+			  <select name="ab_ifhide" id="ab_ifhide" onchange=showpw() style="width:98px;">
+			  <option value="0" $ifhide_0>完全共享</option>
+			  <option value="2" $ifhide_2>好友可见</option>
+			  <option value="1" $ifhide_1>完全隐藏</option>
+			  <option value="3" $ifhide_3>设置密码</option>
+			  </select>
+			</td>
+		  </tr>
+<!--
+EOT;
+if($db_teamifopen == '1'){
+print<<<EOT
+-->
+		  <tr class="b">
+			<td width="50%" height="30">推送至{$db_teamname}</td>
+			<td>
+<!--
+EOT;
+foreach($teamsel as $key => $vlaue){print<<<EOT
+-->
+<input type="checkbox" name="atc_teamid[]" value="$vlaue[teamid]" $vlaue[checked]>$vlaue[name]<br />
+<!--
+EOT;
+}
+print<<<EOT
+-->
+			</td>
+		  </tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+		</table>
+	  </div>
+	  <div id="pwspan" class="div_itemtype" style="width:300;margin:5px 0px 0px 0px;z-index:100;display:none;">
+	  	密    码:<input type="password" name="password" id="password" /><br />
+	  	确认密码:<input type="password" name="ckpassword" id="ckpassword" onblur="ckpw(this);" />
+	  </div>
+	  </div>
+	</div>
+</div>
+<div class="c"></div><br/>
+<center><input type="submit" name="Submit" value="提 交" class="bt"></center>
+</form>
+</div>
+<script language="JavaScript" src="js/post.js"></script>
+<script language="JavaScript">
+document.FORM.ab_title.focus();
+var cnt = 0;
+function checkpost(obj){
+	if (obj.ab_title.value=="") {
+		alert("标题不能为空");
+		obj.ab_title.focus();
+		return false;
+	} else if (strlen(obj.ab_title.value) > $db_titlemax) {
+		alert("标题超过最大长度 $db_titlemax 个字节");
+		obj.ab_title.focus();
+		return false;
+	}
+	if (strlen(obj.atc_content.value) < $db_postmin) {
+		alert("文章内容少于 $db_postmin 个字节");
+		obj.atc_content.focus();
+		return false;
+	} else if (strlen(obj.atc_content.value) > $db_postmax) {
+		alert("文章内容大于 $db_postmax 个字节");
+		obj.atc_content.focus();
+		return false;
+	}
+	document.FORM.Submit.disabled = true;
+	cnt++;
+	if (cnt!=1) {
+		alert('Submission Processing. Please Wait');
+		return false;
+	}
+	return true;
+}
+function schdiv(id,obj2){
+	if (GE(id).style.display=='none'){
+		obj2.className='heiyo2';
+		GE(id).style.display='';
+	} else {
+		obj2.className='heiyo1';
+		GE(id).style.display='none';
+	}
+}
+</script>
+<!--
+EOT;
+?>
+-->

@@ -1,0 +1,38 @@
+<!--<?php print <<<EOT
+-->
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	<h2>论坛文集</h2>
+	<!--begin-->
+<!--
+EOT;
+foreach($bbsdb as $key => $value){print <<<EOT
+-->
+	  <div class="text">
+		<div class="gray">$value[postdate]</div>
+		<h3>$value[subject]</h3>
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <p>{$value[content]}</p>
+			  <p><a href="$db_cbbbsurl/read.php?tid=$value[tid]" class="big" target="_blank">阅读全文&gt;&gt;</a></p>
+			</td>
+		  </tr>
+		</table>
+		<div class="bb">
+		  <div class="c"></div>
+		</div>
+	  </div>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  <div class="big">$pages</div>
+	<!--end-->
+	</div>
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>

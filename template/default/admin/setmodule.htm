@@ -1,0 +1,51 @@
+<!--<?php
+include_once PrintEot('left');
+if($job != 'update'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="6">系统模块列表</td></tr>
+<tr class="head_2" align="center"><td>名称</td>
+<td>更新相隔频率（秒）</td>
+<td>最后更新时间</td>
+<td>显示条数</td>
+<td>截取字数</td>
+<td>编 辑</td></tr>
+<!--
+EOT;
+foreach($moddb as $value){print <<<EOT
+-->
+<tr class="b" align="center"><td align="left">$value[name]</td>
+<td>$value[everycache]</td>
+<td>$value[lastcache]</td>
+<td>$value[limitnum]</td>
+<td>$value[shownum]</td>
+<td><a href="$basename&job=update&id=$value[id]">编辑</a></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<form action="$basename&job=update" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="id" value="$id">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑模块</td></tr>
+<tr class="b"><td width="60%">模块名称</td>
+<td><input name="name" value="$moddb[name]" size="35"></td></tr>
+<tr class="b"><td>更新相隔频率（秒）<br />多少秒更新一次</td>
+<td><input name="everycache" value="$moddb[everycache]" size="35"></td></tr>
+<tr class="b"><td>显示条数</td>
+<td><input name="limitnum" value="$moddb[limitnum]" size="35"></td></tr>
+<tr class="b"><td>截取字数</td>
+<td>主题: <input name="shownum[]" size="10" value="$moddb[showtnum]">
+<!--内容: <input name="shownum[]" size="10" value="$moddb[showcnum]">--></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}?>-->

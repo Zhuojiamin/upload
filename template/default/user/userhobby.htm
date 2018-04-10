@@ -1,0 +1,64 @@
+<!--<?php print <<<EOT
+-->
+<form method="post" action="$basename&">
+<input type="hidden" name="step" value=2>
+<h2>爱好设置</h2>
+<div class="hobby">
+<!--
+EOT;
+foreach($_HCATE as $key2=>$val2){
+print <<<EOT
+-->
+<br />
+<h4>$val2[name]</h4>
+<div class="hobby-a">
+<!--
+EOT;
+foreach($hobbydb[$key2] as $key=>$val){
+$userhobby[$val[id]] && $m1='checked';
+print <<<EOT
+-->
+<span><input  type="checkbox" name="userhobby[]" value="$val[id]" $m1>$val[name]</span>
+<!--
+EOT;
+$m1='';
+}print <<<EOT
+-->
+</div>
+<br />
+<input type="text" class="input" id="h_$key2"><input type="button" class="bt" value="推荐给管理员" onclick="ucmmend(GE('h_$key2').value,$key2);GE('h_$key2').value='';">
+<br />
+
+<!--
+EOT;
+}print <<<EOT
+-->
+<br />
+<center><input class="bt" style="padding:2px 18px;height:26px" type="submit" value="确 定"></center>
+</div>
+</form>
+
+<script language="JavaScript" src="js/ajax.js"></script>
+<script type="text/javascript">
+var ajxurl='$db_blogurl';
+function ucmmend(name,hid){
+	if(name){
+		var url=ajxurl+"/user_index.php?action=userhobby&job=ajax&name="+name+"&hid="+hid;
+		send_request(url);
+		alert('推荐成功');
+	}else{
+		alert('请填写推荐内容');
+	}
+}
+</script>
+
+
+
+
+
+
+
+
+<!--
+EOT;
+?>

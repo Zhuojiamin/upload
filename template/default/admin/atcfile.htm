@@ -1,0 +1,237 @@
+<!--<?php print <<<EOT
+-->
+<tr class="b"><td width="30%" height="30" class="bold">文件名称: </td>
+<td><input name="atc_title" size="35" value="$atc[subject]"></td></tr>
+<tr class="b"><td height="30" class="bold">系统分类: </td>
+<td><select name="atc_cid" style="width:150px;">
+$categpslt
+</select><input name="atc_oldcid" type="hidden" value="$cid"></td></tr>
+<tr class="b"><td height="30" class="bold">个人文件分类: </td>
+<td><select name="atc_dirid" id="dirgpslt" style="width:150px;">
+<option value="0">未分类</option>
+$dirgpslt
+</select>
+<input type="button" id="dirbutton" value="管理" onclick="ShowDir()"><br />
+<span id="dirspan" style="width:300;margin:5px 0px 0px 0px;z-index:100;display:none;">
+<table cellspacing="0" cellpadding="3">
+<tbody id="dirtbody">
+<tr><td height="30">分类名称</td>
+<td>顺序</td></tr>
+<tr><td align="center" height="30"><input name="dirname" id="dirname" size="15"></td>
+<td><input name="dirorder" id="dirorder" size="5">
+<input type="button" value="添加" onclick="AddDir()"></td></tr>
+<!--
+EOT;
+foreach($dirarray as $key => $value){print <<<EOT
+-->
+<tr id="dir{$key}"><td align="center" height="30"><input id="dirnames{$key}" size="15" value="{$value[name]}"></td>
+<td><input id="dirorders{$key}" size="5" value="{$value[vieworder]}">
+<a style="cursor:pointer" onclick="EditDir('{$key}')" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';">修改</a>
+<a style="cursor:pointer" onclick="DeleteDir('{$key}')" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';">删除</a></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</tbody>
+</table>
+</span></td></tr>
+<tr class="b"><td height="30" class="bold">表 情: </td>
+<td><input type="radio" name="atc_iconid" value="0"$icon_0> 无
+<input type="radio" name="atc_iconid" value="1"$icon_1>
+<img src="$imgpath/emotion/1.gif">
+<input type="radio" name="atc_iconid" value="2"$icon_2>
+<img src="$imgpath/emotion/2.gif">
+<input type="radio" name="atc_iconid" value="3"$icon_3>
+<img src="$imgpath/emotion/3.gif">
+<input type="radio" name="atc_iconid" value="4"$icon_4>
+<img src="$imgpath/emotion/4.gif">
+<input type="radio" name="atc_iconid" value="5"$icon_5>
+<img src="$imgpath/emotion/5.gif">
+<input type="radio" name="atc_iconid" value="6"$icon_6>
+<img src="$imgpath/emotion/6.gif">
+<input type="radio" name="atc_iconid" value="7"$icon_7>
+<img src="$imgpath/emotion/7.gif"></td></tr>
+<tr class="b"><td height="30" class="bold">关键字（Tag）: </td>
+<td>
+<span id="taglist"$tdisplay>
+<!--
+EOT;
+foreach($tagdb as $value){print <<<EOT
+-->
+<a style="cursor:pointer" title="点击删除此Tag" onclick="DeleteTag(this,'$value')" style="padding-right:3px;">$value<input name="atc_tagdb[]" type="hidden" value="$value"></a>
+<!--
+EOT;
+}print <<<EOT
+-->
+<br />
+</span>
+<input id="tagname" size="35" onkeydown="if(event.keyCode==13) {AddTag(GE('tagname').value);return false;}" value="">
+<input type="button" value="添加Tag" onclick="AddTag(GE('tagname').value)"></td></tr>
+<tr class="b"><td height="30" class="bold">文件大小: </td>
+<td><input name="filesize" size="10" value="$atc[size]">
+<input name="unit" id="unit" size="5" value="$atc[unit]">
+单位: <select onchange="addtotext('unit',this.value);">
+<option value="GB" $unit_GB>GB</option>
+<option value="MB" $unit_MB>MB</option>
+<option value="KB" $unit_KB>KB</option>
+<option value="B" $unit_B>B</option>
+</select></td></tr>
+<tr class="b"><td height="30" class="bold">版本: </td>
+<td><input name="version" id="version" size="35" value="$atc[version]">
+<select onchange="addtotext('version',this.value);">
+<option value="v1.0">v1.0</option>
+<option value="v2.0">v2.0</option>
+<option value="v3.0">v3.0</option>
+<option value="v4.0">v4.0</option>
+<option value="v5.0">v5.0</option>
+</select></td></tr>
+<tr class="b"><td height="30" class="bold">更新时间: </td>
+<td><input name="updatetime" size="35" value="$atc[updatetime]"></td></tr>
+<tr class="b"><td height="30" class="bold">语言: </td>
+<td><input name="language" id="language" size="35" value="$atc[language]">
+<select onchange="addtotext('language',this.value);">
+<option value="简体中文">简体中文</option>
+<option value="繁体中文">繁体中文</option>
+<option value="英文">英文</option>
+<option value="其他语言">其他语言</option>
+</select></td></tr>
+<tr class="b"><td height="30" class="bold">类型: </td>
+<td><input name="filetype" id="filetype" size="35" value="$atc[type]">
+<select onchange="addtotext('filetype',this.value);">
+<option value="系统工具">系统工具</option>
+<option value="应用软件">应用软件</option>
+<option value="网络软件">网络软件</option>
+<option value="硬件工具">硬件工具</option>
+<option value="媒体处理">媒体处理</option>
+<option value="图形图像">图形图像</option>
+</select></td></tr>
+<tr class="b"><td height="30" class="bold">操作系统: </td>
+<td><input type="checkbox" name="os[]" value="Win9x" $os_Win9x>Win9x
+<input type="checkbox" name="os[]" value="Me" $os_Me>Me
+<input type="checkbox" name="os[]" value="NT" $os_NT>NT
+<input type="checkbox" name="os[]" value="2000" $os_2000>2000
+<input type="checkbox" name="os[]" value="XP" $os_XP>XP
+<input type="checkbox" name="os[]" value="2003" $os_2003>2003
+<input type="checkbox" name="os[]" value="linux" $os_linux>linux
+<input type="checkbox" name="os[]" value="unix" $os_unix>unix</td></tr>
+<tr class="b"><td height="30" class="bold">等级: </td>
+<td><input name="level" id="level" size="35" value="$atc[level]">
+<select onchange="addtotext('level',this.value);">
+<option value="一星">一星</option>
+<option value="二星">二星</option>
+<option value="三星">三星</option>
+<option value="四星">四星</option>
+<option value="五星">五星</option>
+</select></td></tr>
+<tr class="b"><td height="30" class="bold">开发商: </td>
+<td><input name="publish" size="35" value="$atc[publish]"></td></tr>
+<tr class="b"><td height="30" class="bold">开发商链接: </td>
+<td><input name="publishlink" size="35" value="$atc[publishlink]"></td></tr>
+<tr class="b"><td height="30" class="bold">授权方式: </td>
+<td><input name="manner" id="manner" size="35" value="$atc[manner]">
+<select onchange="addtotext('manner',this.value);">
+<option value="免费">免费</option>
+<option value="共享">共享</option>
+<option value="商业">商业</option>
+<option value="破解">破解</option>
+<option value="注册">注册</option>
+</select></td></tr>
+<tr class="b"><td height="30" class="bold">下载地址: </td>
+<td><table cellspacing="0" cellpadding="3" width="100%">
+<tr class="b"><td width="70%" height="30">
+<!--
+EOT;
+foreach($fileurldb as $value){print <<<EOT
+-->
+名称: <input name="filename[]" size="15" value="{$value[name]}">
+地址: <input name="fileurl[]" size="35" value="{$value[url]}"><br />
+<!--
+EOT;
+}print <<<EOT
+-->
+名称: <input name="filename[]" size="15" value="">
+地址: <input name="fileurl[]" size="35" value=""><span id="addfileurl"></span></td>
+<td valign="top"><input type="button" value="增加地址" onclick="addfileurl();"></td></tr>
+</table>
+<script language="JavaScript">
+function addfileurl(){
+	GE("addfileurl").innerHTML += '<br />名称: <input name="filename[]" size="15" value=""> 地址: <input name="fileurl[]" size="35" value="">';
+}
+</script>
+</td></tr>
+<tr class="b"><td height="30" valign="top"><br /><b>内 容</b>: <br /><br />
+评论设置: 
+<select name="atc_allowreply">
+<option value="1"$allowreply_1>允许</option>
+<option value="0"$allowreply_0>不许</option>
+</select><br /><br />
+共享设置: 
+<select name="atc_ifhide">
+<option value="0"$ifhide_0>完全共享</option>
+<option value="2"$ifhide_2>好友可见</option>
+<option value="1"$ifhide_1>彻底隐藏</option>
+</select></td>
+<td><table cellspacing="0" cellpadding="3" width="100%">
+<tr class="b"><td height="30">
+<!--
+EOT;
+if($_GROUP['htmlcode']){print <<<EOT
+-->
+<input type="checkbox" name="atc_htmlcode" id="atc_html" value="1" $html_CK> 使用html代码
+<!--
+EOT;
+}print <<<EOT
+-->
+<input type="checkbox" name="atc_ifsign" value="1" $ifsign_CK> 使用签名
+<input type="checkbox" name="atc_autourl" value="1" CHECKED> 自动分析url<br />
+<!--
+EOT;
+include PrintEot('wysiwyg');print <<<EOT
+-->
+<span id="showmsg" style="color:red;margin-top:5px;padding:6px;display:none;"></span>
+<span id="showupload"></span>
+<!--
+EOT;
+foreach($attachdb as $value){
+!$value[desc] && $value[desc] = '无';print <<<EOT
+-->
+<span id="delete$value[aid]"><br /><input name="attachdb[]" type="hidden" value="$value[aid]" />
+描述：<span id="attdesc$value[aid]">$value[desc]</span>&nbsp;
+附件：<span id="attname$value[aid]"><a href="$attachpath/$value[attachurl]" target="_blank"><font color="red"><b>$value[name]</b></font></a>&nbsp;($value[size]K)&nbsp;
+<a style="cursor:pointer" onclick="DeleteFile('$value[aid]')">[删除]</a></span> &nbsp; &nbsp;
+<a style="cursor:pointer" onclick="addattach('$value[aid]')"><b>添加到帖子中</b></a></span>
+<!--
+EOT;
+}if($db_allowupload && $_GROUP[allowupload]){
+$db_attachnum = (int)$db_attachnum;print <<<EOT
+-->
+<br /><br />附件最大： $db_uploadmaxsize (K)
+<b>有效文件类型： $db_uploadfiletype</b> [<a style="cursor:pointer" onclick="AddFileInput()"><b>+</b></a> <a style="cursor:pointer" onclick="DelFileInput()"><b>-</b></a>]<br />
+<span id="fileinput"><span id="delfileinput1"><br />描述： <input name="atc_desc1" id="atc_desc1" size="25" /> &nbsp;
+附件： <span id="attachtml1"><input type="file" name="atc_attachment1" id="atc_attachment1" /></span>
+<input type="button" value="上传" onclick="UploadFile('1')"></span></span>
+<script language="JavaScript">
+var i = 1;
+function AddFileInput(){
+	if (i < $db_attachnum) {
+		i++;
+		GE('fileinput').innerHTML = '<span id="delfileinput' + i + '"><br />描述： <input name="atc_desc' + i + '" id="atc_desc' + i + '" size="25" /> &nbsp; 附件： <span id="attachtml' + i + '"><input type="file" name="atc_attachment' + i + '" id="atc_attachment' + i + '" /></span> <input type="button" value="上传" onclick="UploadFile(\'' + i + '\')"></span>' + GE('fileinput').innerHTML;
+	}
+}
+function DelFileInput(){
+	if (i > 1) {
+		GE('delfileinput' + i).style.display = 'none';
+		i--;
+	}
+}
+</script>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+</table>
+</td></tr>
+<!--
+EOT;
+?>

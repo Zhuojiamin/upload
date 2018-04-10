@@ -1,0 +1,121 @@
+<!--<?php
+//include_once PrintEot('top');
+if(empty($step)){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<input name='step' type=hidden value=2>
+<input name='job' type=hidden value='list'>
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+<tr class="b" height="25"><td>&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<b>日志搜索</b></td></tr>
+<tr class="b"><td width="25%" height="20">系统分类</td>
+<td><select name='cid'><option></option>$forumcache</select></td></tr>
+<tr class="b"><td width="25%" >专辑名称</td>
+<td><select name='dirid'><option></option>$dirs</select></td></tr>
+<tr class="b"><td width="25%" >关键字</td><td><input type="text" class="input" size="48" name="keyword"></td></tr>
+<tr class="b"><td width="25%" >发表日期</td><td><input type="text" class="input" size="20" name="postdate1" value="$postdate1"> - <input type="text" class="input" size="20" name="postdate2" value="$postdate2"></td></tr>
+<tr class="b"><td width="25%" >是否隐藏</td>
+<td><select name="ifhide"><option value="-1">所有</option><option value="1">是</option><option value="0" >否</option></select></td></tr>
+<tr class="b"><td width="25%" >搜索范围</td>
+<td><select name="area"><option value="1">日志主题</option><option value="2" >日志内容</option></select></td></tr>
+<tr class="b"><td width="25%" class="b">结果排序</td>
+<td class="b"><select name="order"><option value="postdate" >发表日期</option><option value="cid">系统分类</option><option value="authorid" >日志作者</option></select><input type="radio" name="asc" value='move'>升序<input type="radio" name="asc" value='move' checked>降序</td></tr>
+</table>
+<br><center><input class="bt" type='Submit' value='提 交' name='Submit'></center></form><br>
+
+<!--
+EOT;
+}elseif($step==2){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<table width="95%" align="center" class="userbg" cellspacing="0" cellpadding="5">
+<tr class="b" height="25"><td colspan="2">&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<b>日志管理</b></td></tr>
+<tr align=center>
+	<td class="head_2" width='5%' height="25">ID</td>
+	<td class="head_2">标题</td>
+	<td class="head_2" width='15%'>作者</td>
+	<td class="head_2" width='15%'>发表日期</td>
+	<td class="head_2" width='15%'>专辑名称</td>
+	<td class="head_2" width='5%'>状态</td>
+	<td class="head_2" width='5%'>审核</td>
+	<td class="head_2" width='5%'>操作</td>
+	<td class="head_2" width='6%'>选择</td>
+</tr>
+<!--
+EOT;
+$id=($page-1)*$db_perpage;
+foreach($output as $key=>$value){
+$id++;
+print <<<EOT
+-->
+<tr align=center>
+<td class="b">$id</td>
+<td class="b"><a href="$P/blog.php?do=showone&type=$value[type]&itemid=$value[itemid]" target='_blank'>$value[subject]</a></td>
+<td class="b"><a href="blog.php?uid=$value[authorid]">$value[author]</a></td>
+<td class="b" class='smalltxt'>$value[postdate]</td>
+<td class="b">$value[dirname]</td>
+<td class="b">
+<!--
+EOT;
+if(!$value[ifhide]){print <<<EOT
+-->
+显示
+<!--
+EOT;
+}else{print <<<EOT
+-->
+隐藏
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td class="b">
+<!--
+EOT;
+if($value[ifcheck]){print <<<EOT
+-->
+已审
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<font color="red">未审</font>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td class="b"><a href="user_index.php?action=addblog&job=modify&itemid=$value[itemid]">编辑</a></td>
+<td class="b"><input type="checkbox" name="selid[]" value='$value[itemid]'></td>
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<br><center>$pages<br>
+<!--
+EOT;
+if($_GROUP['ifexport']){print <<<EOT
+-->
+<input type="radio" name="job" value='export'>导出 
+<!--
+EOT;
+}print <<<EOT
+-->
+<input type="radio" name="job" value='move'>移动 
+<input type="radio" name="job" value='del' checked>删除
+<br>专辑名称 <select name='dirid' onclick="this.form.job[1].checked=true">$dirs</select>
+</center>
+<input name='step' type=hidden value=2>
+<br>
+<center>
+<input type="button" class="bt" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input class="bt" type='Submit' value='提 交' name='Submit'>
+</center>
+</form><br>
+<!--
+EOT;
+}
+?>
+-->

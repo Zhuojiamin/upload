@@ -1,0 +1,113 @@
+<!--<?php
+$lang_user[$type]=$type ? $lang_user[$type] : ($state==1 ? "无效" : "全部");print <<<EOT
+-->
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+<tr class="head" height="25"><td><h2>{$lang_user[$type]}附件</h2></td></tr>
+<tr><td class="b">
+<!--
+EOT;
+if($_GROUP['post']){print <<<EOT
+-->
+<a href="$basename&type=blog">日志</a>
+<!--
+EOT;
+}if($_GROUP['photo']){print <<<EOT
+-->
+<a href="$basename&type=photo">图片</a>
+<!--
+EOT;
+}if($_GROUP['file']){print <<<EOT
+-->
+<a href="$basename&type=file">文件</a>
+<!--
+EOT;
+}if($_GROUP['goods']){print <<<EOT
+-->
+<a href="$basename&type=goods">商品</a>
+<!--
+EOT;
+}if($_GROUP['bookmark']){print <<<EOT
+-->
+<a href="$basename&type=bookmark">书签</a>
+<!--
+EOT;
+}if($_GROUP['music']){print <<<EOT
+-->
+<a href="$basename&type=music">音乐</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+<a href="$basename&state=1">无效附件</a>
+<a href="$basename&">全部附件</a></td></tr>
+</table>
+<br />
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+<tr class="head" height="25"><td><h2>用户空间</h2></td></tr>
+<tr><td class="b" width="80%"><table width="$width" border=0 cellspacing=0 cellpadding=0 style="background:url($imgpath/$stylepath/bar1.gif);">
+<tr><td>&nbsp;</td></tr></table></td>
+<td class="b">$sizeinfo</td></tr>
+</table>
+<br />
+<form name='form1' method="post" action="$basename&">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2"><h2>附件管理</h2></td></tr>
+<tr align=center height="20"><td class="head_2" width='5%'>ID</td>
+<td class="head_2">文件名</td>
+<td class="head_2" width='15%'>附件类型</td>
+<td class="head_2" width='10%'>大小(K)</td>
+<td class="head_2" width='15%'>上传时间</td>
+<td class="head_2" width='15%'>状态</td>
+<td class="head_2" width='6%'>删</td></tr>
+<!--
+EOT;
+$id=($page-1)*$db_perpage;
+foreach($uploaddb as $key=>$output){
+$atype=$output[atype] ? $lang_user[$output[atype]] : "-"; 
+$ifuse=$output[state] ? "使用中" : "<font color=\"red\">未使用</font>" ;
+$id++;print <<<EOT
+-->
+<tr align=center><td class="b">$id</td>
+<td class="b">
+<!--
+EOT;
+if($output[type]=='img'){print <<<EOT
+-->
+<a href="$attachpath/$output[attachurl]" target='_blank' title="$output[name]">
+<img src="$attachpath/$output[attachurl]" width="150" height="80" border="0"></a>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<a href="$attachpath/$output[attachurl]" target='_blank'>$output[name]</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td class="b"><a href="$P/blog.php?uid=$output[uid]" target='_blank'>$atype&nbsp;</a></td>
+<td class="b">$output[size]</td><td class="b" class='smalltxt'>$output[uploadtime]</td>
+<td class="b">$ifuse</td>
+<td class="b"><input type="checkbox" name="selid[]" value='$output[aid]'></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<input name='step' type=hidden value='del'>
+<input name='type' type=hidden value='$type'>
+<input name='state' type=hidden value='$state'>
+<center><div class="page">$pages</div><br />
+<input type="button" class="bt" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input class="bt" type='Submit' value='提 交' name='Submit' onclick="return checkdel();"></center>
+</form><br />
+<script language='JavaScript'>
+function checkdel(){	
+	if (!confirm("确认删除选中附件？")) {
+		return false;
+	}
+}
+</script>
+<!--
+EOT;
+?>

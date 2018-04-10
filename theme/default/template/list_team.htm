@@ -1,0 +1,42 @@
+<!--<?php print <<<EOT
+-->
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	  <h2><span class="fn fsn right"><a class="gray" href="blog.php?do=list&uid=$uid&type=team">$blogdb[username]创建的$db_teamname</a>&nbsp;|&nbsp;<a class="gray" href="blog.php?do=list&uid=$uid&type=team&join=1">$blogdb[username]加入的$db_teamname</a></span>$left_name[$type]列表</h2>
+	  <!--begin-->
+	  <div class="text">
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <ul class="frends-list">
+<!--
+EOT;
+foreach($_ITEMDB as $value){print <<<EOT
+-->
+				<li>
+				  <a href="team.php?teamid=$value[teamid]"><img src="$value[picurl]" width="75" height="75" alt="$value[descrip]" alt="$value[username]的朋友圈" /></a>
+				  <dl>
+					<dt class="big">$value[name]</dt>
+					<dd class="gray fsn">$value[descrip]</dd>
+					<dd class="gray fsn">$value[joindate] 加入</dd>
+					<dd class="gray fsn"><a href="team.php?job=showteam&teamid=$value[teamid]">查看</a></dd>
+				  </dl>
+				</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+			  </ul>
+			  <div class="c"></div>
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <!--end-->
+	</div>
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>

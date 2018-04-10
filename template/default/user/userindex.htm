@@ -1,0 +1,291 @@
+<!--<?php print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type=hidden name="step" value="2">
+<input type=hidden name="type" value="$type">
+<!--
+EOT;
+if ($type=='index') {print <<<EOT
+-->
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr><td colspan=3 class="head"><h2>页面设置</h2></td></tr>
+<tr class="b"><td width="20%">主页面调用日志条数</td>
+<td><input type="text" class="input" size="5" name="config[pshownum]" value='$pshownum'></td></tr>
+<tr class="b"><td>主页面调用回复条数</td>
+<td><input type="text" class="input" size="5" name="config[cshownum]" value='$cshownum'></td></tr>
+<tr class="b"><td>Flash 效果链接</td>
+<td><input type="text" class="input" name="config[flashurl]" value="$flashurl" size="30"></td></tr>
+<tr class="b"><td>背景音乐链接</td>
+<td><input type="text" class="input" name="config[bmusicurl]" value="$bmusicurl" size="30"></td></tr>
+</table>
+<br /><center><input class="bt" type=submit value="提 交"></center>
+</form>
+<!--
+EOT;
+} elseif ($type=='header') {print <<<EOT
+-->
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr><td colspan=9 class="head"><h2>导航调用</h2></td></tr>
+<tr class=c><td width="5%"></td>
+<td width="10%"><b>名称</b></td>
+<td width="10%"><b>标识</b></td>
+<td width="25%"><b>地址</b></td>
+<td width="10%"><b>重命名</b></td>
+<td width="10%"><b>是否显示</b></td>
+<td width="10%"><b>顺序</b></td>
+<td width="10%"><b>操作</b></td></tr>
+<!--
+EOT;
+foreach($index_order as $key=>$value){print <<<EOT
+-->
+<tr class=b><td width="5%"></td>
+<td width="10%">
+<!--
+EOT;
+if ($ifsystem[$key]) {print <<<EOT
+-->
+<input type="hidden" name="config[$key][name]" value="{$headerdb[$key][name]}" \>
+{$headerdb[$key][name]}
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="text" class="input" size="8" name="config[$key][name]" value="{$headerdb[$key][name]}" \>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td width="10%">
+<input type="hidden" name="config[$key][oldsign]" value="{$key}" \>
+<!--
+EOT;
+if ($ifsystem[$key]) {print <<<EOT
+-->
+<input type="hidden" name="config[$key][sign]" value="{$key}" \>
+{$key}
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="text" class="input" size="8" name="config[$key][sign]" value="{$key}" \>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td width="20%">
+<!--
+EOT;
+if ($ifsystem[$key]) {print <<<EOT
+-->
+<input type="hidden" name="config[$key][url]" value="{$headerdb[$key][url]}" \>
+{$headerdb[$key][urls]}
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="text" class="input" size="40" name="config[$key][url]" value="{$headerdb[$key][url]}" \>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td width="10%"><input type="text" class="input" size="8" name="config[$key][note]" value="{$headerdb[$key][note]}" \></td>
+<td width="15%"><input type="radio" name="config[$key][ifshow]" value="1" ${$key.'ifshow_Y'} \> 是
+<input type="radio" name="config[$key][ifshow]" value="0" ${$key.'ifshow_N'} \> 否</td>
+<td width="10%"><input type="text" class="input" size="8" name="config[$key][order]" value="{$value}" \></td>
+<td width="10%">
+<!--
+EOT;
+if ($ifsystem[$key]) {print <<<EOT
+-->
+---
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<a href="$basename&job=delete&sign=$key">删除</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr class=b><td><b>新增</b></td>
+<td width="10%"><input type="text" class="input" size="8" name="newconfig[name]" \></td>
+<td width="10%"><input type="text" class="input" size="8" name="newconfig[sign]" \></td>
+<td width="25%"><input type="text" class="input" size="40" name="newconfig[url]" \></td>
+<td width="10%"><input type="text" class="input" size="8" name="newconfig[note]" \></td>
+<td width="10%"><input type="radio" name="newconfig[ifshow]" value="1" \> 是
+<input type="radio" name="newconfig[ifshow]" value="0" CHECKED \> 否</td>
+<td width="10%"><input type="text" class="input" size="8" name="newconfig[order]" \></td>
+<td width="10%">---</td></tr>
+</table>
+<br /><br><center><input class="bt" type=submit value="提 交"></center>
+</form>
+<!--
+EOT;
+} elseif ($type=='left') {print <<<EOT
+-->
+<input type="hidden" name="job" value="$job">
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5>
+<tr><td class="b"><a href="$basename&job=add">添加侧栏</a>
+<a href="$basename&job=list">侧栏列表</a></td></tr>
+</table>
+<br />
+<!--
+EOT;
+if ($job=='add' || $job=='edit') {print <<<EOT
+-->
+<input type="hidden" name="oldsign" value="$sign">
+<!--
+EOT;
+if ($sign!='notice') {print <<<EOT
+-->
+<input type="hidden" name="newconfig[name]" value="{$ulang[custom]}">
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" name="newconfig[name]" value="{$side_name[notice]}">
+<!--
+EOT;
+}print <<<EOT
+-->
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr height="25"><td colspan="2" class="head"><h2>{$lang[$job]}自定义侧栏</h2></td></tr>
+<tr><td width="20%" class="b">唯一标识 (如notice)</td>
+<td class="b">
+<!--
+EOT;
+if ($sign!='notice') {print <<<EOT
+-->
+<input type="text" class="input" name="newconfig[sign]" value="$sign" size=80>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" name="newconfig[sign]" value="notice">notice
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+<tr><td width="20%" class="b">标题</td>
+<td class="b"><input type="text" class="input" name="newconfig[note]" value="{$leftdb[$sign][note]}" size=80></td></tr>
+<tr><td class="b">内容</td>
+<td class="b"><textarea name="newconfig[content]" rows="5" cols="80">{$leftdb[$sign][content]}</textarea></td></tr>
+</table>
+<!--
+EOT;
+} elseif ($job=='list') {print <<<EOT
+-->
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="7"><h2>侧栏设置</h2></td></tr>
+<tr class=c><td width="10%"><b>名称</b></td>
+<td width="10%"><b>标识</b></td>
+<td width="10%"><b>重命名/标题</b></td>
+<td width="10%"><b>是否显示</b></td>
+<td width="10%"><b>顺序</b></td>
+<td width="10%"><b>编辑</b></td>
+<td width="10%"><b>删除</b></td></tr>
+<!--
+EOT;
+foreach($side_order as $key => $value){print <<<EOT
+-->
+<tr class=b><td width="10%"><input type="hidden" name="config[$key][name]" value="{$value[name]}" \>
+{$value[name]}</td>
+<td width="10%">
+<input type="hidden" name="config[$key][oldsign]" value="{$key}" \>
+<!--
+EOT;
+if ($ifsystem[$key]) {print <<<EOT
+-->
+<input type="hidden" name="config[$key][sign]" value="{$key}" \>
+{$key}
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="text" class="input" size="8" name="config[$key][sign]" value="{$key}" \>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<!--
+EOT;
+if ($key=='userclass') {print <<<EOT
+-->
+<td width="10%"><input type="hidden" name="config[$key][note]" value="" \>---</td>
+<!--
+EOT;
+}elseif(!$ifsystem[$key] || $key=='notice'){print <<<EOT
+-->
+<td width="10%"><input type="hidden" name="config[$key][note]" value="{$value[note]}" \>$value[note]</td>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<td width="10%"><input type="text" class="input" size="8" name="config[$key][note]" value="{$value[note]}" \></td>
+<!--
+EOT;
+}print <<<EOT
+-->
+<td width="10%"><input type="radio" name="config[$key][ifshow]" value="1" ${$key.'ifshow_Y'}> 是
+<input type="radio" name="config[$key][ifshow]" value="0" ${$key.'ifshow_N'}> 否</td>
+<td width="10%"><input type="text" class="input" size="5" name="config[$key][order]" value="$value[order]"></td>
+<td width="10%">
+<!--
+EOT;
+if (!$ifsystem[$key] || $key=='notice' || $key=='link') {
+$rawkey=rawurlencode($key);
+print <<<EOT
+-->
+<a href="$basename&job=edit&sign=$rawkey">编辑</a>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+---
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td width="10%">
+<!--
+EOT;
+if ($ifsystem[$key]) {print <<<EOT
+-->
+---
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<a href="$basename&job=delete&sign=$key">删除</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<!--
+EOT;
+}print <<<EOT
+-->
+<br /><center>
+<input class="bt" type=submit value="提 交"></center>
+</form>
+<!--
+EOT;
+}
+?>

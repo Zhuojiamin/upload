@@ -1,0 +1,17 @@
+#
+# robots.txt for PHPWIND BOARD
+# Version 4.x
+#
+
+User-agent: *
+Disallow: /admin/
+Disallow: /attachment/
+Disallow: /data/
+Disallow: /image/
+Disallow: /ipdata/
+Disallow: /js/
+Disallow: /mod/
+Disallow: /user/
+Disallow: /template/
+Disallow: /theme/
+Disallow: /wap/

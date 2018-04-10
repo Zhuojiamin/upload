@@ -1,0 +1,148 @@
+<!--<?php print <<<EOT
+-->
+<script language="JavaScript">
+var imgpath = '$imgpath';
+function addsmile(NewCode){
+    GE('gcontent').value += ' [s:'+NewCode+'] ';
+}
+</script>
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	  <h2>$left_name[$type]列表</h2>
+	  <!--begin-->
+	  <div class="text">
+		<!--begin comment-->
+		<div class="comment bb">
+		  <h5 id="gdisplay" style="display:$gdisplay;">一共有 <span id="sum">$blogdb[msgs]</span> 条留言</h5>
+		  <div id="newgbook"></div>
+<!--
+EOT;
+foreach($_ITEMDB as $value){
+$display = $value[reply] ? '' : 'none';print <<<EOT
+-->
+		  <a name="$value[id]"></a>
+		  <dl id="dl_$value[id]">
+			<dd class="comment-pic left"><img src="$value[authoricon]" width="40" /></dd>
+			<dd>
+<!--
+EOT;
+if($winduid==$uid){print <<<EOT
+-->
+			  <div class="fr">
+				<a href="javascript:;" style="cursor:pointer;" onclick="ShowReplyBox('$uid','$value[id]');">[回复]</a>
+				<a href="javascript:;" style="cursor:pointer;" onclick="DelGbook('$uid','$value[id]');">[删除]</a>
+			  </div>
+<!--
+EOT;
+}print <<<EOT
+-->
+			  <a href="blog.php?uid=$value[uid]" class="big b">$value[author]</a> <span class="gray">$value[postdate]</span> Says:
+			</dd>
+			<dd class="comment-content">
+			  <div>$value[content]</div>
+			  <span id="s_{$value[id]}"></span>
+			  <div id="r_{$value[id]}">
+				<div class="re-comment" style="display:$display;">
+				  <b>{$blogdb[username]} 于 {$value[replydate]} 回复：</b>
+				  <div id="r_content_{$value[id]}">$value[reply]</div>
+				</div>
+			  </div>
+			</dd>
+		  </dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  <div class="big">$pages</div>
+<!--
+EOT;
+if ($blogdb['ifgbook']) {print <<<EOT
+-->
+		  <div class="post-comment">
+			<h5>发表留言</h5>
+			<div>
+<!--
+EOT;
+if(empty($winduid)){print <<<EOT
+-->
+			  <a>用户名：</a><input class="ip" id="guser" size=22 />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+			  <input type="hidden" id="guser" value="$windid" /><a>{$windid}：</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</div>
+			<div>
+			  <textarea class="ip" id="gcontent" rows=10 style="width:95%" onkeydown="quickpost(event,'$uid')"></textarea>
+			  <span style="margin-top:-1em;padding:3px; text-align:right; width:200px; position:absolute">
+						<fieldset id="smiliebox" style="border:1px solid #eee">
+						<legend>表情</legend>
+						<div id="menu_show"></div>
+						<span style="float:right; margin:3px 10px 5px;"><a id="td_smile" style="cursor:pointer;" onClick="showDefault();" align="absmiddle">[更多]</a></span>
+						</fieldset></div>
+						<div id="menu_generalface" class="menu" style="display:none;"></div>
+						<div id="showmenu" style="z-index:100;display:none;"></div>
+						<div id="menu_smile" class="menu" style="display:none;"></div>
+						<script language="JavaScript" src="data/cache/smile.js"></script>
+						<script language="JavaScript" src="js/post.js"></script>
+						<script language="JavaScript" src="js/smile.js"></script>
+			</span>
+			</div>
+			<div>
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+			  <input id="gdcode" value="" class="ip" size=4  />
+			  <img id="ck" src="ck.php?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+			  <input id='gdcode' type="hidden" value="0">
+<!--
+EOT;
+}
+if($ifgbq == '1' && !empty($db_question)){
+	$db_question = unserialize($db_question);
+	$qkey = array_rand($db_question);
+print<<<EOT
+-->
+
+		<br />验证问题: {$db_question[$qkey]} <input class="input" type="text" name="qanswer" id="qanswer" size=4/><input type="hidden" name="qkey" id="qkey" value="$qkey" />
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<input type="hidden" name="qanswer" id="qanswer" value="0" />
+<input type="hidden" name="qkey" id="qkey" value="0" />
+<!--
+EOT;
+}
+print <<<EOT
+-->
+			  <input type="hidden" id="ifcode" value="$rawwindid" />
+			  <input type="hidden" id="actdo" value="showone" />
+			  <input valign="middle" class="bt" tabIndex="5" type="button" value="提 交" name="Submit" onclick="AddGbook('$uid');">
+			</div>
+		  </div>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  <div class="c"></div>
+		</div>
+		<!--begin comment-->
+	  </div>
+	  <!--end-->
+	</div>
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>

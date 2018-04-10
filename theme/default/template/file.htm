@@ -1,0 +1,123 @@
+<!--<?php print <<<EOT
+-->
+	<div class="box">
+	  <h2>$left_name[filelists]</h2>
+	  <div class="text">
+		<div class="gray">$file[postdate] 创建</div>
+		<h3>$file[subject]</h3>
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <div>
+				<dl class="fsn goods-dl left">
+				  <dd>软件信息</dd>
+				  <dd>软件大小：$file[size]&nbsp;$file[unit]</dd>
+				  <dd>软件语言：$file[language]</dd>
+				  <dd>运行环境：$file[os]</dd>
+				  <dd>点击次数：$file[hits]</dd>
+				  <dd>软件评级：$file[level]</dd>
+				  <dd>软件版本：$file[version]</dd>
+				  <dd>软件类别：$file[type]</dd>
+				  <dd>发布作者：<a href="blog.php?uid=$file[uid]">$file[author]</a></dd>
+				  <dd>开 发 商：$file[publish]</dd>
+				  <dd>开发商网址：$file[publishlink]</dd>
+				  <dd>授权方式：$file[manner]</dd>
+				</dl>			
+			  </div>
+			  <div class="c"></div>
+			  <p>
+<!--
+EOT;
+foreach($attachdb['pic'] as $value){
+if ($value[1]){ print <<<EOT
+-->
+			  描述： $value[1]<br />
+<!--
+EOT;
+}print <<<EOT
+-->
+			  图片： <br />$value[0]<br /><br />
+<!--
+EOT;
+}print <<<EOT
+-->
+			  {$file[content]}
+<!--
+EOT;
+foreach($attachdb['down'] as $key => $value){print <<<EOT
+-->
+			  <br /><br />
+<!--
+EOT;
+if($value[3]){print <<<EOT
+-->
+			  描述： $value[3]<br />
+<!--
+EOT;
+}print <<<EOT
+-->
+			  附件： <img src="theme/$style/images/$value[2].gif" align="absbottom" />
+		  <a href="job.php?action=download&itemid=$itemid&aid=$key" target="_blank"><font color=red>$value[0]</font></a> ($value[1] K)
+<!--
+EOT;
+}print <<<EOT
+-->
+			  </p>
+			  <p><b>下载地址：</b>
+<!--
+EOT;
+foreach ($file[absoluteurl] as $value) {
+!$value[name] && $value[name] = $value[url];
+print <<<EOT
+-->
+				<img src="theme/$style/images/download.gif" align="absbottom" /> <a href="$value[url]" target="_blank" />$value[name]</a> &nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->
+			  </p>
+<!--
+EOT;
+if(!empty($file[tagsdb])){print <<<EOT
+-->
+			  <p>Tags：
+<!--
+EOT;
+foreach($file[tagsdb] as $tag){print <<<EOT
+-->
+			  <a href="tags.php?tagname=$tag[tagname]" class="tags">$tag[name]</a> &nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->
+			  </p>
+<!--
+EOT;
+}print <<<EOT
+-->	
+			</td>
+		  </tr>
+		</table>
+<!--
+EOT;
+$do == 'showone' && $file['allowreply'] && @include_once(getPath('comment'));print <<<EOT
+-->
+	  </div>
+	</div>
+<script language="JavaScript">
+function showleft(dirid){
+	var obj  = GE('bloglist');
+	var objs = obj.getElementsByTagName('li');
+	for (var i=0;i<objs.length;i++) {
+		if (objs[i].id==dirid) {
+			GE('list_' + dirid).style.display = 'none';
+		} else {
+			GE('list_' + dirid).style.display = '';
+		}
+	}
+}
+showleft('$dirid');
+</script>
+<!--
+EOT;
+?>

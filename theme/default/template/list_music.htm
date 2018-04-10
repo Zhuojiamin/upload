@@ -1,0 +1,39 @@
+<!--<?php print <<<EOT
+-->
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	  <h2>$left_name[malbumlist]</h2>
+	  <!--begin-->
+	  <div class="text">
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <div id="newphotosdiv" class="listPic">
+<!--
+EOT;
+foreach ($_TEMPDB as $value) {print <<<EOT
+-->
+			<dl id=malbum_{$value[maid]}>
+				<dd><a href="blog.php?do=showone&uid=$uid&type=$type&maid=$value[maid]&"><img src="$value[hpageurl]"/></a></dd>
+				<dt>$value[subject]</dt>
+			</dl>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</div>
+			  <div class="c"></div>
+			  $pages
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <!--end-->
+	</div>
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>

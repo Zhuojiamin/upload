@@ -1,0 +1,52 @@
+<!--<?php
+if(!$setform){print<<<EOT
+-->
+<ul style="width:80px" class="tac f12" id="formstyle">
+<!--
+EOT;
+foreach($setformdb as $key=>$value){print <<<EOT
+-->
+<li><a href="javascript:onclick=showform($value[id])">$value[name]</a></li>
+<!--
+EOT;
+}print <<<EOT
+--></ul>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<table width="300" cellspacing="1" cellpadding="5" id="formstyle">
+<tr><th colspan="2" class="h" style="cursor:move" onmousedown="read.move(event);"><span class="fr" style="margin-top:2px;cursor:pointer" onclick="closep();read.obj=null;"><img src="image/wysiwyg/close.gif" /></span>$setform[name]</th></tr>
+<!--
+EOT;
+foreach($setform[value] as $k=>$v){print <<<EOT
+-->
+<tr><td align="center">$v[0]</td><td><!--
+EOT;
+if($v[1]){
+$s=explode(',',$v[1]);
+print <<<EOT
+--><select><!--
+EOT;
+foreach($s as $k1=>$v1){print <<<EOT
+--><option value="$v1">$v1</option><!--
+EOT;
+}print <<<EOT
+--></select><!--
+EOT;
+}else{print <<<EOT
+--><input type="text" /><!--
+EOT;
+}print <<<EOT
+--></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<ul><li style="text-align:center;padding:4px 0;"><input type="button" class="btn" value=" 提交 " onclick="insertform('$setform[name]');" align="absmiddle"> <input type="button" class="btn" value=" 取消 " onclick="closep();read.obj=null;"></li></ul>
+<!--
+EOT;
+}
+?>
+-->

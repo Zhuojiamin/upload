@@ -1,0 +1,98 @@
+<!--<?php
+include_once PrintEot('left');
+if($job=='send'){print <<<EOT
+-->
+<form name="FORM" action="$basename&job=$job&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<table width=98% align=center cellspacing=0 cellpadding=0 class=i_table>
+<tr><td><table width=100% cellspacing=1 cellpadding=3>
+<tr><td colspan="2" class=head>短消息群发</td></tr>
+<tr class=b id="group"><td width="20%" align=right valign=top>接收用户<br></td>
+<td width="80%">
+<table><tr>
+<!--
+EOT;
+$num=0;
+foreach($ltitle as $key=>$value){
+$num++;
+print <<<EOT
+-->
+<td><input type='checkbox' name='sendto[]' value='$key'>$value[title]</td>
+<!--
+EOT;
+if($num==4){
+$num=0;
+print <<<EOT
+-->
+</tr><tr>
+<!--
+EOT;
+}}print <<<EOT
+-->
+<td><input type='checkbox' name='sendto[]' value='-1'>普通会员</td></tr></table>
+<input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+</td></tr>
+<tr class=b>
+<td width="20%" align=right>主题</td>
+<td width="80%"><input type="text" name="subject" size="60" /></td></tr>
+<tr class=b valign=top>
+<td align=right>内容</td>
+<td>
+<!--
+EOT;
+require_once (R_P.'template/default/wind/editor.htm');
+print <<<EOT
+-->
+</td></tr>
+</table></td></tr></table>
+<br><input type=hidden name="action" value="send"><center>
+<input type="submit" value="提 交"><input type="reset" value="重 置"></center></td></tr></form>
+<!--
+EOT;
+}elseif($job == 'set'){print <<<EOT
+-->
+<form name="FORM" action="$basename&job=$job&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2" align="center"><a href="#top">短消息设置</a></td></tr>
+<tr class=b>
+		<td>是否开启短消息功能</td>
+		<td>
+			<input type=radio value=1 name="config[open]" $open_Y>开启
+			<input type=radio value=0 name="config[open]" $open_N>关闭
+		</td>
+</tr>
+<tr class=b>
+		<td>是否开启短消息声音提示</td>
+		<td>
+			<input type=radio value=1 name="config[sound]" $sound_Y>开启
+			<input type=radio value=0 name="config[sound]" $sound_N>关闭
+		</td>
+</tr>
+<tr class=b>
+		<td>是否开启新用户注册发送短消息提示</td>
+		<td>
+			<input type=radio value=1 name="config[regmsg]" $regmsg_Y>开启
+			<input type=radio value=0 name="config[regmsg]" $regmsg_N>关闭
+		</td>
+</tr>
+<tr class=b>
+		<td>短消息最大存储数（不设置或０为不限制）</td>
+		<td>
+			<input size=35 value="$db_msgmax" name="maxmsg">
+		</td>
+</tr>
+<tr class=b>
+		<td>每日发送短消息最大数目（不设置或０为不限制）</td>
+		<td>
+			<input size=35 value="$db_msgmaxsend" name="maxsendmsg">
+		</td>
+</tr>
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table"><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}
+?>-->

@@ -1,0 +1,49 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+<form action="$basename&" name=form1 method=POST>
+<input type="hidden" name="job" value="update">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2"><h2>管理我的连接</h2></td></tr>
+<tr align='center' class="head_2" height="20">
+	<td class="b">ID</td>
+	<td class="b">名称</td>
+	<td class="b">链接</td>
+	<td class="b">图标</td>
+	<td class="b">描述</td>
+	<td class="b">删</td>
+</tr>
+<!--
+EOT;
+$id=0;
+foreach($links as $key => $value){
+$id++;
+print <<<EOT
+-->
+<tr align='center'>
+	<td class="b">$id</td>
+	<td class="b"><input type="text" class="input" size=14 name="linkname[$key][0]" value="$value[0]"></td>
+	<td class="b"><input type="text" class="input" size=24 name="linkname[$key][1]" value="$value[1]"></td>
+	<td class="b"><input type="text" class="input" size=24 name="linkname[$key][2]" value="$value[2]"></td>
+	<td class="b"><input type="text" class="input" size=24 name="linkname[$key][3]" value="$value[3]"></td>
+	<td class="b"><input type="checkbox" name="selid[]" value="$key"></td>
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr align='center'>
+	<td class="b">新增</td>
+	<td class="b"><input type="text" class="input" size=14 name="newlink[0]"></td>
+	<td class="b"><input type="text" class="input" size=24 name="newlink[1]"></td>
+	<td class="b"><input type="text" class="input" size=24 name="newlink[2]"></td>
+	<td class="b"><input type="text" class="input" size=24 name="newlink[3]"></td>
+	<td class="b">&nbsp;</td>
+	<td class="b">&nbsp;</td>
+</tr>
+</table>
+<br><center><input class="bt" type=submit value="提 交"></center></form><br>
+<!--
+EOT;
+?>

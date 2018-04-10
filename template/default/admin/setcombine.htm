@@ -1,0 +1,276 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<!--
+EOT;
+if($job=='passport'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b"><pre>
+PHPWind 通行证系统是为解决多个系统之间会员数据共享问题而开发的，是一套跨服务器，跨域名，跨语言的会员共享系统，实现了不同系统之间
+可以共享会员数据和同步会员基本信息，支持不同域名下同步登录，同步退出功能
+
+功能说明：实现多个系统同步登录，退出功能，共享会员数据，同步积分信息
+
+使用方法：通行证由一个服务器端和多个客户端组成，选择一个系统的会员数据做为通行证服务器，其他系统做为客户端
+
+以论坛和博客整合为例说明通行证使用方法：
+
+1. 将论坛做为服务器端，后台设置如下：
+-------------------------------------------------------------
+是否开启通行证          是
+通行证私有密钥          随机生成一个私有密钥（各系统私有密钥必须完全相同）
+将该网站做为通行证的    服务器端
+
+通行证客户端地址        博客系统url地址
+每行填写一个url地址     
+(注意不要在最后加 / )
+-------------------------------------------------------------
+
+2. 将博客做为客户端，后台设置如下
+-------------------------------------------------------------
+是否开启通行证          是
+通行证私有密钥          将服务器端的私有密钥填写到此处（各系统的私有密钥必须完全相同）
+将该网站做为通行证的    客户端
+
+通行证服务器地址        论坛系统url地址
+通行证登录地址          login.php（论坛登录地址）
+通行证退出地址          login.php?action=quit（论坛退出登录地址）
+通行证注册地址          register.php（论坛注册地址）
+选择需要同步的积分      选择需要同步的积分
+--------------------------------------------------------------
+
+3. 通行证设置完成！
+</pre></td></tr></table><br />
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">通行证设置</td></tr>
+<tr class="b"><td width="35%">是否开启通行证：</td>
+<td><input type="radio" name="config[pptifopen]" value="1" $pptifopen_Y> 开启
+<input type="radio" name="config[pptifopen]" value="0" $pptifopen_N> 关闭</td></tr>
+<tr class="b"><td>通行证私有密钥：</td>
+<td><input id="passport_key" name="config[pptkey]" size="35" value="$db_pptkey">
+<input type="button" value="随机生成私有密钥" onclick="generatekey()"></td></tr>
+<tr class="b"><td>将该网站做为通行证的：</td>
+<td><input type="radio" name="config[ppttype]" value="server" $type_server onclick="sendtype('server')"> 服务器端
+<input type="radio" name="config[ppttype]" value="client" $type_client onclick="sendtype('client')"> 客户端</td></tr>
+</table><br />
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center" id="server" style="$style_server">
+<tr><td class="head" align="center" colspan="2">客户端设置</td></tr>
+<tr class="b"><td width="35%">客户端地址<br />
+每行填写一个url地址 (注意不要在最后加 / )<br />
+如：http://www.lxblog.net</td>
+<td><textarea name="serverdb[ppturls]" rows="5" cols="50">$db_ppturls</textarea></td></tr>
+</table>
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center" id="client" style="$style_client">
+<tr><td class="head" align="center" colspan="2">服务器端设置</td></tr>
+<tr class="b"><td width="35%">服务器地址：</td>
+<td><input name="config[pptserverurl]" size="35" value="$db_pptserverurl"></td></tr>
+<tr class="b"><td>登录地址：</td>
+<td><input name="config[pptloginurl]" size="35" value="$db_pptloginurl"></td></tr>
+<tr class="b"><td>退出地址：</td>
+<td><input name="config[pptloginouturl]" size="35" value="$db_pptloginouturl"></td></tr>
+<tr class="b"><td>注册地址：</td>
+<td><input name="config[pptregurl]" size="35" value="$db_pptregurl"></td></tr>
+<tr class="b"><td>选择需要同步的积分：</td>
+<td><input type="checkbox" name="pptcredit[]" value="rvrc" $rvrc_checked> 威望
+<input type="checkbox" name="pptcredit[]" value="money" $money_checked> 金钱
+<input type="checkbox" name="pptcredit[]" value="credit" $credit_checked> 贡献值</td></tr>
+</table>
+<script language="JavaScript">
+function sendtype(show){
+	GE(show).style.display = "";
+	if (show=='server'){
+		GE('client').style.display = "none";
+	} else {
+		GE('server').style.display = "none";
+	}
+}
+sendtype('$db_ppttype');
+oldkey="$db_pptkey";
+function generatekey() {
+    var keychars = "abcdefhjmnpqrstuvwxyz23456789ABCDEFGHJKLMNPQRSTUVWYXZ.,:";
+    var keylength = 16;
+    var key = GE('passport_key');
+	if (oldkey=='' || confirm('更改私有密钥需要同时在其他使用通行证接口的应用程序中修改私有密钥，您确认要更改私有密钥？')) {
+		oldkey='';
+		key.value = '';
+		for ( i = 0; i < keylength; i++ ) {
+			key.value += keychars.charAt( Math.floor( Math.random() * keychars.length ) )
+		}
+	}
+}
+</script>
+<!--
+EOT;
+}elseif($job=='bbscombine'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">提示信息</td></tr>
+<tr><td class="b"><pre>
+此功能为博客与论坛整合设置
+
+一、条件：
+　1、博客与论坛，需要处在同库异名的状态下（同数据库服务器、数据库用户名、数据库密码，不同数据库名）
+　2、论坛需要存在与博客整合的<font color="red">插件接口</font>
+
+二、操作：
+　1、安装好论坛，并在<font color="red">插件接口</font>，进行整合到博客的相关设置
+　2、您必要完成下面的参数设置才能使博客与论坛整合
+
+<font color="blue">注：
+　1、以下填写的信息必须准确无误，否则可能造成博客与论坛不能整合成功
+　2、必须保持博客与论坛用户名一致，如不同则不能整合成功
+  3、必须保持博客与论坛的编码方式一致，如不同则不能整合成功</font>
+
+是否开启整合功能			是否将博客与论坛整合
+
+整合程序访问网址			论坛访问地址，最后不要加 ‘/’
+
+整合程序所在数据库名称			论坛的数据库名
+<!--
+EOT;
+if($mysqlintversion >= '40100'){print <<<EOT
+-->
+整合程序数据库编码			论坛的数据库编码
+<!--
+EOT;
+}print <<<EOT
+-->
+整合程序数据库表前缀			论坛使用的数据库表前缀
+
+整合程序附件保存目录			如:attachment(论坛的附件目录)
+
+整合程序图片保存目录			如:image(论坛的图片目录)
+</pre></td></tr></table><br />
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">论坛整合设置</td></tr>
+<tr class="b"><td width="35%">是否开启整合功能：<br />
+（双方开启此功能才有效）</td>
+<td><input type="radio" name="config[cbbbsopen]" value="1" $cbbbsopen_Y> 开启
+<input type="radio" name="config[cbbbsopen]" value="0" $cbbbsopen_N> 关闭</td></tr>
+<tr class="b"><td>整合程序访问网址(后面不带‘/’)：</td>
+<td><input name="config[cbbbsurl]" size="35" value="$db_cbbbsurl"></td></tr>
+<tr class="b"><td>整合程序所在数据库名称：</td>
+<td><input name="config[cbbbsdbname]" size="35" value="$db_cbbbsdbname"></td></tr>
+<tr class="b"><td>整合程序数据库表前缀：</td>
+<td><input name="config[cbbbspre]" size="35" value="$db_cbbbspre"></td></tr>
+<!--
+EOT;
+if($mysqlintversion < '40100'){print <<<EOT
+-->
+<input type="hidden" name="config[cbbbscharset]" value="">
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr class="b"><td>整合程序数据库表编码：</td>
+<td><input name="config[cbbbscharset]" size="35" value="$db_cbbbscharset"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr class="b"><td>整合程序图片保存目录(如:images)：</td>
+<td><input name="config[cbbbsimgdir]" size="35" value="$db_cbbbsimgdir"></td></tr>
+<tr class="b"><td>整合程序附件保存目录(如:attachments)：</td>
+<td><input name="config[cbbbsattachdir]" size="35" value="$db_cbbbsattachdir"></td></tr>
+</table>
+<!--
+EOT;
+}elseif($job == 'allowbbsfid'){print<<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">推送版块权限设置</td></tr>
+<tr class="b"><td>请在不允许推送的版块前打钩</td></tr>
+<tr class="b"><td>
+<!--
+EOT;
+foreach($_BBSFDB as $key => $value){print<<<EOT
+-->
+<input type="checkbox" name="bbsfid[]" value="$value[fid]" ${'bbsfid_'.$value[fid]}>$value[name]<br />
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</td></tr>
+</table><br />
+<!--
+EOT;
+}elseif($job == 'js'){print <<<EOT
+-->
+<table width="98%" align=center cellspacing=1 cellpadding=3 class=i_table>
+<tr><td class=head colspan=7><b>提示信息</b></td></tr>
+</table><br>
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="b">
+[<a href="$basename&">JS调用管理</a>]
+[<a href="$basename&deal=set">JS调用设置</a>]
+</td></tr></table><br>
+<!--
+EOT;
+if($deal == 'set'){print<<<EOT
+-->
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<input type="hidden" name="deal" value="set">
+	<tr><td class="head" colspan="2" align="center"><a href="#top">JS 调用设置</a></td></tr>
+	<tr class=b>
+		<td width="60%">是否开启 JS调用<br>此功能允许在您的网站首页或其他地方调用博客的内容</td>
+		<td>
+			<input type=radio value=1 name="config[jsifopen]" $jsifopen_Y> 开启
+			<input type=radio value=0 name="config[jsifopen]" $jsifopen_N>关闭
+		</td>
+	</tr>
+	<tr class=b>
+		<td>允许调用网站域名(留空不限制)<br>您可以设置允许调用博客内容的网站域名列表，只有在列表中的域名才能调用论坛信息<br>多个域名用 "," 分隔域名，不要包含 http:// 或其他非域名内容</td>
+		<td><input type=text size="50" name="config[bindurl]" value="$db_bindurl"></td>
+	</tr>
+</table><br />
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<script language="JavaScript">
+function CopyCode(obj){ 
+	obj.select(); 
+	var js=obj.createTextRange(); 
+	js.execCommand("Copy");
+}
+</script>
+<form action="$basename&" method="post" name="form">
+<table width="80%" align=center cellspacing=1 cellpadding=3 class=i_table>
+<tr><td class=head colspan=8><b>首页调用工具</b></td></tr>
+<tr class="b"><td width="20%">演示代码：<br>
+<input id="code" type="text" name="advert" value="$code1" size="100" onmouseover="form.code.select();"><br>
+<input type="submit" value="查看效果">
+<input type="button" value="复制代码" onclick="CopyCode(document.getElementById('code'));"><br><br>
+<font color="gray">以下为调用效果：</font>
+	<hr size=1>
+$code2
+</td></tr></table></form><br>
+
+<table cellspacing=1 cellpadding=3 width="80%" class=i_table align=center>
+<tr class=head align=center><td><b>博客统计信息调用演示</b></td></tr>
+<tr class="b"><td><br>可选参数和参数说明：<br>\$pre : 前缀,可选参数 : 0.&lt;li&gt;，1.◇，2.·，3.○，4.●，5.-，6.□-<br>\$blogs :是否调用日志总数，可选参数（0,1）<br>\$albums :是否调用相册总数，可选参数（0,1）<br>\$malbums :是否调用专辑总数，可选参数（0,1）<br>\$users :是否调用会员总数，可选参数（0,1）<br>\$tblogs :是否调用今日日志总数，可选参数（0,1）<br>\$newmember :是否调用最新会员，可选参数（0,1）<br><br></td></tr>
+<tr class="b"><td>演示代码：<br>
+<input type="text" id="code2" value="&lt;script src=&quot;$db_blogurl/new.php?action=bloginfo&pre=1&n_totalblogs=1&n_totalalbums=1&n_totalmalbums=1&n_totalusers=1&n_tdblogs=1&n_newmember=1&quot;&gt;&lt;/script&gt;" size="100">
+<br>
+<input type="button" value="复制代码" onclick="CopyCode(document.getElementById('code2'));"><br><br>
+<font color="gray">以下为调用效果：</font>
+	<hr size=1>
+<script src="$db_blogurl/new.php?action=bloginfo&pre=1&n_totalblogs=1&n_totalalbums=1&n_totalmalbums=1&n_totalmember=1&n_tdblogs=1&n_newmember=1"></script>
+</td></tr></table><br>
+
+<!--
+EOT;
+}
+}
+print<<<EOT
+-->
+<center><input type="submit" value="提 交"></center>
+</form>
+<!-- 
+EOT;
+?>-->

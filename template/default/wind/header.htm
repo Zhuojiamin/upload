@@ -1,0 +1,323 @@
+<!--<?php print <<<EOT
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$title {$db_blogname} {$db_metatitle} - powered by lxblog.net</title>
+<meta name="keywords" content="$db_metakeyword" />
+<meta name="description" content="$db_metadescrip" />
+<!--css--><style type="text/css">
+body{font-family: Trebuchet MS;font-size:12px;background:#fff;}
+h1,h2,h3,h4,h5,h6,form,body{padding:0;margin:0}
+td,th,div{word-break:break-all;word-wrap:break-word}
+*{ outline:none}
+img{border:0}
+cite{ font-style:normal}
+.c{clear:both;height:1px; margin-top:-1px; overflow:hidden; font:1px/1px Arial;}
+.tal{text-align:left}
+.tac{text-align:center}
+.tar{text-align:right}
+.fr,.right{float:right}
+.fl,.left{float:left}
+.clear{ clear:both}
+.b{ font-weight:bold}
+.colorA,.listA li a:hover,.listB li a:hover,.listPic dt a:hover{color:#7C9F0A}
+.colorB{color:#000}
+.colorC{color: #FCAC00}
+.green{ color:#C2D142}
+.gray{ color:#aaa}
+.bgGray{ background:#ccc}
+/*层级元素*/
+h1{ font-size:18px; margin:0; padding:.6em .5em }
+h2{ font-size:18px;}
+h3{ font-size:14px; color:#0D5B91; margin:1em 0 .2em; }
+h4{ font-size:14px}
+h5{ font-size:12px;color:#35A0B6;}
+.bt{ padding-top:.1em ;padding-left:.5em ;padding-right:.5em; background:url($imgpath/$stylepath/bt.gif) left top; border:1px solid #7DE7FD; color:#35A0B6; font-size:12px; font-family:Tahoma}
+.ip{ border:1px solid #7DE7FD; padding:2px;color:#666}
+/*a link 基本连接颜色*/
+a{text-decoration:none;color:#2f5fa1}
+a:hover{text-decoration:underline;}
+a.more{ padding-left:1.5em;background:url($imgpath/$stylepath/more.gif) no-repeat left center; color:#000; font-size:14px}
+a.more:hover{ text-decoration:none;color:#7C9F0A;}
+
+#header{ width:980px; margin:auto}
+.logo{width:30%; float:left}
+.jion{float:right; margin-top:20px}
+.jionl{background:url($imgpath/$stylepath/jionleft.gif) no-repeat left top; padding-left:27px}
+.jionr{background:url($imgpath/$stylepath/jionright.gif) no-repeat right top; padding-right:27px;}
+.jionm{background:url($imgpath/$stylepath/jionmiddle.gif) repeat-x; padding:5px 0;}
+
+
+#login-info{color:#25697D}
+#login-info a { color:#000}
+#guide{background:#2683b5 url($imgpath/$stylepath/guidebg.gif) repeat-x; width:100%; height:37px}
+#guide li{float:left;list-style:none;padding:10px 23px 11px;background:url($imgpath/$stylepath/guideli.gif) no-repeat right top;display:block;}
+#guide li a{color:#fff; font-size:13px;display:block;}
+#guide li.active {background:url($imgpath/$stylepath/guide-tab.gif) left top;}
+#guide li.active a{ color:#fff; font-weight:bold;}
+#guide li.active a:hover{ text-decoration:none; color:#afdffa}
+.guideyin{background:url($imgpath/$stylepath/guideyinbg.gif) repeat-x left top; height:8px}
+
+#maintop{border:1px solid #cccccc; padding:1px; width:980px; float:left}
+.fenlei{width:590px;float:left;background:url($imgpath/$stylepath/fenleibg.gif) repeat-x left top;}
+.fenlei ul{list-style-type:none;margin:0; padding:9px 0 0 10px;}
+.fenlei li{float:left; padding:0 50px 0 5px;}
+.fenlei li span{display:block; text-align:center;}
+.zhuce{ background:url($imgpath/$stylepath/zhucebg.gif) no-repeat 88% 100%;float:left;padding:10px 0 5px 480px}
+.zhuce a{color:#1d76a5; font-weight:bold; font-size:14px; }
+.maptags{float:right;width:390px;background:url($imgpath/$stylepath/tagsbg.gif) no-repeat right top; height:129px;}
+.maptagstop{padding:5px 5px 5px 32px}
+.maptagssearch{background:url($imgpath/$stylepath/searchbg.gif) repeat-x 0 0; border:1px solid #fff; padding:4px 5px 3px}
+.maptagsgo{background:url($imgpath/$stylepath/mapsearchbt.gif) no-repeat 0 0; border:1px solid #fff; height:22px; width:28px}
+.maptagstext{padding:5px 5px 5px 32px; line-height:180%}
+
+
+#guideB { padding:0; display:block; clear:both; margin:0 auto;width:980px; float:left}
+	#guideB li{ list-style:none; display:block; float:left; line-height:1.2em; }
+		#guideB li a{ display:block ;padding:.8em .8em .5em;height:12px; float:left;}
+		#guideB li a:hover{border-bottom:3px solid #FCAC00; text-decoration:none}
+	#guideB li.active { font-weight:bold;}
+		#guideB li.active a{color:#FCAC00; border-bottom:3px solid #FBDA0A;}
+.guideBwrap{ width:980px; background:url($imgpath/$stylepath/guideB.gif) bottom repeat-x ;height:auto;margin:auto;}
+#main {width:980px;margin:auto}
+.p1{ padding:1em}
+/*Layout*/
+#i-content{ width:740px;float:left}
+#i-sidebar{ width:220px;float:right;border:1px solid #d9e4e9; margin:7px 0; padding:5px 0 0}
+#in-content{ width:75%; float:left}
+#in-sidebar{ width:22%; float:right; }
+#pic-player{ width:230px; height: auto; float:left; }
+#hot-tags{float:right;margin:0 0 1em;}
+.register #hot-tags{ width:33%;}
+#i-content #hot-tags ul,.borderA1{border-bottom:1px solid #e1e1e1;}
+#hot-tags ul{ margin:.5em 0 .5em .2em; padding:0 0 1em; word-break:keep-all;word-wrap:normal; }
+#hot-tags li{ width:20%; text-align:left; float:left; height:18px; overflow: hidden; margin:0 .8em 0 0; padding:0;}
+#hot-tags li a{ color:#666; line-height:18px; font-size:12px;}
+#hot-tags li a:hover{ color:#7C9F0A}
+
+.boxA{ width:100%; float:left; border:1px solid #CCD6DC; margin:.5em 0  }	
+	.tabA1{ background:url($imgpath/$stylepath/tabA1.gif) 0 0 repeat-x; font-size:12px; height:32px;}		
+	.tabA1 a{ line-height:32px; height:32px; float:left;font-size:13px; width:33.3%; text-align:center; cursor:pointer; font-weight:normal;color:#333}
+		.tabA1 a:hover{ background:url($imgpath/$stylepath/tabA1.gif) 0 -32px repeat-x; text-decoration:none}
+		.tabA1 a.tabA1B{ width:33.4%;background:url($imgpath/$stylepath/tabA1.gif) 0 -64px repeat-x; cursor: default;font-weight:bold;color:#0C5D74}
+		.tabA1 a.tabA1B:hover{ background:url($imgpath/$stylepath/tabA1.gif) 0 -64px repeat-x; }
+	.tabB{background:url($imgpath/$stylepath/tabA1.gif) 0 0 repeat-x; font-size:12px;padding:.5em 1em; border:1px solid #fff;border-bottom-color:#E1E7EA;color:#666; font-weight:normal}
+
+/*文章页面*/
+.post cite { background:#EEFAFE; display:block; padding:.2em 1em;color:#999}
+.post cite span{ margin-left:1em}
+.read-author-pic{ padding:1px; border:1px solid #eaeaea;width:28px; height:28px;margin:.5em 1.2em 0}
+.post-content { margin:1.5em;margin-bottom:3em}
+.post-content p{ text-indent:2em; line-height:1.8em;font-size:14px}
+.tags{margin: 2em ; color:#999 }
+.tags a { margin:0 .2em}
+.rank{margin:2em 1em; padding:.5em 0; border-top: 1px solid #eaeaea; background:url($imgpath/$stylepath/h5bg.gif) repeat-x 0 1px}
+.fsn dd{ padding:0; margin:.3em 0}
+
+/*文章列表*/
+.listArticle {padding:0; margin:.5em 0; list-style:none; font-size:14px}
+.listArticle li{ padding:.5em 0 .5em 2em; margin:0 1em;border-bottom:1px solid #E6EBEF; background:url($imgpath/$stylepath/yue.gif) no-repeat .5em .8em }
+.listArticle li a{ color:#16387C}
+.listArticle em{ float:right;width:30%; margin-left:2em;font-style:normal;font:10px tahoma}
+.listArticle em cite { width:60%; float:left}
+.listArticle em cite a{color:#999;font-size:12px}
+.groupList {font-size:12px; }
+.groupList li{ background:none; padding:.5em 0 .5em 1em;}
+.groupList em{ width:40%;font-size:12px;text-align:center;color:#999;}
+
+/*评论 回复*/
+.comment { margin:1.5em 2em}
+.comment dl{ padding-left:45px;}
+.comment dt{ color:#CCC }
+.comment dd{ padding:.5em 0;margin:0;color:#333; overflow:hidden}
+.comment dt .authorPic{ position:absolute; margin-left:-45px; height:28px; width:28px; padding:1px; border:1px solid #ccc; background:#fff}
+.boxAcontent{ padding:.5em }
+
+.smile{ height:23px;padding:7px 0 0 8px;text-align:left;background:#E0F0F9 url($imgpath/$stylepath/th1.png);cursor:move}
+.smile div{ width:56px;height:18px;text-align:center;padding:5px 0 0;cursor:pointer;}
+.smile div.lian{ background:#ffffff url($imgpath/$stylepath/tag.jpg) no-repeat;cursor:auto;}
+
+.listA{ margin:0;padding:0; list-style:none}
+.listA li{ width:31%; height:35px; overflow:hidden; float:left; padding:.1em 0 .1em 1.5em;background:url($imgpath/$stylepath/more.gif) no-repeat left 
+.3em; }
+.listA li a { color:#333;}
+.listA li cite a,.listA li cite{ font:12px/1.1em Trebuchet; color:#999 }
+.listB { margin:0; padding:0 0 0 2em}
+.listB li { list-style:none; width:33%; float:left; margin:.5em 0; font-size:14px }
+.listB li img { margin:0 .5em 0 0; border:1px solid #eee; vertical-align: text-bottom; width:20px; height:20px; padding:1px }
+.listB li a{ color:#333}
+.listPic dl{ width:24.5%; height:130px; float:left; text-align:center; padding:0; margin:.5em 0;height:150px;}
+.listPic dt a{ color:#333}
+.listPic dd{ padding:0 0 .5em 0; margin:0; text-indent:0; height:90px; vertical-align:middle}
+.listPic dd img{ width:85px;height:85px; padding:2px; border:1px solid #eee;}
+.listPic-albumn dl { height:150px;}
+.listPic-albumn dd { height:105px;}
+.listPic-albumn dd img { width:90px; height:90px; padding:4px 4px 8px; border:0; background:url(image/albumn-bg.gif)}
+.listC li { background:none; width:26%; float:left; padding-left:50px;height:38px; overflow: hidden}
+.listC li em{ position: absolute; margin-top:.1em; padding:.1em .2em 0; width:30px; text-align:center;margin-left:-40px;background:#B3C512; font:9px/11px Tahoma; color:#fff; border-right:1px solid #89AF07;border-bottom:1px solid #89AF07}
+.listD li{ background:none;width:26%; float:left; padding-left:50px; font-size:14px; height:40px;}
+.listD li em { position:absolute; margin-left:-35px; }
+.listD li em img{width:30px; height:30px; }
+.listE { padding:0; margin:0; list-style:none}
+.listE li{ background:url($imgpath/$stylepath/more.gif) left .4em no-repeat; padding:.2em 0 .2em 1.5em}
+.listE li a{ color:#666}
+/*i-siderbar*/
+#i-sidebar ul,#in-sidebar ul{ margin:.5em 0 1em .5em; list-style:none; padding:0}
+#i-sidebar li a,#in-sidebar li a{ color:#666}
+#i-sidebar li,#in-sidebar li{; padding-top:.2em; padding-bottom:.2em}
+#i-sidebar h3,#in-sidebar h3{ padding:.5em; border-top:1px solid #E1E1E1; background:url($imgpath/$stylepath/h5bg.gif) repeat-x 0 2px}
+.tableA { table-layout:fixed;}
+.tableA td{ text-align:center; padding-bottom:.5em}
+.tableA td img{ width:80px;}
+.system-investigate h5{ margin:1em 0 .5em; font-weight:normal }
+.system-investigate ul{ margin:0 0 1em; padding:0}
+#pools-billboard{ font-size:14px}
+#pools-billboard span{ font-size:12px}
+
+#sharelinks { border:1px solid #e1e1e1;}
+#sharelinks h5{color:#333; font-weight:normal; background:url($imgpath/$stylepath/tabA1.gif) repeat-x 0 0; padding:.7em 1em }
+#sharelinksconter{padding:1em}
+/*themelist*/
+.themelist { width:31%; float:left; padding:0; margin:.5em .5em 1.5em; height:100px}
+.themelist dd,.themelist dt{ padding-left:130px; margin:.5em 0 }
+.themelist a.p{ position:absolute;margin-left:-130px;border:1px solid #ccc}
+.themelist a.p img{ width:115px;height:85px;padding:2px;}
+.themelist a.p:hover{ border:1px solid #999}
+.boxA .quanOne{ padding:0 .5em 0 0; margin:0; float:left;}
+.boxA .quanOne dd{ padding:.5em; margin:0}
+.boxA .quanOne dt{ margin:.5em 0 0}
+.boxA .quanOne .pic img{ width:80px; height:80px; padding:2px; background:#fff; border:1px solid #dadada}
+
+/*pages*/
+.pages { margin-top:10px; margin-bottom:10px; text-align: center;font-family:tahoma}
+.pages * { vertical-align: middle;}
+.pages a{padding:1px 4px ; background:#f9fcff;border:1px solid #ADD2E1; margin:0 1px; color: #002F79; text-align: center; text-decoration: none; font:normal 10px Tahoma ; }
+.pages a:hover { border:#37A717 1px solid; background:#EDFFE4; text-decoration:none; color: #002F79}
+.pages input { border:1px solid #ccc; height: 13px; font: 9px Tahoma; padding-top:1px;text-align: center; }
+.pages b { padding:2px ;margin: 0 3px;font:bold 10px/12px Tahoma}
+/*footer*/
+#footer{ width:980px; margin:1em auto; padding:1em 0 3em; border-top:1px solid #dbdbdb}	
+#system-login h3{color:#97af0e;}
+.login-name,.login-pws{color:#333;border:0;height:21px;background: url($imgpath/login-name-bj.gif) no-repeat left 0;line-height:18px;width:137px}
+.login-sure{color:#333;border:0;height:21px;background: url(images/loginsure.gif) no-repeat left 0;line-height:18px;width:81px}
+.btn{background-image: url($imgpath/login.jpg);border: 0px;height: 51px;width:51px;cursor:hand;}
+.register{ border:#ccd6dc 1px solid; margin-bottom:5px; height:auto;background:url($imgpath/regbg.jpg) repeat-x #fff;float:left}
+.register h5 {padding:0 0 .5em}
+.register h5 a{ color:#97af0e; }
+.register ul{ padding:0; margin:1em 0 0}
+.register li{ width:70px; float:left; list-style:none; text-align:center; padding:.5em 0 0 2em; margin:0}
+.register li span{ display:block;color:#4c7086; margin:.5em 0 0}
+.itable{ table-layout:fixed}
+.itable td{ vertical-align:middle; padding:.5em; border-bottom:1px solid #eee}
+
+
+/*menu*/
+.menu{position:absolute;background:#fff;border:1px solid $tablecolor;}
+.menu td, .menu li,.menu ul{background:#fff;padding:0; margin:0}
+.menu li{list-style:none;}
+.menu a{display:block;padding:3px 15px 3px 15px;background:#fff;}
+.menu a:hover{background:$linkcolor;text-decoration:none;color:#fff;}
+.menu ul.ul1 li a{display:inline;padding:0}
+</style><!--css-->
+</head>
+<body style="font-family: Trebuchet MS;font-size:12px;">
+<script language="JavaScript" src="js/global.js"></script>
+<script language="JavaScript">
+var winduid='$winduid';
+var ajaxurl='$db_blogurl/ajax.php';
+var ajaxtype='index';
+var ajaxcmt = false;
+</script>
+<div id="header">
+   <div class="logo"><img src="$imgpath/$stylepath/logo.gif" /></div>
+   <div class="jion">
+    <div class="jionl">
+      <div class="jionr">
+        <div class="jionm"> 你好，
+<!--
+EOT;
+if(!$winduid){print<<<EOT
+-->
+		游客! <a href="$loginurl">登陆</a> 或 <a href="register.php">注册</a>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+       ($windid)! (<a href="blog.php?uid=$winduid" target="_blank">主页</a> <a href="user_index.php">管理</a> <a href="$loginouturl">注销</a>
+<!--
+EOT;
+if($winddb['newmsgid']>0){print<<<EOT
+-->
+<a href="user_index.php?action=message&type=read&mid=$winddb[newmsgid]" style="color:red">新消息</a>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+		)
+<!--
+EOT;
+}foreach($_HEADNAV as $value){
+$value[_ifblank] = $value[_ifblank] ? ' target="_blank"' : '';print <<<EOT
+-->
+		| <a href="$value[url]"$value[_ifblank]>$value[name]</a>
+<!--
+EOT;
+}if($winduid==$manager || $_GROUP[admincp]==1){print <<<EOT
+-->
+		| <a href="admin.php" target="_blank">系统设置</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+       </div>
+      </div>
+    </div>
+  </div>
+  <div class="c"></div>
+  <div id="guide">
+  	<ul>
+<!--
+EOT;
+foreach($showheader as $value){
+$class = $tkey==$value[sign] ? ' class="active"' : '';print <<<EOT
+-->
+<li $class><a href="$value[url]">$value[name]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	</ul>
+  </div>
+  <div class="guideyin"></div>
+</div>
+<!--
+EOT;
+if (!empty($showcate)) {print <<<EOT
+-->
+  <div class="guideBwrap">
+	<ul id="guideB">
+
+<!--
+EOT;
+foreach($showcate[$type] as $value){
+$class = $cid == $value[cid] ? ' class="active"' : '';print <<<EOT
+-->
+	  <li $class><a href="$value[url]">$value[name]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	</ul>
+  </div>
+<!--
+EOT;
+}print <<<EOT
+-->
+  <div class="c"></div>
+</div>
+<!--
+EOT;
+?>-->

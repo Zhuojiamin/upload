@@ -1,0 +1,96 @@
+<!--<?php
+include_once PrintEot('left');
+if($job == 'rightset'){print <<<EOT
+-->
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b"><br />
+<ul>说明：此功能只有博客创始人有权限使用<br /><br />
+1.进行此项管理前请确定您设置的用户组已经设置进后台的权限<br /><br />
+2.可以设置拥有后台管理权限的用户组相应的管理选项（每个管理选项都对应一个管理权限控制）</ul></td></tr>
+</table><br />
+<!--
+EOT;
+if(!$set){print <<<EOT
+-->
+<table width="70%" align="center" cellspacing="0" cellpadding="0" class="i_table">
+<tr><td><table width="100%" cellspacing="1" cellpadding="3">
+<tr><td class="head" colspan="5">后台管理用户组</td></tr>
+<tr align="center" class="head_2"><td width="5%">ID</td>
+<td>名称</td>
+<td width="10%">编辑</td></tr>
+<!--
+EOT;
+foreach($groupdb as $value){print <<<EOT
+-->
+<tr align="center" class="b"><td>$value[gid]</td>
+<td>$value[title]</td>
+<td><input type="button" value="权限"" onclick="location.href='$basename&set=edit&gid=$value[gid]'"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table></td></tr>
+</table>
+<!--
+EOT;
+}elseif($set=='edit'){print <<<EOT
+-->
+<form action="$basename&set=edit&gid=$gid&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="60%" align="center" cellspacing="0" cellpadding="0" class="i_table">
+<tr><td><table width="100%" cellspacing="1" cellpadding="3">
+<tr><td class="head" colspan="2">$ltitle[$gid]权限控制</td></tr>
+$rightselect
+</table></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}}elseif($job=='manager'){print <<<EOT
+-->
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b"><br />
+<ul>说明：此功能只有论坛创始人有权限使用<br /><br />
+可以更改论坛创始人(更改后的那个用户将成为论坛创始人)<br /><br />
+<font color="blue">注</font>：若无特殊需要请别更改论坛创始人，这可能造成安全问题</ul></td></tr>
+</table><br />
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="ceoemail" value="$db_ceoemail">
+<table width="70%" align="center" cellspacing="0" cellpadding="0" class="i_table">
+<tr><td><table width="100%" cellspacing="1" cellpadding="6">
+<tr><td class="head" colspan="2">论坛创始人设置</td></tr>
+<tr align="center"><td class="b" width="30%">用户名</td>
+<td class="b"><input name="username" size="40" value="$manager"></td></tr>
+<tr align="center"><td class="b">新密码(<font color="blue">如不更改请留空</font>)</td>
+<td class="b"><input name="password" size="40" value=""></td></tr>
+<tr align="center"><td class="b">确认密码<br />（修改密码时需要输入）</td>
+<td class="b"><input name="check_pwd" size="40" value=""></td></tr>
+</table></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center></form>
+<!--
+EOT;
+}elseif ($job=='diy'){print <<<EOT
+-->
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b"><br />
+<ul>说明：此功能只有论坛创始人有权限使用</ul></td></tr>
+</table><br />
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="70%" align="center" cellspacing="0" cellpadding="0" class="i_table">
+<tr><td><table width="100%" cellspacing="1" cellpadding="3">
+<tr><td class="head">常用选项定制</td></tr>
+$diyselect
+</table></td></tr>
+</table><br />
+<center><input type="submit" value="提 交" /></center>
+</form>
+<!--
+EOT;
+}?>-->

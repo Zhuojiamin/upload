@@ -1,0 +1,64 @@
+<!--<?php
+//include_once PrintEot('top');
+if(empty($step)){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<input name='step' type=hidden value=2>
+<input name='jop' type=hidden value='list'>
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr height="25"><td>&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<b>相册评论搜索</b></td></tr>
+	<tr>
+		<td width="25%">关键字</td>
+		<td><input type="text" size="48" name="keyword"></td></tr>
+	<tr>
+		<td width="25%">用户名</td>
+		<td><input type="text" size="48" name="username"></td>
+	</tr>
+	<tr>
+		<td width="25%" class="b">发表日期</td>
+		<td class="b">
+			<input type="text" size="20" name="postdate1" value="$postdate1"> - 
+			<input type="text" size="20" name="postdate2" value="$postdate2">
+		</td>
+	</tr>
+</table>
+<br>
+<br>
+<center><input type='Submit' value='提 交' name='Submit'></center>
+</form><br>
+<!--
+EOT;
+}elseif($step==2){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="b" height="25"><td colspan="2">&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<b>评论管理</b></td></tr>
+<tr align=center><td class="head_2" width='5%' height="25">ID</td><td class="head_2">内容</td><td class="head_2" width='15%'>作者</td><td class="head_2" width='15%'>发表日期</td>
+<td class="head_2" width='6%'>删除</td></tr>
+<!--
+EOT;
+$id=($page-1)*$db_perpage;
+foreach($commentdb as $key=>$comment){
+$id++;
+print <<<EOT
+-->
+<tr align=center><td class="b" height="30">$id</td><td class="b"><a href="$P/blog.php?do=photo&uid=$comment[uid]&pid=$comment[pid]" target='_blank'>$comment[content]</a></td><td class="b"><a href="$P/blog.php?uid=$comment[authorid]" target='_blank'>$comment[author]</a></td><td class="b" class='smalltxt'>$comment[postdate]</td>
+<td class="b"><input type="checkbox" name="selid[]" value='$comment[id]'></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<input name='step' type=hidden value=2>
+<input name='jop' type=hidden value='del'>
+<br><center>$pages
+<br>
+<input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type='Submit' value='提 交' name='Submit'></center>
+</form><br>
+
+<!--
+EOT;
+}
+?>
+-->

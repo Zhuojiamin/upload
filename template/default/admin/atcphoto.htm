@@ -1,0 +1,46 @@
+<!--<?php print <<<EOT
+-->
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript" src="js/wysiwyg_editor.js"></script>
+<tr class="b"><td width="30%" height="30" class="bold">相册名称: </td>
+<td><input name="atc_title" size="35" value="$atc_title"></td></tr>
+<tr class="b"><td height="30" class="bold">系统分类: </td>
+<td><select name="atc_cid" style="width:150px;">
+$categpslt
+</select><input name="atc_oldcid" type="hidden" value="$cid"></td></tr>
+</td></tr>
+<tr class="b"><td height="30" valign="top"><br /><b>内 容</b>: <br /><br />
+评论设置: 
+<select name="atc_allowreply">
+<option value="1"$allowreply_1>允许</option>
+<option value="0"$allowreply_0>不许</option>
+</select><br /><br />
+共享设置: 
+<select name="atc_ifhide">
+<option value="0"$ifhide_0>完全共享</option>
+<option value="2"$ifhide_2>好友可见</option>
+<option value="1"$ifhide_1>彻底隐藏</option>
+</select></td>
+<td><table cellspacing="0" cellpadding="3" width="100%">
+<tr class="b"><td height="30">
+<!--
+EOT;
+if($_GROUP['htmlcode']){print <<<EOT
+-->
+<input type="checkbox" name="atc_htmlcode" id="atc_html" value="1" $html_CK> 使用html代码
+<!--
+EOT;
+}print <<<EOT
+-->
+<input type="checkbox" name="atc_autourl" value="1" CHECKED> 自动分析url<br />
+<!--
+EOT;
+include PrintEot('wysiwyg');print <<<EOT
+-->
+<span id="showmsg" style="color:red;margin-top:5px;padding:6px;display:none;"></span>
+</td></tr>
+</table>
+</td></tr>
+<!--
+EOT;
+?>

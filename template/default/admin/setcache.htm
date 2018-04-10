@@ -1,0 +1,138 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr><td class="b bold">[<a href="#default">更新系统缓存</a>] [<a href="#bloginfo">更新会员总数</a>] [<a href="#group">更新会员组头衔</a>] [<a href="#itemtype">更新会员个人分类</a>] [<a href="#categories">更新分类记录数</a>] [<a href="#usernum">更新用户记录数</a>] [<a href="#blogcmtnum">更新日志评论数</a>] [<a href="#tagnum">更新标签记录</a>] [<a href="#teamnum">更新{$db_teamname}记录</a>]</td></tr>
+</table><br />
+
+<a name="default"></a>
+<form action="$basename&job=all" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head"><a href="#top"><b>更新系统缓存</b></a></td></tr>
+<tr><td class="b">提示：将更新论坛所有缓存数据<br />
+<font color="blur">当刚完成数据转换或前台不能正常访问时，可以使用此功能更新缓存</font></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="bloginfo"></a>
+<form action="$basename&job=bloginfo" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head"><a href="#top"><b>更新会员总数，最新会员，总日志数，总相册数，总专辑数</b></a></td></tr>
+<tr><td class="b">提示：将更新论坛会员数统计，可修复会员总数，最新会员，总日志数，总相册数，总专辑数统计错误问题</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="group"></a>
+<form action="$basename&job=group" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新会员组头衔</b></a></td></tr>
+<tr><td class="b" colspan="2">提示:将根据升级积分依据更新用户的头衔<br />
+每次更改升级点数需求或会员组提升方式后需要使用此功能更新会员组头衔</td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="1000" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="itemtype"></a>
+<form action="$basename&job=itemtype" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新会员个人分类</b></a></td></tr>
+<tr><td class="b" colspan="2"><font color="blur">当刚完成数据转换或前台分类记录数统计不正常时，可以使用此功能修复</font></td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="1000" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="categories"></a>
+<form action="$basename&job=categories" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新分类记录数</b></a></td></tr>
+<tr><td class="b" colspan="2">提示：将更新所有分类的记录数<br />
+用户分类为用户总数，朋友圈分类为朋友圈总数，其余为帖子总数<br />
+<font color="blur">当刚完成数据转换或前台分类记录数统计不正常时，可以使用此功能修复</font></td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="30" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="usernum"></a>
+<form action="$basename&job=usernum" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新用户记录数</b></a></td></tr>
+<tr><td class="b" colspan="2">提示:将更新所有用户的记录数<br />
+记录数为日志、相册、专辑、书签、回复、点击主题总数<br />
+<font color="blur">当刚完成数据转换或前台用户记录数统计不正常时，可以使用此功能修复</font></td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="500" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="blogcmtnum"></a>
+<form action="$basename&job=blogcmtnum" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新日志评论数和评论缓存</b></a></td></tr>
+<tr><td class="b" colspan="2">提示:将更新所有日志的评论数和评论缓存<br />
+<font color="blur">当刚完成数据转换或前台日志评论数统计不正常或评论不显示时，可以使用此功能修复</font></td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="500" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="photocmtnum"></a>
+<form action="$basename&job=photocmtnum" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新相片评论数和评论缓存</b></a></td></tr>
+<tr><td class="b" colspan="2">提示:将更新所有相片的评论数和评论缓存<br />
+<font color="blur">当刚完成数据转换或前台相片评论数统计不正常或评论不显示时，可以使用此功能修复</font></td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="500" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="blogcmtnum"></a>
+<form action="$basename&job=blogcmtnum" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新专辑评论数和评论缓存</b></a></td></tr>
+<tr><td class="b" colspan="2">提示:将更新所有专辑的评论数<br />
+<font color="blur">当刚完成数据转换或前台帖子评论数统计不正常或评论不显示时，可以使用此功能修复</font></td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="500" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="tagnum"></a>
+<form action="$basename&job=tagnum" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新标签记录（Tag）</b></a></td></tr>
+<tr><td class="b" colspan="2">提示:将更新所有标签记录<br />
+<font color="blur">当刚完成数据转换或前台标签记录不正常时，可以使用此功能修复</font></td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="500" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<a name="teamnum"></a>
+<form action="$basename&job=teamnum" method="post">
+<table width="55%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><a href="#top"><b>更新{$db_teamname}记录</b></a></td></tr>
+<tr><td class="b" colspan="2">提示:将更新所有{$db_teamname}记录<br />
+<font color="blur">当刚完成数据转换或前台{$db_teamname}记录不正常时，可以使用此功能修复</font></td></tr>
+<tr class="b"><td>每批更新个数</td>
+<td><input name="limitnum" value="1000" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+
+<!--
+EOT;
+?>-->

@@ -1,0 +1,25 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<table width="85%" align="center" cellspacing="1" cellpadding="3">
+<tr><td align="center" valign="middle">
+<br /><br /><br />$msg<br /><br /><br /><br /></td></tr>
+<!--
+EOT;
+if($jumpurl!=''){print <<<EOT
+-->
+<tr><td align="center"><meta http-equiv="refresh" content="$t; url=$jumpurl">
+<center><a href="$jumpurl">如果您的浏览器没有自动跳转,请点击这里</a></center><br /></td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td align="center"><a href="javascript:history.go(-1);">返 回 继 续 操 作</a><br /></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<!--
+EOT;
+?>-->

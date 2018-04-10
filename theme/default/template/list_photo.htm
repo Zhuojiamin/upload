@@ -1,0 +1,60 @@
+<!--<?php print <<<EOT
+-->
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	  <h2>$left_name[newphoto]</h2>
+	  <!--begin-->
+	  <div class="text">
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <div class="listPic listPic-albumn">
+<!--
+EOT;
+foreach($_TEMPDB as $newpic){print <<<EOT
+-->
+				<dl id=photo_{$newpic[pid]}>
+				<dd><a href="blog.php?do=list&uid=$uid&type=photos&job=view&aid=$newpic[aid]"><img src="$newpic[hpageurl]"/></a></dd>
+				<dt>$newpic[subject]
+<!--
+EOT;
+if($newpic['ifhide'] == 1){print<<<EOT
+-->
+(隐藏)
+<!--
+EOT;
+}elseif($newpic['ifhide'] == 2){print<<<EOT
+-->
+(好友可见)
+<!--
+EOT;
+}elseif($newpic['ifhide'] == 3){print<<<EOT
+-->
+(密）
+<!--
+EOT;
+}
+print<<<EOT
+-->
+				</dt>
+				<dt>共$newpic[photos]张　浏览:$newpic[hits]　回复:$newpic[replies]</dt>
+				</dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+			  </div>
+			  <div class="c"></div>
+			  $pages
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <!--end-->
+	</div>
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>

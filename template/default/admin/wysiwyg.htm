@@ -1,0 +1,230 @@
+<!--<?php
+$class1 = $editor == 'wysiwyg' ? 'buttonPressed' : 'buttonHover';
+$class2 = $editor == 'wysiwyg' ? 'buttonHover' : 'buttonPressed';
+$style2 = $db_setform ? '' : 'none';
+print <<<EOT
+-->
+<style type="text/css">
+#colorbox{width:91px;height:78px;padding:3px 0 0 3px;overflow:hidden;}
+#colorbox div{cursor:pointer;width:8px;height:8px;float:left;margin:0 3px 3px 0;border:1px #000 solid;font:0/8px arial}
+.wysiwyg{padding:1px;background-color:#F0F0EE;width:560px;border:1px solid #CCCCCC;}
+.htmlarea{background:#fff;}
+.toolbar{cursor:default;background: #F0F0EE;padding: 1px 1px 1px 1px;border-bottom: 1px solid #CCCCCC;}
+.button{float:left;background: #F0F0EE;color:ButtonText;border:1px solid #F0F0EE;margin:0px 0 0px;width:18px;height:18px;padding:1px;}
+.button img{vertical-align:baseline;}
+.buttonHover{border:1px solid #F0F0EE;border-color:ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;}
+.buttonActive,.buttonPressed{padding:1px;border:1px solid;border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow;}
+.buttonPressed{background: ButtonHighlight;}
+.indicator{padding:0px 3px;overflow:hidden;width:20px;text-align:center;cursor:default;border:1px solid ButtonShadow;}
+.buttonDisabled img{filter: alpha(opacity = 25);-moz-opacity: 0.25;}
+.separator{float:left;margin:5px 8px 0 9px;border-left:1px solid ButtonShadow;border-right:1px solid ButtonHighlight;width:0px;height:15px;padding:0;}
+.space{margin-left:5px;}
+.toolbar select{font:12px Tahoma,Verdana,sans-serif;}
+.toolbar select,.toolbar select:hover,.toolbar select:active{color:ButtonText;}
+.h{border-bottom:4px solid #dbecF4;background:#E0F0F9;text-align:left;color:#004c7d;padding:5px 7px 3px 7px;}
+.h span{font-weight:normal;}
+.h h2{font-weight:bold}
+.h a{font-family:Arial;color:#004c7d}
+.h span a,.h span{color:#5599bb;}
+.h a.a2{margin-left:12px;}
+.menu{position:absolute;background:#fff;border:1px solid #A6CBE7;}
+.menu td, .menu li{background:#E0F0F9;}
+.menu li{list-style:none;padding:0;}
+.menu a{display:block;padding:3px 15px 3px 15px}
+.menu a:hover{background:#2f5fa1;text-decoration:none;color:#fff;}
+.fr{float:right}
+.tac{text-align:center}
+.c{ clear: both; height: 0px ; font:0px/0px Arial }
+</style>
+<script language="JavaScript" src="js/wysiwyg.js"></script>
+<script type="text/javascript">
+var charset = '$db_charset';
+var editor = null;
+var imgpath = '$imgpath';
+var bbsurl = '$B_url';
+function initEditor(){
+	editor = new WYSIWYD("wysiwyg");
+	editor.init();
+	return false;
+}
+WYSIWYD.Config = function (){
+	this.baseURL = document.baseURI || document.URL;
+	if (this.baseURL && this.baseURL.match(/(.*)\/([^\/]?)/)) {
+		this.baseURL = RegExp.$1 + "/";
+	}
+	this.imgURL = imgpath + "/wysiwyg/";
+	this.btnList = {
+		removeformat:[ false, editorcode, false ],
+		bold: [ true, editorcode, false ],
+		italic: [ true, editorcode, false ],
+		underline: [ true, editorcode, false ],
+		strikethrough: [ true, editorcode, false ],
+		subscript: [ true, editorcode, false ],
+		superscript: [ true, editorcode, false ],
+		justifyleft: [ true, editorcode, false ],
+		justifycenter: [ true, editorcode, false ],
+		justifyright: [ true, editorcode, false ],
+		justifyfull: [ true, editorcode, false ],
+		insertorderedlist: [ true, editorcode, false ],
+		insertunorderedlist: [ true, editorcode, false ],
+		outdent: [ true, editorcode, false ],
+		indent: [ true, editorcode, false ],
+		forecolor: [ true, showcolor, true ],
+		hilitecolor: [ true, showcolor, true ],
+		inserthorizontalrule: [ true, editorcode, false ],
+		createlink: [ true, editorcode, false ],
+		unlink: [ true, editorcode, false ],
+		insertimage: [ true, insertImage, false ],
+		inserttable: [ false, showTable, true ],
+		windcode: [ true, editorcode, false ],
+		htmlmode: [ true, editorcode, false ],
+		undo: [ false, editorcode, false ],
+		redo: [ false, editorcode, false ],
+		cut: [ false, editorcode, false ],
+		copy: [ false, editorcode, false ],
+		paste: [ false, editorcode, false ],
+		media: [ true, rming, true ],
+		quote: [ true, quote, false ],
+		code: [ true, code, false ],
+		br: [ false, br, false ],
+		setform: [true, extend , false ]
+	};
+	this.fontname = {
+		"宋体":	'宋体',
+		"新宋体":	'新宋体',
+		"楷体_GB2312":	'楷体_GB2312',
+		"黑体":	'黑体',
+		"Arial":	   'arial,helvetica,sans-serif',
+		"Courier New":	   'courier new,courier,monospace',
+		"Georgia":	   'georgia,times new roman,times,serif',
+		"Tahoma":	   'tahoma,arial,helvetica,sans-serif',
+		"Times New Roman": 'times new roman,times,serif',
+		"Verdana":	   'verdana,arial,helvetica,sans-serif',
+		"impact":	   'impact',
+		"WingDings":	   'wingdings'
+	};
+	this.fontsize = {
+		"1 (8 pt)":  "1",
+		"2 (10 pt)": "2",
+		"3 (12 pt)": "3",
+		"4 (14 pt)": "4",
+		"5 (18 pt)": "5",
+		"6 (24 pt)": "6",
+		"7 (36 pt)": "7"
+	};
+	this.formatblock = {
+		"普通": "p",
+		"标题一": "h1",
+		"标题二": "h2",
+		"标题三": "h3",
+		"标题四": "h4",
+		"标题五": "h5",
+		"标题六": "h6"
+	};
+	this.selList = [ 'fontname', 'fontsize', 'formatblock' ];
+};
+</script>
+<body onLoad="initEditor()">
+<div class="wysiwyg" style="padding:0x;border:1px solid #DDDDDD;margin-bottom:5px;">
+<div class="toolbar">
+<div style="padding: 1px; height: 32px; vertical-align: text-bottom">
+<span id="wy_htmlmode" class="$class1" title="所见即所得模式" style="width:60px;height:15px;float:right; text-align:center; padding:0"><img src="$imgpath/wysiwyg/html.gif" /></span>
+<span id="wy_windcode" class="$class2" title="WinCode模式" style="width:60px;height:15px;float:right; text-align:center;margin-right:2px; padding:0"><img src="$imgpath/wysiwyg/windcode.gif" /></span>
+<div style="padding:0 0 5px;" class="fl">
+<select id="wy_fontname" style="width:120px">
+<option value="" selected>字体</option>
+</select>
+<span class="space"></span>
+<select id="wy_fontsize" style="width:80px">
+<option value="" selected>字号</option></select>
+<span class="space"></span>
+<select id="wy_formatblock" style="width:80px">
+<option value="" selected>段落格式</option></select>
+</div>
+<span class="space"></span>
+</div>
+<div id="showmenu" style="z-index:100;display:none;"></div>
+<div style="padding:1px;">
+<span class="button" id="wy_bold" title="粗体">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/bold.gif" /></span>
+<span class="button" id="wy_italic" title="斜体">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/italic.gif" /></span>
+<span class="button" id="wy_underline" title="下划线">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/underline.gif" /></span>
+<span class="button" id="wy_strikethrough" title="删除线">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/strike.gif" /></span>
+<span class="separator"></span>
+<span class="button" id="wy_subscript" title="下标">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/sub.gif" /></span>
+<span class="button" id="wy_superscript" title="上标">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/sup.gif" /></span>
+<span class="separator"></span>
+<span class="button" id="wy_copy" title="复制">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/copy.gif" /></span>
+<span class="button" id="wy_cut" title="剪切">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/cut.gif" /></span>
+<span class="button" id="wy_paste" title="粘贴">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/paste.gif" /></span>
+<span class="button" id="wy_removeformat" title="removeformat">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/removeformat.gif" /></span>
+<span class="separator"></span>
+<span class="button" id="wy_undo" title="撤消">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/undo.gif" /></span>
+<span class="button" id="wy_redo" title="恢复">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/redo.gif" /></span>
+<span class="separator"></span>
+<span class="button" id="wy_quote" title="插入引用">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/quote.gif" /></span>
+<span class="button" id="wy_code" title="插入代码">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/code.gif" /></span>
+<span class="button" id="wy_inserthorizontalrule" title="插入水平线">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/hr.gif" /></span>
+<span class="button" id="wy_br" title="换行">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/br.gif" /></span>
+<div class="c"></div></div>
+<div  style="padding:1px;">
+<span class="button" id="wy_justifyleft" title="左对齐">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/justifyleft.gif" /></span>
+<span class="button" id="wy_justifycenter" title="居中">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/center.gif" /></span>
+<span class="button" id="wy_justifyright" title="右对齐">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/justifyright.gif" /></span>
+<span class="button" id="wy_justifyfull" title="左右平等">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/justify.gif" /></span>
+<span class="separator"></span>
+<span class="button" id="wy_forecolor" title="字体颜色">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/color_fg.gif" /></span>
+<span class="button" id="wy_hilitecolor" title="背景颜色">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/color_bg.gif" /></span>
+<span class="separator"></span>
+<span class="button" id="wy_insertorderedlist" title="有序列表">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/list_num.gif" /></span>
+<span class="button" id="wy_insertunorderedlist" title="无序列表">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/list_bullet.gif" /></span>
+<span class="button" id="wy_outdent" title="取消缩进">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/outdent.gif" /></span>
+<span class="button" id="wy_indent" title="缩进">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/indent.gif" /></span>
+<span class="separator"></span>
+<span class="button" id="wy_createlink" title="插入url链接">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/createlink.gif" /></span>
+<span class="button" id="wy_unlink" title="删除链接">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/unlink.gif" /></span>
+<span class="separator"></span>
+<span class="button" id="wy_insertimage" title="插入图片">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/image.gif" /></span>
+<span class="button" id="wy_media" title="插入多媒体">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/rm.gif" /></span>
+<span class="button" id="wy_inserttable" title="插入表格">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/table.gif" /></span>
+<span class="button" id="wy_setform" title="帖子格式" style="display:$style2">
+<img style="width: 20px; height: 20px" src="$imgpath/wysiwyg/diystyle.gif" /></span>
+<div class="c"></div>
+</div><div class="c"></div></div>
+<div class="menu" id="menu_editor" style="display:none;"></div>
+<textarea id="textarea" name="atc_content" id="atc_content" style="border:0px;width:555px;" rows="20" cols="90">$atc_content</textarea>
+</div>
+</body>
+<!--
+EOT;
+?>

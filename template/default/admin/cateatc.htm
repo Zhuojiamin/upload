@@ -1,0 +1,322 @@
+<!--<?php
+include_once PrintEot('left');
+if(!$set){print <<<EOT
+-->
+<div id="showmenu" style="z-index:100;display:none;"></div>
+<form action="$basename&set=list&" method="post">
+<table width="80%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">{$catelang[$job]}搜索</td></tr>
+<!--
+EOT;
+if($job != 'gbook'){
+if($job != 'bookmark'){print <<<EOT
+-->
+<tr class="b"><td width="30%">系统分类: </td>
+<td><select name="atccid" style="width:100px;">
+<option value="-1">不限制</option>
+$categpslt
+</select></td></tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<tr class="b"><td>作 者: (可使用通配符 "*")</td>
+<td><input name="author" size="30" value="">
+<input type="checkbox" name="ckauthor" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>关键字: (可使用通配符 "*")</td>
+<td><input name="keyword" size="30" value="">
+<select name="ktype">
+<option value="subject">标题</option>
+<option value="content">内容</option>
+</select>
+<input type="checkbox" name="ckkeyword" value="1">
+精确匹配</td></tr>
+<tr class="b"><td>发表日期: (格式 yyyy-mm-dd)</td>
+<td><input name="postdate1" size="30" value="$postdate1">
+- <input name="postdate2" size="30" value="$postdate2"></td></tr>
+<tr class="b"><td>管理选项: </td>
+<td>精华: <select name="digest">
+<option value="-1">不限制</option>
+<option value="1">I</option>
+<option value="2">II</option>
+<option value="3">III</option>
+</select>
+<!--置顶: <select name="topped">
+<option value="-1">不限制</option>
+<option value="1">I</option>
+<option value="2">II</option>
+<option value="3">III</option>
+</select>-->
+审核: <select name="ifcheck">
+<option value="-1">不限制</option>
+<option value="0">未审核</option>
+<option value="1">已审核</option>
+</select></td></tr>
+<tr class="b"><td>排序: </td>
+<td><select name="orderby" style="width:100px;">
+<option value="postdate">发表日期</option>
+<option value="cid">系统分类</option>
+<option value="uid">日志作者</option>
+</select>
+<input type="radio" name="sc" value="desc" CHECKED> 降序
+<input type="radio" name="sc" value="asc"> 升序</td></tr>
+<tr class="b"><td>每页显示行数: </td>
+<td><input name="perpage" size="15" value="30"></td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr class="b"><td width="30%">所属博客用户: </td>
+<td><input name="username" size="30" value="">
+<input type="checkbox" name="ckusername" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>留言用户: (可使用通配符 "*")</td>
+<td><input name="author" size="30" value="">
+<input type="checkbox" name="ckauthor" value="1" CHECKED>
+精确匹配</td></tr>
+<tr class="b"><td>关键字: (可使用通配符 "*")</td>
+<td><input name="keyword" size="30" value=""></td></tr>
+<tr class="b"><td>留言日期: </td>
+<td><input name="postdate1" size="30" value="$postdate1">
+- <input name="postdate2" size="30" value="$postdate2"></td></tr>
+<tr class="b"><td>排序: </td>
+<td><input type="radio" name="sc" value="desc" CHECKED> 降序
+<input type="radio" name="sc" value="asc"> 升序</td></tr>
+<tr class="b"><td>每页显示行数: </td>
+<td><input name="perpage" size="15" value="30"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}elseif($set == 'list'){print <<<EOT
+-->
+<form action="$basename&set=list&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr class="b"><td>
+<!--
+EOT;
+if($job != 'gbook'){print <<<EOT
+-->
+作 者(可使用通配符 "*"): <input name="author" size="10" value="">
+关键字(可使用通配符 "*"): <input name="keyword" size="20" value="">
+<select name="ktype">
+<option value="subject">标题</option>
+<option value="content">内容</option>
+</select>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+所属博客用户(可使用通配符 "*"): <input name="username" size="10" value="">
+关键字(可使用通配符 "*"): <input name="keyword" size="20" value="">
+<!--
+EOT;
+}print <<<EOT
+-->
+排序: <select name="sc">
+<option value="asc">升序</option>
+<option value="desc">降序</option>
+</select>
+显示行数: <input name="perpage" size="3" value="30">
+<input type="submit" value="提 交"></center></td></tr>
+</table>
+</form>
+<form action="$basename&set=edit&" method="post">
+<input type="hidden" name="step" value="1">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<!--
+EOT;
+if($job != 'gbook'){print <<<EOT
+-->
+<tr><td class="head" colspan="10">文章列表</td></tr>
+<tr class="head_2" align="center">
+<td width="5%">ID</td>
+<td width="30%">标 题</td>
+<td width="15%">作 者</td>
+<!--
+EOT;
+if($job != 'bookmark'){print<<<EOT
+-->
+<td width="15%">系统分类</td>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<td width="10%">发表日期</td>
+<td width="5%">精华</td>
+<!--<td width="5%">置顶</td>-->
+<td width="5%">审核</td>
+<td width="5%">编辑</td>
+<td width="5%"></td></tr>
+<!--
+EOT;
+$id = ($page-1)*$perpage;
+foreach($atcdb as $value){
+!$value[cate] && $value[cate]='未分类';
+$value[ifcheck]=$value[ifcheck]==1?'已审':'未审';
+$id++;print <<<EOT
+-->
+<tr class="b" align="center">
+<td>$id</td>
+<td>$value[subject]</td>
+<td>$value[author]</td>
+<!--
+EOT;
+if($job != 'bookmark'){print<<<EOT
+-->
+<td>$value[cate]</td>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<td>$value[postdate]</td>
+<td>$value[digest]</td>
+<!--<td>$value[topped]</td>-->
+<td>$value[ifcheck]</td>
+<td><a href="$basename&set=edit&itemid=$value[itemid]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[itemid]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+<tr><td align="right"><input type="radio" name="type" id="delete" value="delete" CHECKED> 删除
+<input type="radio" name="type" value="allowcheck"> 通过审核
+<input type="radio" name="type" value="setdigest" id="setdigest"> 设置精华
+<select name="digest" style="width:100px;" onclick="Changselect('setdigest')">
+<option value="0">取消精华</option>
+<option value="1">精华I</option>
+<option value="2">精华II</option>
+<option value="3">精华III</option>
+</select>
+<!--
+EOT;
+if($job != 'bookmark'){print<<<EOT
+-->
+<input type="radio" name="type" value="setcid" id="setcid"> 修改分类
+<select name="atccid" style="width:100px;" onclick="Changselect('setcid')">
+$categpslt
+</select>
+<!--
+EOT;
+}print<<<EOT
+-->
+</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="head" colspan="6">留言列表<input type="hidden" id="delete" value="1"></td></tr>
+<tr class="head_2" align="center">
+<td width="5%">ID</td>
+<td width="40%">内 容</td>
+<td width="15%">所属博客用户</td>
+<td width="15%">留言用户</td>
+<td width="20%">发表日期</td>
+<td width="5%">删除<input type="hidden" name="type" id="delete" value="delete"></td></tr>
+<!--
+EOT;
+$id = ($page-1)*$perpage;
+foreach($atcdb as $value){
+$id++;print <<<EOT
+-->
+<tr class="b" align="center">
+<td>$id</td>
+<td>$value[content]</td>
+<td>$value[username]</td>
+<td>$value[author]</td>
+<td>$value[postdate]</td>
+<td><input type="checkbox" name="selid[]" value="$value[id]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中主题？');"></center>
+</form>
+<!--
+EOT;
+}elseif($set == 'edit'){print <<<EOT
+-->
+<script language="JavaScript">
+var ajaxurl = 'ajaxadmin.php';
+var ajaxtype = 'admin';
+var dirtype = '$job';
+var uid = '$atc[uid]';
+var control = '$set';
+var itemid = '$itemid';
+var uploadmaxsize = '$db_uploadmaxsize';
+var uploadfiletype = '$db_uploadfiletype';
+var attachnum = '$db_attachnum';
+var allow_ext = dirtype=='blog' ? '$db_uploadfiletype' : '$db_uploadphototype';
+var type = '$job';
+</script>
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript" src="js/post.js"></script>
+<script language="JavaScript" src="js/wysiwyg_editor.js"></script>
+<form id="FORM" name="FORM" action="$basename&set=edit&" method="post" enctype="multipart/form-data" onsubmit="return checkpost(document.FORM);">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="itemid" value="$itemid">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑内容</td></tr>
+<!--
+EOT;
+include_once Pcv(PrintEot("atc$job"));print <<<EOT
+-->
+</table><br />
+<center><input type="submit" name="Submit" value="提 交"></center>
+</form>
+<iframe id="hideframe" name="hideframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+<script language="JavaScript">
+document.FORM.atc_title.focus();
+var cnt = 0;
+function checkpost(obj){
+	if (obj.atc_title.value=="") {
+		alert("标题不能为空");
+		obj.atc_title.focus();
+		return false;
+	} else if (strlen(obj.atc_title.value) > $db_titlemax) {
+		alert("标题超过最大长度 $db_titlemax 个字节");
+		obj.atc_title.focus();
+		return false;
+	}
+	if (strlen(obj.atc_content.value) < $db_postmin) {
+		alert("文章内容少于 $db_postmin 个字节");
+		editor.focusEditor();
+		return false;
+	} else if (strlen(obj.atc_content.value) > $db_postmax) {
+		alert("文章内容大于 $db_postmax 个字节");
+		editor.focusEditor();
+		return false;
+	}
+	document.FORM.Submit.disabled = true;
+	cnt++;
+	if (cnt!=1) {
+		alert('Submission Processing. Please Wait');
+		return false;
+	}
+	return true;
+}
+</script>
+<!--
+EOT;
+}?>-->

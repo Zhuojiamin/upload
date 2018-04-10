@@ -1,0 +1,66 @@
+<!--<?php
+//include_once PrintEot('top');
+if(!$job){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&job=del&">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr height="25"><td colspan="2" class="head"><h2>留言管理</h2></td></tr>
+	<tr align=center>
+		<td class="head_2" width='5%'>ID</td>
+		<td class="head_2">内容</td>
+		<td class="head_2" width='20%'>作者</td>
+		<td class="head_2" width='20%'>发表日期</td>
+		<td class="head_2" width='6%'>回复</td>
+		<td class="head_2" width='6%'>删除</td>
+	</tr>
+<!--
+EOT;
+$id=($page-1)*$db_perpage;
+foreach($gbookdb as $key=>$val){
+$id++;
+print <<<EOT
+-->
+	<tr align=center>
+		<td class="b">$id</td>
+		<td class="b" align="left">$val[content]</td>
+		<td class="b"><a href="$P/blog.php?uid=$val[authorid]" target='_blank'>$val[author]</a></td>
+		<td class="b" class='smalltxt'>$val[postdate]</td>
+		<td class="b"><a href="user_index.php?action=gbook&job=reply&id=$val[id]">回复</a></td>
+		<td class="b"><input type="checkbox" name="selid[]" value='$val[id]'></td>
+	</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<center>$pages
+<br><br>
+<input type="button" class="bt" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input class="bt" type='Submit' value='提 交' name='Submit'>
+</center>
+</form><br>
+
+<!--
+EOT;
+}elseif($job=="reply"){print <<<EOT
+-->
+<form name="form1" method="post" action="$basename&">
+<input name="job" type=hidden value="reply">
+<input name="step" type=hidden value=2>
+<input name="gbook" type=hidden value=$gbook>
+<input name="id" type=hidden value="$id">
+<table height="125" width="95%" align=center cellspacing=0 cellpadding=0 class="userbg">
+<tr height="25"><td colspan="2" class="head"><h2>回复留言</h2></td></tr>
+	<tr height="100">
+		<td class="b" valign="top" width="25%">内容:</td>
+		<td class="b"><textarea name="content" rows="5" cols="50">{$rt[reply]}</textarea></td>
+	</tr>
+</table>
+<br>
+<br>
+<center><input class="bt" type="Submit" value="提 交" name="Submit"></center>
+</form><br>
+<!--
+EOT;
+}
+?>

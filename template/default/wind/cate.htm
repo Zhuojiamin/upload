@@ -1,0 +1,229 @@
+<!--<?php print<<<EOT
+-->
+<!--main-->
+<div id="main">
+  <div id="in-content">
+<!--
+EOT;
+if($type == 'blog'){print <<<EOT
+-->
+	<!--main content -->
+	<div class="boxA">
+	  <h5 class="tabB">
+		<a href="$db_blogurl">首页</a> &raquo; <a href="cate.php?type=$type">$typename</a> &raquo; <a href="cate.php?type=$type&cid=$cid">$cidname</a>  &raquo;文章列表
+	  </h5>
+	  <div class="c"></div>
+	  <ul class="listArticle">
+<!--
+EOT;
+foreach($itemdb as $value){print<<<EOT
+-->
+		<li>
+		  <em><cite><a href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a></cite></a> $value[postdate]</em>
+		  <a href="{$articleurl}type=$type&cid=$cid&itemid=$value[itemid]">$value[subject]</a>
+		</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	  $pages
+	</div>
+  </div>
+<!--
+EOT;
+}elseif($type == 'photo'){print<<<EOT
+-->
+	<!--main content -->
+	<div class="boxA">
+	  <h5 class="tabB">
+		<a href="$db_blogurl">首页</a> &raquo; <a href="cate.php?type=$type">$typename</a> &raquo; <a href="cate.php?type=$type&cid=$cid">$cidname</a>&raquo;$album_name
+      </h5>
+	  <div class="c"></div>
+<!--
+EOT;
+if($job == 'plist'){print<<<EOT
+-->
+<div id="newphotosdiv" class="listPic">
+<!--
+EOT;
+foreach ($photos as $value) {print <<<EOT
+-->
+			<dl id=photo_{$value[pid]}>
+				<dd><a href="article.php?type=$type&cid=$cid&aid=$aid&pid=$value[pid]"><img src="$value[attachurl]"/></a></dd>
+				<dt>$value[name]</dt>
+			</dl>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</div>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<div id="newphotosdiv" class="listPic listPic-albumn">
+<!--
+EOT;
+foreach ($itemdb as $value) {print <<<EOT
+-->
+			<dl id=photo_{$value[aid]}>
+				<dd><a href="cate.php?type=$type&job=plist&cid=$cid&aid=$value[aid]&"><img src="$value[attachurl]"/></a></dd>
+				<dt>$value[subject]</dt>
+				<dt>作者:<a href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a></dt>
+			</dl>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	  <div class="c"></div>
+	  $pages
+	</div>
+  </div>
+<!--
+EOT;
+}elseif($type == 'music'){print<<<EOT
+-->
+<!--main content -->
+	<div class="boxA">
+	  <h5 class="tabB">
+		<a href="$db_blogurl">首页</a> &raquo; <a href="cate.php?type=$type">$typename</a> &raquo; <a href="cate.php?type=$type&cid=$cid">$cidname</a>&raquo;$album_name
+      </h5>
+	  <div class="c"></div>
+<div id="newphotosdiv" class="listPic">
+<!--
+EOT;
+foreach ($malbumdb as $value) {print <<<EOT
+-->
+			<dl id=malbum_{$value[maid]}>
+				<dd><a href="article.php?type=$type&cid=$cid&maid=$value[maid]&"><img src="$value[hpageurl]"/></a></dd>
+				<dt>名称:$value[subject]</dt>
+				<dt>作者:<a href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a></dt>
+			</dl>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</div>
+	  <div class="c"></div>
+	  $pages
+	</div>
+  </div>
+<!--
+EOT;
+}print<<<EOT
+-->
+<!--sidebar-->
+  <div id="in-sidebar">
+<!--
+EOT;
+if(!empty($showcate_sub[$type][$cid]) ){print<<<EOT
+-->
+    <div>
+	  <h3>二级分类</h3>
+	  <div class="list">
+	    <ul>
+<!--
+EOT;
+foreach($showcate_sub[$type][$cid] as $value){print<<<EOT
+-->
+          <li><a href="$value[url]">$value[name]</a></li>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+        </ul>
+	  </div>
+	 </div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	
+	<div id="searchbar">
+	  <h3>搜索</h3>
+	  <div class="tac">
+		<form action="search.php?action=dosearch&" method="post">
+		<input name="keyword" id="sip" class="ip" style="width:65%"/>
+		<input class="bt" name="submit" type="submit" value="Go"  style="font-weight:bold"/>
+		</form>
+	  </div>
+	</div>
+	<div>
+	  <h3>热门$index_name[$type]</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+$id=0;
+foreach($_HOTCATE as $value){
+$id++;
+if($type == 'blog'){print <<<EOT
+-->
+		  <li>$id. <a href="{$articleurl}type=$type&itemid=$value[itemid]&">$value[subject]</a> <span class="gray">($value[author])</span> </li>
+<!--
+EOT;
+}elseif($type == 'photo'){print<<<EOT
+-->
+		   <li>$id. <a href="cate.php?type=$type&job=plist&aid=$value[aid]&">$value[subject]</a> <span class="gray">($value[author])</span> </li>
+<!--
+EOT;
+}elseif($type == 'music'){print<<<EOT
+-->
+ 			<li>$id. <a href="{$articleurl}type=$type&maid=$value[maid]&">$value[subject]</a> <span class="gray">($value[author])</span> </li>
+<!--
+EOT;
+}
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+	<div id="pools-brackets">
+	  <h3>推荐$index_name[$type]</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+foreach($_DIGESTCATE as $value){
+if($type == 'blog'){print <<<EOT
+-->
+		  <li>&raquo; <a href="{$articleurl}type=$type&itemid=$value[itemid]">$value[subject]</a> <span  class="green">($value[author])</span> </li>
+<!--
+EOT;
+}elseif($type == 'photo'){print<<<EOT
+-->
+ 		  <li>&raquo; <a href="cate.php?type=$type&job=plist&aid=$value[aid]">$value[subject]</a> <span  class="green">($value[author])</span> </li>
+<!--
+EOT;
+}elseif($type == 'music'){print<<<EOT
+-->
+			<li>&raquo;  <a href="{$articleurl}type=$type&maid=$value[maid]&">$value[subject]</a> <span class="gray">($value[author])</span> </li>
+<!--
+EOT;
+}
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+  </div>
+  <!--sidebar end-->
+  <div class="c"></div>
+</div>
+<!--main end-->
+<!--
+EOT;
+?>
+-->

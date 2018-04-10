@@ -1,0 +1,21 @@
+<!--<?php print <<<EOT
+-->
+	<!--begin archive-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]</h2>
+	  <ul class="list">
+<!--
+EOT;
+foreach($archive as $value){print <<<EOT
+-->
+		<li><a href="blog.php?do=list&uid=$uid&m=$value[m]&y=$value[y]">{$value[y]}年{$value[m]}月</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	</div>
+	<!--end archive-->
+<!--
+EOT;
+?>

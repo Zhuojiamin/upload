@@ -1,0 +1,579 @@
+<!--<?php
+include_once PrintEot('left');
+if($job=='post'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">发布设置</td></tr>
+<tr class="b"><td width="60%">文章审核功能（发布的文章审核后才能显示）：</td>
+<td><input type="radio" name="config[postcheck]" value="1" $postcheck_Y> 开启
+<input type="radio" name="config[postcheck]" value="0" $postcheck_N> 关闭</td></tr>
+<tr class="b"><td>评论审核功能（评论审核后才能显示）：</td>
+<td><input type="radio" name="config[commentcheck]" value="1" $commentcheck_Y> 开启
+<input type="radio" name="config[commentcheck]" value="0" $commentcheck_N> 关闭</td></tr>
+<tr class="b"><td>日志转载功能（评论审核后才能显示）：</td>
+<td><input type="radio" name="config[transfer]" value="1" $transfer_Y> 开启
+<input type="radio" name="config[transfer]" value="0" $transfer_N> 关闭</td></tr>
+<tr class="b"><td>强制使用文章水印功能（防止文章内容被复制）：</td>
+<td><input type="radio" name="config[copyctrl]" value="1" $copyctrl_Y> 开启
+<input type="radio" name="config[copyctrl]" value="0" $copyctrl_N> 关闭</td></tr>
+<tr class="b"><td>是否使用自动贴图</td>
+<td><input type="radio" name="config[autoimg]" value="1" $autoimg_Y> 开启
+<input type="radio" name="config[autoimg]" value="0" $autoimg_N> 关闭</td></tr>
+<tr class=b><td>编辑器是否开启<font color="blue">帖子格式功能</font>：</td>
+<td><input type=radio value=1 name="config[setform]" $setform_Y>开启
+<input type=radio value=0 name="config[setform]" $setform_N>关闭</td></tr>
+<tr class=b><td>系统前台文章正文页是否开启"相关文章"功能</font>：</td>
+<td><input type=radio value=1 name="config[setassociate]" $setassociate_Y>开启
+<input type=radio value=0 name="config[setassociate]" $setassociate_N>关闭</td></tr>
+<tr class=b><td>是否开启日志自定义关键字链接功能</font>：</td>
+<td><input type=radio value=1 name="config[keywordlink]" $keywordlink_Y>开启
+<input type=radio value=0 name="config[keywordlink]" $keywordlink_N>关闭</td></tr>
+<tr class="b"><td style="color:#00F">前台浏览文章使用连接：</td>
+<td><input type="radio" name="config[articleurl]" value="1" $articleurl_Y> article.php
+<input type="radio" name="config[articleurl]" value="0" $articleurl_N> blog.php</td></tr>
+<tr class="b"><td>文章列表每页显示主题数：</td>
+<td><input name="config[perpage]" size="35" value="$db_perpage"></td></tr>
+<tr class="b"><td>文章标题最大长度(字节)：</td>
+<td><input name="lenlimit[0]" size="35" value="$lenlimit[0]"></td></tr>
+<tr class="b"><td>文章内容最小长度(字节)：</td>
+<td><input name="lenlimit[1]" size="35" value="$lenlimit[1]"></td></tr>
+<tr class="b"><td>文章内容最大长度(字节)：</td>
+<td><input name="lenlimit[2]" size="35" value="$lenlimit[2]"></td></tr>
+</table>
+<center><input type="submit" value="提 交"></center>
+</form>
+<br />
+<!--
+EOT;
+}elseif($job == 'form'){
+	if(empty($deal)){print<<<EOT
+-->
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2"><b>提示信息</b></td></tr>
+<tr><td class="b"><br />预设日志格式说明功能：您可以设定日志格式，以便于发此类日志时可以省时省力，比如发商品信息等。(支持html代码)<br />
+<br /></td></tr></table><br />
+
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="b">
+[<b>格式列表</b>]
+[<a href="$basename&deal=add">添加帖子格式</a>]
+</td></tr></table><br>
+<form action="$basename" method="post">
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr class=b><td>编辑器是否开启<font color="blue">帖子格式功能</font>：</td>
+<td><input type=radio value=1 name="config[setform]" $setform_Y>开启
+<input type=radio value=0 name="config[setform]" $setform_N>关闭</td></tr>
+</table><br />
+
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+	<tr class="head" align="left">
+		<td colspan="6">预设帖子格式</td>
+	</tr>
+	<tr class="head_2" align="center">
+		<td width="6%">ID</td>
+		<td width="*">帖子格式标题</td>
+		<td width="10%">编辑</td>
+		<td width="6%">启用</td>
+		<td width="5%">删</td>
+	</tr>
+<!--
+EOT;
+$i=0;
+foreach($setformdb as $key=>$val){
+$checked = ${'c_'.$val[id]};
+$i++;
+print <<<EOT
+-->
+	<tr class="b" align="center">
+		<td>$i</td>
+		<td align="left">$val[name]</td>
+		<td><a href="$basename&deal=edit&id=$val[id]">编辑</td>
+		<td><input type="checkbox" name="ifopen[]" value="$val[id]" $checked /></td>
+		<td><input type="checkbox" name="selid[]" value="$val[id]" /></td>		
+	</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<input type="hidden" name="deal" value="del" />
+<input type="hidden" name="step" value="2" />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" /></center></form>
+<!--
+EOT;
+	}elseif($deal == 'add' || $deal == 'edit'){print<<<EOT
+-->
+<style type="text/css">
+.checkon{background:#CAFFC0;}
+</style>
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="b">
+[<a href="$basename">格式列表</a>]
+<!--
+EOT;
+if($deal=='add'){print <<<EOT
+-->
+[<b>添加帖子格式</b>]
+<!--
+EOT;
+}else{print <<<EOT
+-->
+[<b>编辑帖子格式</b>]
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr></table><br>
+<form action="$basename" name="setform" method="post" onsubmit="return checkform();">
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+	<tr class="head" align="left">
+		<td colspan="2">帖子格式</td>
+	</tr>
+	<tr class="b" align="left">
+		<td width="25%">标题</td>
+		<td width="*"><input type="text" name="name" value="$name" size="40" onchange="ShowTitle();" /></td>
+	</tr>
+	<tr class="b" align="left">
+		<td width="25%">帖子格式</td>
+		<td width="*">
+			<fieldset id="tagmenu" style="border:1px solid $tdcolor;width:250px;padding:3px;margin:2px 0;float:right"><legend>栏目编辑器</legend><div style="padding:5px">
+			<table><tr><td>栏目名称：</td><td><input type="text" name="title" size="22" /></td></tr>
+			<tr><td>栏目类型：</td><td><select name="type" onchange="ShowType(this.value);"><option value="0">文本输入框</option><option value="1">下拉选择框</option></select></td></tr>
+			<tr id="e_content" style="display:none;"><td>选项内容：<br />(一行一个)</td><td><textarea name="content" style="height:50px;width:150px;"></textarea></td></tr>
+			</table>
+			<div style="text-align:center;margin-top:8px"><input type="button" value="添 加" onclick="addcol('1');" /> <input type="button" value="修 改" onclick="addcol('2');" /> <input type="button" value="删 除" onclick="delcol();" /></div>
+			</div></fieldset>
+			<table width="350" cellspacing="1" cellpadding="3" class="i_table" style="margin:12px 2px">
+				<tr class="head" onclick="clearselid();"><td colspan="2" id="s_title"></td></tr>
+				<tbody id="s_table">
+<!--
+EOT;
+if($deal=='edit'){
+foreach($setform as $k=>$v){print <<<EOT
+-->
+				<tr id="col_$k" class="b" onclick="editcol(this.id);"><td>$v[0]</td><td><!--
+EOT;
+if($v[1]){
+$option = explode(',',$v[1]);
+print <<<EOT
+--><select><!--
+EOT;
+foreach($option as $v1){print <<<EOT
+--><option>$v1</option><!--
+EOT;
+}print <<<EOT
+--></select><!--
+EOT;
+}else{print <<<EOT
+--><input type="text" /><!--
+EOT;
+}print <<<EOT
+--></td></tr><!--
+EOT;
+}}print <<<EOT
+-->
+				</tbody>
+			</table>
+			</div>
+		</td>
+	</tr>
+</table><br />
+<br />
+<input type="hidden" name="deal" value="$deal" />
+<input type="hidden" name="id" value="$id" />
+<input type="hidden" name="step" value="2" />
+<center><input type="submit" value="提 交" /></center></form>
+<script language="JavaScript">
+var colnum = '$num';
+var selid  = '';
+function ShowTitle(){
+	var v = document.setform.name.value;
+	GE('s_title').innerHTML = v ? v : '<br />';
+}
+function ShowType(id){
+	document.setform.type.options[id].selected = true;
+	GE('e_content').style.display = id==1 ? '' : 'none';
+}
+function addcol(id){
+	if(id==1){
+		var s = document.createElement('tr');
+		s.className		= 'b';
+		s.id			= 'col_' + colnum;
+		s.onmouseover	= function(){if(this.className!='checkon'){this.className='head_2';};};
+		s.onmouseout	= function(){if(this.className!='checkon'){this.className='b';};};
+		s.onclick		= function(){editcol(this.id);};
+		if(selid==''){
+			GE('s_table').appendChild(s);
+		} else{
+			GE('s_table').insertBefore(s,GE(selid));
+		}
+		colnum ++;
+	} else{
+		if(selid == '')return; 
+		var s = GE(selid);
+		while(s.hasChildNodes()){
+			s.removeChild(s.firstChild);
+		}
+	}
+	var d = document.createElement('td');
+	d.innerHTML = document.setform.title.value;
+	s.appendChild(d);
+	var d = document.createElement('td');
+	var type = document.setform.type.value;
+	if(type==0){
+		d.innerHTML = '<input type="text" />';
+	} else{
+		var content = document.setform.content.value.split("\\n");
+		var html    = "<select name=''>";
+		for(var i=0;i<content.length;i++){
+			html   += '<option>'+content[i]+'</option>';
+		}
+		html       += "</select>";
+		d.innerHTML = html;
+	}
+	s.appendChild(d);
+}
+function editcol(id){
+	selid = id;
+	var ds = get_tags(GE('s_table'),'tr');
+	for(var i=0;i<ds.length;i++){
+		ds[i].className = id==ds[i].id ? 'checkon' : 'b';
+	}
+	var o	= GE(id);
+	var td1 = o.firstChild;
+	var td2 = o.lastChild;
+	document.setform.title.value = td1.innerHTML;
+	if(td2.firstChild.tagName.toLowerCase() == 'input'){
+		ShowType('0');
+	} else{
+		ShowType('1');
+		var sel  = td2.firstChild.options;
+		var html = '';
+		for(var i=0;i<sel.length;i++){
+			html += (html ? "\\n" : '')+sel[i].text;
+		}
+		document.setform.content.value = html;
+	}
+}
+function delcol(){
+	if(selid!=''){
+		GE('s_table').removeChild(GE(selid));
+		selid = '';
+	}
+}
+function clearselid(){
+	selid = '';
+	var ds = get_tags(GE('s_table'),'tr');
+	for(var i=0;i<ds.length;i++){
+		ds[i].className = 'b';
+	}
+}
+function checkform(){
+	if(document.setform.name.value == ''){
+		alert('标题不能为空');
+		return false;
+	}
+	var s = GE('s_table');
+	if(s.hasChildNodes()){
+		var ds = get_tags(s,'tr');
+		var input;
+		for(var i=0;i<ds.length;i++){
+			input		= document.createElement('input');
+			input.type	= 'hidden';
+			input.name	= 'value['+i+']';
+			input.value	= ds[i].firstChild.innerHTML;
+			document.setform.appendChild(input);
+			if(ds[i].lastChild.firstChild.tagName.toLowerCase() == 'select'){
+				input	= document.createElement('input');
+				input.type	= 'hidden';
+				input.name	= 'descipt['+i+']';
+				var sel  = ds[i].lastChild.firstChild.options;
+				var html = '';
+				for(var j=0;j<sel.length;j++){
+					html += (html ? "," : '')+sel[j].text;
+				}
+				input.value	= html;
+				document.setform.appendChild(input);
+			}
+		}
+		return true;
+	} else{
+		alert('您没有添加相关栏目');
+		return false;
+	}
+}
+ShowTitle();
+</script>
+<!--
+EOT;
+	}
+}elseif($job=='smile'){
+	if($deal != 'smilemanage'){print<<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<table cellspacing="1" cellpadding="5" border="0" width="98%" align="center" class=i_table>
+<tr><td>
+<a name="2">表情组使用帮助</a><br /></td></tr><tr><td class="b">
+<li>要增加一个表情组，请先在你的图片文件夹下的smile/文件夹下建立相应的文件夹</li>
+<li>一个表情组下所有的表情图片都要上传至该表情组的文件夹下才可以进行添加</li>
+</td>
+</tr></table>
+<br />
+<table cellspacing="1" cellpadding="5" border="0" width="98%" align="center" class=i_table>
+<tr><td colspan="6" class=head>表情管理</td></tr>
+<tr class=head_2><td align=center width="5%">ID</td>
+<td align=center>表情组名称</td><td align=center>图片路径</td>
+<td align=center>显示顺序</td>
+<td align=center>操作</td>
+<td align=center>默认显示个数</td>
+</tr>
+<!--
+EOT;
+foreach($simledb as $key=>$smile){
+print <<<EOT
+-->
+<tr><td class=b align=center>$smile[id]</td>
+<td class=b align=center><input name="name[$smile[id]]" value="$smile[name]" size="10" type="text"></td>
+<td class=b align=center>$smile[path]</td>
+<td class=b align=center><input value="$smile[vieworder]" name="vieworder[$smile[id]]" type="text" size=3></td>
+<td class=b align=center>
+<a href="$basename&deal=smilemanage&id=$smile[id]">[分类表情管理]</a>
+<a href="$basename&deal=delete&id=$smile[id]" onclick="return delSmile();"><font color=red>[删除此表情分类]</font></a></td>
+<!--
+EOT;
+if($key==0){ print <<<EOT
+-->
+<td class="b" rowspan="$shownum" align="center" valign="top">
+<input type="text" size="10" value="$db_smileshownum" name="smileshownum" /></td>
+<!--
+EOT;
+}print <<<EOT
+-->
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<input name=deal type=hidden value="editsmiles">
+<br><center><input type="submit" name="update" value="提 交"></center>
+</form>
+
+
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<table cellspacing="1" cellpadding="5" border="0" width="98%" align="center" class=i_table>
+<tr><td colspan="3" class=head>添加表情组</td></tr>
+<tr class=b align="center">
+<td width="40%" >图片路径</td>
+<td width="40%">表情组名称</td>
+<td width="20%">显示顺序</td>
+</tr>
+<tr class=b align="center">
+<td width="40%" ><input type="text" size=15 name=path></td>
+<td width="40%"><input type="text" size=15 name=name></td>
+<td width="20%"><input type="text" size=3 name=vieworder></td>
+</tr>
+</table><br>
+<center><input name=deal type=hidden value="addsmile"><input type="submit" name="add" value="提 交"></center>
+
+<script language="javascript">
+function delSmile(){
+	var msg=confirm("删除表情分类也会删除该分类下的所有表情\\n将会导致前台的所有该分类下的表情图片无法再显示，您确认要删除吗？");
+	return msg;
+}
+</script>
+<!--
+EOT;
+	}elseif($deal=='smilemanage'){print<<<EOT
+-->
+<table width=98% align=center cellspacing=1 cellpadding=5 class=i_table>
+<tr><td class=b>
+<ul>
+<li>添加每一套表情请先把图片上传到该套表情目录中（image/smile/表情目录/） </li>
+<li>请不要上传文件名过长的图片，否则将会无法识别</li>
+<li>从浏览器兼容性考虑，建议使用英文名称的图片，合法的图片后缀为jpg,jpeg,bmp,gif,png，图片名中不要带有特殊字符</li>
+</ul>
+</td></tr></table><br>
+<form action="$basename" method="post">
+<input type="hidden" name="step" value="2">
+<table cellspacing="1" cellpadding="5" border="0" width="60%" align="center" class=i_table>
+<tr><td colspan="5" class=head>表情管理（已经成功添加的表情）</td></tr>
+<tr align="center"><td>ID</td><td>图片路径</td><td>图片预览</td><td>显示顺序</td><td>删 除</td></tr>
+<!--
+EOT;
+foreach($smiles as $value){
+print <<<EOT
+-->
+<tr align="center" class="b"><td>$value[id]</td><td>$value[path]</td>
+<td><img src="$value[src]"></td>
+<td><input name="vieworder[$value[id]]" value="$value[vieworder]" size=3></td>
+<td><a href="$basename&deal=delsmile&smileid=$value[id]&typeid=$id" onclick="return delSmile();">删 除</a></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<center><br><input type="hidden" name="id" value="$id"><input type="hidden" name="action" value="smilevieworder"> <input type="submit" value="提 交"></center>
+</form>
+<script language="javascript">
+function delSmile(){
+	var msg=confirm("删除表情请注意：\\n\\n删除该表情将会导致前台的该表情图片无法再显示，您确认要删除吗？");
+	return msg;
+}
+</script>
+<br />
+<form action="$basename" method="post">
+<input type="hidden" name="step" value="2">
+<table cellspacing="1" cellpadding="5" border="0" width="60%" align="center" class=i_table>
+<tr><td colspan="3" class=head>表情管理（该目录下尚未被添加的表情）</td></tr>
+<tr align="center"><td width="15%">添 加</td><td width="40%">图片路径</td><td width="45%">图片预览</td></tr>
+<!--
+EOT;
+foreach ($smiles_new as $value){
+print <<<EOT
+-->
+<tr class="b" align="center"><td><input type="checkbox" name="add[]" value="$value[path]"></td><td>$value[path]</td><td><img src="$value[src]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<center><br><input type="button" value="全 选" onclick="CheckAll(this.form)"><input type="hidden" name="id" value="$id"><input type="hidden" name="deal" value="addsmiles"> <input type="submit" value="添 加"></center>
+
+<!--
+EOT;
+	}
+}elseif($job=='att'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">附件设置</td></tr>
+<tr class="b"><td width="60%">附件上传功能</td>
+<td><input type="radio" name="config[allowupload]" value="1" $allowupload_Y> 开启 
+<input type="radio" name="config[allowupload]" value="0" $allowupload_N> 关闭</td></tr>
+<tr class="b"><td>一次最多上传附件个数</td>
+<td><input name="config[attachnum]" size="35" value="$db_attachnum"></td></tr>
+<tr class="b"><td>上传附件大小上限(k)超管不受限制：</td>
+<td><input name="config[uploadmaxsize]" size="35" value="$db_uploadmaxsize"></td></tr>
+<tr class="b"><td>上传附件允许后缀(空格隔开)：</td>
+<td><input name="config[uploadfiletype]" size="35" value="$db_uploadfiletype"></td></tr>
+<tr class="b"><td>上传相片允许后缀(空格隔开)：</td>
+<td><input name="config[uploadphototype]" size="35" value="$db_uploadphototype"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}elseif($job=='mini'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2" />
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">缩略图设置</td></tr>
+<tr class="b"><td width="60%">是否开启缩略图功能</td>
+<td><input type="radio" name="config[thumbifopen]" value="1" $thumbifopen_Y> 开启
+<input type="radio" name="config[thumbifopen]" value="0" $thumbifopen_N> 关闭</td></tr>
+<tr class="b"><td>缩略图长宽<br />取最短值为标准，截取中间部分作正方形缩略图</td>
+<td><input name="thumbwh[thumbw]" size="10" value="$db_thumbw"> 长
+<input name="thumbwh[thumbh]" size="10" value="$db_thumbh"> 宽</td></tr>
+<tr class="b"><td>背景颜色(如:#ffffff,留空为无背景)</td>
+<td><input type="text" value="$db_thumbcolor" name="config[thumbcolor]"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center></form>
+<!--
+EOT;
+}elseif($job=='code'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2" />
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">Wind Code设置</td></tr>
+<tr class="b"><td width="60%">帖子中表情，动作以及 img，wmv，rm 等标签的最多转换次数<br />
+建议设置为10 - 20 之间，-1 为不限制</td>
+<td><input name="config[post_times]" size="35" value="$db_post[times]"></td></tr>
+<tr class="b"><td>帖子中 Wind 代码功能：</td>
+<td><input type="radio" name="config[post_ifcode]" value="1" $postifcode_Y> 开启
+<input type="radio" name="config[post_ifcode]" value="0" $postifcode_N> 关闭</td></tr>
+<tr class="b"><td>帖子中 Wind IMG功能：</td>
+<td><input type="radio" name="config[post_ifpic]" value="1" $postifpic_Y>开启
+<input type="radio" name="config[post_ifpic]" value="0" $postifpic_N>关闭</td></tr>
+<tr class="b"><td>帖子中[img]标签的大小控制（0或留空不限制）</td>
+<td>宽: <input name="config[post_picwidth]" size="5" value="$db_post[picwidth]">
+高: <input name="config[post_picheight]" size="5" value="$db_post[picheight]"></td></tr>
+<tr class="b"><td>帖子中[size]标签的大小控制（0或留空不限制）</td>
+<td>最大值: <input name="config[post_size]" size="5" value="$db_post[size]"></td></tr>
+<tr class="b"><td>帖子中 Wind Flash功能(建议关闭)：</td>
+<td><input type="radio" name="config[post_ifflash]" value="1" $postifflash_Y> 开启
+<input type="radio" name="config[post_ifflash]" value="0" $postifflash_N> 关闭</td></tr>
+<tr class="b"><td>帖子中 Wind 媒体(wmv,asf,ra,ram,rm)功能：</td>
+<td><input type="radio" name="config[post_ifmpeg]" value="1" $postifmpeg_Y> 开启
+<input type="radio" name="config[post_ifmpeg]" value="0" $postifmpeg_N> 关闭</td></tr>
+<tr class="b"><td>帖子中 iframe功能：</td>
+<td><input type="radio" name="config[post_ififrame]" value="1" $postififrame_Y> 开启
+<input type="radio" name="config[post_ififrame]" value="0" $postififrame_N> 关闭</td></tr>
+<tr class="b"><td>签名中 Wind 代码功能：</td>
+<td><input type="radio" name="config[sign_ifcode]" value="1" $signifcode_Y> 开启
+<input type="radio" name="config[sign_ifcode]" value="0" $signifcode_N> 关闭</td></tr>
+<tr class="b"><td>签名中 Wind IMG功能：</td>
+<td><input type="radio" name="config[sign_ifpic]" value="1" $signifpic_Y> 开启
+<input type="radio" name="config[sign_ifpic]" value="0" $signifpic_N> 关闭</td></tr>
+<tr class="b"><td>签名中[img]标签的大小控制（0或留空不限制）</td>
+<td>宽: <input name="config[sign_picwidth]" size="5" value="$db_sign[picwidth]">
+高: <input name="config[sign_picheight]" size="5" value="$db_sign[picheight]"></td></tr>
+<tr class="b"><td>签名中[size]标签的大小控制（0或留空不限制）</td>
+<td>最大值: <input name="config[sign_size]" size="5" value="$db_sign[size]"></td></tr>
+<tr class="b"><td>签名中 Wind Flash功能(建议关闭)：</td>
+<td><input type="radio" name="config[sign_ifflash]" value="1" $signifflash_Y> 开启
+<input type="radio" name="config[sign_ifflash]" value="0" $signifflash_N> 关闭</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center></form>
+<!--
+EOT;
+}elseif($job=='credit'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2" />
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">会员积分设置</td></tr>
+<tr class="b"><td width="60%">发表一篇日志增加的威望：</td>
+<td><input name="credit[1]" size="35" value="$credit_1"></td></tr>
+<tr class="b"><td>发表一篇日志增加的金钱：</td>
+<td><input name="credit[2]" size="35" value="$credit_2"></td></tr>
+<tr class="b"><td>日志被设为推荐日志增加的威望：</td>
+<td><input name="credit[3]" size="35" value="$credit_3"></td></tr>
+<tr class="b"><td>日志被设为推荐日志增加的金钱：</td>
+<td><input name="credit[4]" size="35" value="$credit_4"></td></tr>
+<tr class="b"><td>日志被删除减少的威望：</td>
+<td><input name="credit[5]" size="35" value="$credit_5"></td></tr>
+<tr class="b"><td>日志被删除减少的金钱：</td>
+<td><input name="credit[6]" size="35" value="$credit_6"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center></form>
+<!--
+EOT;
+}elseif($job=='ajax'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2" />
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">ajax设置</td></tr>
+<tr class="b"><td width="60%">ajax编码设置 效率优先级别由上至下分别为(各有优点)：<br />
+<font color="blue">由于种种原因，造成了在使用ajax的时候中文乱码问题，因此请您选择适当编码转换的方法</font><br />
+<font color="#FF0000">红色</font>为异常状态</td>
+<td><input type="radio" name="config[charsetmod]" value="N_iconv" $iconv> <span $spani>iconv</span><br />
+<input type="radio" name="config[charsetmod]" value="N_recode_string" $recode_string> <span $spanr>recode_string</span><br />
+<input type="radio" name="config[charsetmod]" value="N_libiconv" $libiconv> <span $spanl>libiconv</span><br />
+<input type="radio" name="config[charsetmod]" value="N_mb_convert_encoding" $mb_convert_encoding> <span $spanm>mb_convert_encoding</span><br />
+<input type="radio" name="config[charsetmod]" value="N_charset_string" $charset_string> 默认编码库（默认方式）
+</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center></form>
+<!--
+EOT;
+}
+?>-->

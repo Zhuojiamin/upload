@@ -1,0 +1,26 @@
+<!--<?php print <<<EOT
+-->
+<div id="footer" class="tal blue smalltext">
+  <div class="fr login-info">
+<!--
+EOT;
+$num=0;$nav='';
+foreach($_FOOTNAV as $value){
+$value[_ifblank] = $value[_ifblank] ? ' target="_blank"' : '';
+$num && $nav = ' | ';
+$num=1;print <<<EOT
+-->
+$nav<a href="$value[url]"$value[_ifblank]>$value[name]</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+  </div>
+  Powered by <a href="http://www.lxblog.net/" class="smalltext b blue">LxBlog</a> <a href="http://www.lxblog.net" class="smalltext b green">v$blog_version</a> Code &copy; 2003-07 <a href="http://www.phpwind.com" class="smalltext b blue">PHPWind.com</a> Corporation<br />
+  $wind_spend $ft_gzip $db_icp<a href="mailto:$db_ceoemail" class="smalltext b blue">contact us</a>
+</div>
+</body>
+</html>
+<!--
+EOT;
+?>-->

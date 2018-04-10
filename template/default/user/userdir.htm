@@ -1,0 +1,41 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+<form action="$basename&" name=form1 method=POST>
+<input type="hidden" name="job" value="update">
+<form name='form1' method="post" action="$basename&">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2">&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<b>专辑设置</b></td></tr>
+<tr align='center'>
+<td class="head_2" width='15%' height="25">ID</td>
+<td class="head_2">专辑名称</td>
+<td class="head_2" width='15%'>删除</td></tr>
+<!--
+EOT;
+$id=0;
+foreach($dirs as $key => $value){
+$id++;
+print <<<EOT
+-->
+<tr align='center'>
+<td class="b">$key</td>
+<td class="b" ><input type="text" class="input" maxlength=15 size=30 name="dirname[$key]" value="$value" id="dirname_$key"></td>
+<td class="b"><input type="checkbox" name="selid[]" value="$key"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr align='center'>
+<td class="b">新增</td>
+<td class="b"><input type="text" class="input" maxlength=15 size=30 name="newdir"></td>
+<td class="b"> &nbsp;</td></tr>
+</table>
+<br><center>
+<input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input class="bt" type=submit value="提 交">
+</center></form>
+<br>
+<!--
+EOT;
+?>

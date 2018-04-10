@@ -1,0 +1,890 @@
+<!--<?php print <<<EOT
+-->
+<!--main-->
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript">
+ajaxcmt = true;
+var ifsumreply = 1;
+var imgpath = '$imgpath';
+function addsmile(NewCode){
+    GE('cmtcontent').value += ' [s:'+NewCode+'] ';
+}
+</script>
+<div id="showmenu" style="z-index:100;display:none;"></div>
+<div id="main">
+<!--
+EOT;
+if($type == 'blog'){print<<<EOT
+-->
+	<div id="in-content">
+		<!--main content -->
+		<div class="boxA">
+			<h5 class="tabB"> <a href="$db_blogurl">首页</a> &raquo; <a href="cate.php?type=$type">$typename</a> &raquo; <a href="cate.php?type=$type&cid=$blogdb[cid]">$cidname</a> &raquo; 文章正文 </h5>
+			<div class="c"></div>
+			<div class="post">
+				<div class="right"><a href="article.php?type=$type&cid=$cid&itemid=$itemid&goto=previous">上一篇</a>/ <a href="article.php?type=$type&cid=$cid&itemid=$itemid&goto=next">下一篇</a></div><br />
+				<div class="right"><img src="$blogdb[uicon]" class="read-author-pic"/></div>
+				<h1>$blogdb[subject]</h1>
+				<cite>
+				<style type="text/css">
+		  .boxes{position:absolute;background:#fff;border:1px solid #A6CBE7;}
+		  .boxes td, .boxes center{background:#E0F0F9;}
+		  .boxes center{list-style:none;padding:0;}
+		  .boxes a{display:block;padding:3px 15px 3px 15px}
+		  .boxes a:hover{background:#2f5fa1;text-decoration:none;color:#fff;}
+		  .menubox{background:#EEFAFE; display:block; padding:0.5px 0.5px;color:#999;}
+		  .menubox td{background:#E0F0F9;padding:3px;}
+		  </style>
+				<div id="showboxes" style="z-index:100;display:none;"></div>
+				<span class="right" style="cursor:pointer;" onclick="Addboxes('$type','footprint','$itemid')">踩踩 <strong id="footnum" class="colorA">$blogdb[footprints]</strong></span>作者：<a href="blog.php?uid=$uid">$blogdb[username]</a> <span>发表日期：$blogdb[postdate]</span> <span style="cursor:pointer;" onclick="CopyURL('$db_blogurl/article.php?type=$type&itemid=$itemid')">复制链接</span> <span style="cursor:pointer;" onclick="Addboxes('$type','collecitems','$itemid');">收藏</span>
+<!--
+EOT;
+if($db_transfer == '1' && $winduid){print<<<EOT
+-->
+ <span style="cursor:pointer;" onclick="TransferArticleBox('transfer_box',this.id);" id="transfer">转载</span>
+<div class="menu menubox" id="transfer_box" style="display:none">
+<tbody>
+<table>
+	<tr>
+		<td colspan="2">
+			<span class="fl"><b>转载日志</b></span><span class="fr" style="cursor:pointer;" onclick="closep();" title="close"><img src="$imgpath/wysiwyg/close.gif" /></span>
+		</td>
+	</tr>
+	<tr>
+		<td><span class="fl" style="width:80px;">系统分类：</span></td>
+		<td><select id="transfer_cid" style="width:150px;">$transfer_forumcache</select></td>
+	</tr>
+	<tr>
+		<td><span class="fl" style="width:80px;">个人分类：</span></td>
+		<td><select id="transfer_dirid" style="width:150px;"><option value="0"></option>$transfer_itemcache</select></td>
+	</tr>
+	<tr>
+	    <td colspan="2" class="tac"><input class="bt" type="button" name="save" value="确 定" onclick="TransferArticle('$itemid');">  <input class="bt" type="button" name="cancel" value="取 消" onclick="closep();"></td>
+	</tr>
+</table>
+</tobdy>
+</div>
+<!--
+EOT;
+}
+if($_GROUP['cmdact']){print <<<EOT
+-->
+				<span id="boxesopen" style="cursor:pointer;" onclick="Open_Boxes(this.id);">推荐</span>
+				<div class="boxes" id="boxes" style="display:none;">
+					<table width="270" cellspacing="1" cellpadding="5">
+						<tbody>
+							<tr>
+								<td><div class="fr" style="cursor:pointer;" onclick="Close_Boxes();" title="close"><img src="$imgpath/wysiwyg/close.gif" /></div>
+									<b>推荐为精华</b> </td>
+							</tr>
+							<tr>
+								<td width="40%" align="center"><input type="radio" name="digest" id="digest" value="0" class="ip" $digest_0 />
+									取消精华
+									<input type="radio" name="digest" id="digest" value="1" class="ip" $digest_1 />
+									精华I
+									<input type="radio" name="digest" id="digest" value="2" class="ip" $digest_2 />
+									精华II
+									<input type="radio" name="digest" id="digest" value="3" class="ip" $digest_3 />
+									精华III</td>
+							</tr>
+						</tbody>
+					</table>
+					<center>
+						<input type="button" onclick="return Addboxes('$type','cmditems','$itemid');" class="bt" value=" 提 交 " />
+						<input type="button" onclick="return Close_Boxes();" class="bt" value="取消" />
+					</center>
+				</div>
+				<!--
+EOT;
+}if($_GROUP['delatc']){print <<<EOT
+-->
+				<span id="boxesopen" style="cursor:pointer;" onclick="Addboxes('$type','delatc','$itemid');">删除</span>
+				<!--
+EOT;
+}print <<<EOT
+-->
+				</cite>
+				<div class="post-content">
+					<p>
+<!--
+EOT;
+foreach($attachdb['pic'] as $value){
+if ($value[1]){ print <<<EOT
+-->
+					<br />描述： $value[1]<br />
+					<!--
+EOT;
+}print <<<EOT
+-->
+					<br />图片：<br />
+					$value[0]<br />
+					<br />
+					<!--
+EOT;
+}print <<<EOT
+-->
+					$blogdb[content]
+					<!--
+EOT;
+foreach($attachdb['down'] as $key => $value){print <<<EOT
+-->
+					<br />
+					<br />
+					<!--
+EOT;
+if($value[3]){print <<<EOT
+-->
+					描述： $value[3]<br />
+					<!--
+EOT;
+}print <<<EOT
+-->
+					附件： <img src="$imgpath/$stylepath/$value[2].gif" align="absbottom" /> <a href="job.php?action=download&itemid=$itemid&aid=$key" target="_blank"><font color=red>$value[0]</font></a> ($value[1] K)
+					<!--
+EOT;
+}print <<<EOT
+-->
+					</p>
+				</div>
+				<!--
+EOT;
+if($blogdb['tagsdb']){print <<<EOT
+-->
+				<div class="tags">Tags:
+					<!--
+EOT;
+foreach ($blogdb['tagsdb'] as $value){print <<<EOT
+-->
+					<a href="tags.php?tagname=$value[tagname]">$value[name]</a>
+					<!--
+EOT;
+}print <<<EOT
+-->
+				</div>
+				<!--
+EOT;
+}print <<<EOT
+-->
+				<div class="rank"> <span class="fr">欢迎到 <a href="blog.php?uid=$uid" class="input"><b>$blogdb[username]</b></a> 的个人主页看更多内容</span> <a href="{$articleurl}type=$type&itemid=$itemid">阅读全文</a> <span class="blue">($blogdb[hits])</span> | <a href='#c'>回复</a> <span class="blue">(<span id="rsum">$blogdb[replies]</span>)</span> | <a href="user_index.php?action=push&itemid=$itemid">推送</a> </div>
+				<div class="comment">
+					<div id="newcomment" style="display:none;"></div>
+					<!--
+EOT;
+foreach($blogdb['cmttext'] as $value){print <<<EOT
+-->
+					<dl id="$value[id]">
+						<dt>
+							<!--
+EOT;
+if($_GROUP['delcmt']){print <<<EOT
+-->
+							<a href="javascript:;" onclick="DelComment('$type','$value[id]');" class="fr">删除</a>
+							<!--
+EOT;
+}print <<<EOT
+-->
+							<a href="blog.php?uid=$value[authorid]"><img src="$value[picon]" class="authorPic" /></a><a href="blog.php?uid=$value[authorid]" class="b blue">$value[author]</a> $value[postdate] 回复： </dt>
+						<dd>$value[content]</dd>
+					</dl>
+					<!--
+EOT;
+}print <<<EOT
+-->
+					<div class="c"></div>
+					<div class="pages">$pages</div>
+					<!--
+EOT;
+if($blogdb[allowreply]){print <<<EOT
+-->
+					<div class="comment-post">
+						<div class="fl" style="width:450px;float:left">
+						<h5 class="colorA">发表评论</h5>
+						<!--
+EOT;
+if(!$windid){print <<<EOT
+-->
+						用户名：
+						<input id="cmtuser" value="" size="22" class="input2 ip" />
+						<br />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+						<input id='cmtuser' type="hidden" value="$windid">
+<!--
+EOT;
+}print <<<EOT
+-->
+						<textarea id="cmtcontent" class="ip" style="width:450px;height:11em;" onkeydown="quickpost(event,'$itemid')"></textarea><div>
+						<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+						<input id="gdcode" value="" class="input2 ip" size=4  />
+						<img id="ck" src="ck.php?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" />
+<!--
+EOT;
+}else{print<<<EOT
+-->
+						<input id='gdcode' type="hidden" value="0">
+<!--
+EOT;
+}
+if($ifcmtq == '1' && !empty($db_question)){
+	$db_question = unserialize($db_question);
+	$qkey = array_rand($db_question);
+print<<<EOT
+-->
+		<br />验证问题: {$db_question[$qkey]} <input class="input" type="text" id="qanswer" name="qanswer" size="4"/><input type="hidden" id="qkey" name="qkey" value="$qkey" />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+						<input id="qkey" type="hidden"  name="qkey" value="0" />
+						<input id='qanswer' type="hidden" value="0">
+						<!--
+EOT;
+}print <<<EOT
+-->
+						<input style="margin-top:0" valign="middle" class="bt" type="button" value="发表评论 Post Reply" onclick="AddComment('$type','$itemid');">
+						</div></div>
+						<div style="display:block;padding:3px; text-align:right; width:200px; float:right">
+						<fieldset id="smiliebox" style="border:1px solid #eee">
+						<legend>表情</legend>
+						<div id="menu_show"></div>
+						<span style="float:right; margin:3px 10px 5px;"><a id="td_smile" style="cursor:pointer;" onClick="showDefault();" align="absmiddle">[更多]</a></span>
+						</fieldset>
+						<div id="menu_generalface" class="menu" style="display:none;"></div>
+						<div id="menu_smile" class="menu" style="display:none;"></div>
+						<script language="JavaScript" src="data/cache/smile.js"></script>
+						<script language="JavaScript" src="js/post.js"></script>
+						<script language="JavaScript" src="js/smile.js"></script>
+						</div>
+						<div class="c"></div>
+					</div>
+					<!--
+EOT;
+}print<<<EOT
+-->
+</div>
+<!--
+EOT;
+if($db_setassociate == '1'){print <<<EOT
+-->
+				<div class="rank">
+					<h3>相关文章</h3>
+					<div class="list">
+						<ul>
+<!--
+EOT;
+foreach($tagsubject as $key => $value){print<<<EOT
+-->
+							<li>&raquo; <a href="{$articleurl}type=$type&itemid=$value[itemid]">$value[subject]</a> <span  class="green"><a href="blog.php?username={$value[author]}" target="_blank">($value[author])</a></span><span  class="gray">($value[addtime])</span> </li>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+						
+						</ul>
+					</div>
+				</div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+			</div>
+		</div>
+	</div>
+<!--
+EOT;
+}elseif($type == 'photo'){print<<<EOT
+-->
+	<div id="in-content">
+		<!--main content photo -->
+		<div class="boxA">
+			<h5 class="tabB"> <a href="$db_blogurl">首页</a> &raquo; <a href="cate.php?type=$type">$typename</a> &raquo; <a href="cate.php?type=$type&cid=$blogdb[cid]">$cidname</a> &raquo; <a href="cate.php?type=$type&job=plist&cid=$photodb[cid]&aid=$photodb[aid]&">$photodb[subject]</a>&raquo; 单图浏览 </h5>
+			<div class="c"></div>
+			<div class="post">
+				<style type="text/css">
+		  .boxes{position:absolute;background:#fff;border:1px solid #A6CBE7;}
+		  .boxes td, .boxes center{background:#E0F0F9;}
+		  .boxes center{list-style:none;padding:0;}
+		  .boxes a{display:block;padding:3px 15px 3px 15px}
+		  .boxes a:hover{background:#2f5fa1;text-decoration:none;color:#fff;}
+		  </style>
+				<div id="showboxes" style="z-index:100;display:none;"></div>
+				<div class="post-content">
+					<div class="right"><a href="article.php?type=$type&cid=$cid&aid=$aid&pid=$pid&goto=previous">上一张</a>/ <a href="article.php?type=$type&cid=$cid&aid=$aid&pid=$pid&goto=next">下一张</a>  共有$photodb[photos]张</div><br />
+					<center><h1>$photodb[name]</h1></center>
+					<center>$photodb[photo_url]</center>
+					作者： <a href="blog.php?uid=$uid">$photodb[username]</a> <br />
+					发表日期： $photodb[uploadtime]<br />
+					tags :
+<!--
+EOT;
+foreach ($photodb['tagsdb'] as $value){print <<<EOT
+-->
+<a href="tags.php?tagname=$value[tagname]">$value[name]</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+					<br />
+					操作：<span style="cursor:pointer;" onclick="CopyURL('$db_blogurl/article.php?type=$type&cid=$cid&aid=$aid&pid=$pid')">复制链接</span> <span style="cursor:pointer;" onclick="Addboxes('$type','collecitems','$aid');"> 收藏</span>   <span style="cursor:pointer;" onclick="Addboxes('$type','footprint','$pid')">踩踩</span> <strong id="footnum" class="colorA">$photodb[pfootprints]</strong>
+<!--
+EOT;
+if($_GROUP['delatc']){print <<<EOT
+-->
+				<span id="boxesopen" style="cursor:pointer;" onclick="Addboxes('$type','delatc','$pid');">删除</span>
+<!--
+EOT;
+}print <<<EOT
+-->
+				</div>
+				<div class="rank"> <span class="fr">欢迎到 <a href="blog.php?uid=$uid" class="input"><b>$photodb[username]</b></a> 的个人主页看更多内容</span> 浏览</a> <span class="blue">($photodb[phits])</span> | <a href='#c'>回复</a> <span class="blue">(<span id="rsum">$photodb[preplies]</span>)</span></div>
+			</div>
+			<div class="comment">
+				<div id="newcomment" style="display:none;"></div>
+					<!--
+EOT;
+foreach($photodb['cmttext'] as $value){print <<<EOT
+-->
+					<dl id="$value[id]">
+						<dt>
+							<!--
+EOT;
+if($_GROUP['delcmt']){print <<<EOT
+-->
+							<a href="javascript:;" onclick="DelComment('$type','$value[id]');" class="fr">删除</a>
+							<!--
+EOT;
+}print <<<EOT
+-->
+							<a href="blog.php?uid=$value[authorid]"><img src="$value[picon]" class="authorPic" /></a><a href="blog.php?uid=$value[authorid]" class="b blue">$value[author]</a> $value[postdate] 回复： </dt>
+						<dd>$value[content]</dd>
+					</dl>
+					<!--
+EOT;
+}print <<<EOT
+-->
+					<div class="c"></div>
+					<div class="pages">$pages</div>
+					<!--
+EOT;
+if($photodb[allowreply]){print <<<EOT
+-->
+					<div class="comment-post">
+						<div class="fl" style="width:450px;float:left">
+						<h5 class="colorA">发表评论</h5>
+						<!--
+EOT;
+if(!$windid){print <<<EOT
+-->
+						用户名：
+						<input id="cmtuser" value="" size="22" class="input2 ip" />
+						<br />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+						<input id='cmtuser' type="hidden" value="$windid">
+<!--
+EOT;
+}print <<<EOT
+-->
+						    <textarea id="cmtcontent" class="ip" style="width:450px;height:11em;" onkeydown="quickpost(event,'$itemid')"></textarea><div>
+						<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+						<input id="gdcode" value="" class="input2 ip" size=4  />
+						<img id="ck" src="ck.php?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" />
+<!--
+EOT;
+}else{print<<<EOT
+-->
+						<input id='gdcode' type="hidden" value="0">
+<!--
+EOT;
+}
+if($ifcmtq == '1' && !empty($db_question)){
+	$db_question = unserialize($db_question);
+	$qkey = array_rand($db_question);
+print<<<EOT
+-->
+		<br />验证问题: {$db_question[$qkey]} <input class="input" type="text" id="qanswer" name="qanswer" size=4/><input type="hidden" id="qkey" name="qkey" value="$qkey" />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+						<input id="qkey" type="hidden"  name="qkey" value="0" />
+						<input id='qanswer' type="hidden" value="0">
+						<!--
+EOT;
+}print <<<EOT
+-->
+						<input style="margin-top:0" valign="middle" class="bt" type="button" value="发表评论 Post Reply" onclick="AddComment('$type','$pid');">
+						</div></div>
+						<div style="display:block;padding:3px; text-align:right; width:200px; float:right">
+							<fieldset id="smiliebox" style="border:1px solid #eee">
+							<legend>表情</legend>
+							<div id="menu_show"></div>
+							<span style="float:right; margin:3px 10px 5px;"><a id="td_smile" style="cursor:pointer;" onClick="showDefault();" align="absmiddle">[更多]</a></span>
+							</fieldset>
+							<div id="menu_generalface" class="menu" style="display:none;"></div>
+							<div id="showmenu" style="z-index:100;display:none;"></div>
+							<div id="menu_smile" class="menu" style="display:none;"></div>
+							<script language="JavaScript" src="data/cache/smile.js"></script>
+							<script language="JavaScript" src="js/post.js"></script>
+							<script language="JavaScript" src="js/smile.js"></script>
+						</div>
+					</div>
+			
+<!--
+EOT;
+}
+print<<<EOT
+-->		
+			</div>
+		</div>
+		<!--main content photo end -->
+	</div>
+
+<!--
+EOT;
+}elseif($type == 'music'){print<<<EOT
+-->
+<script language="javascript" src="js/music.js"></script>
+<div id="in-content">
+		<!--main content music-->
+		<div class="boxA">
+			<h5 class="tabB"> <a href="$db_blogurl">首页</a> &raquo; <a href="cate.php?type=$type">$typename</a> &raquo; <a href="cate.php?type=$type&cid=$malbumdb[cid]">$cidname</a> &raquo; 音乐列表 </h5>
+			<div class="c"></div>
+			<div class="post">
+				<div class="right"><img src="$malbumdb[uicon]" class="read-author-pic"/></div>
+				<h1>$malbumdb[subject]</h1>
+				<cite>
+				<style type="text/css">
+		  .boxes{position:absolute;background:#fff;border:1px solid #A6CBE7;}
+		  .boxes td, .boxes center{background:#E0F0F9;}
+		  .boxes center{list-style:none;padding:0;}
+		  .boxes a{display:block;padding:3px 15px 3px 15px}
+		  .boxes a:hover{background:#2f5fa1;text-decoration:none;color:#fff;}
+		  </style>
+				<div id="showboxes" style="z-index:100;display:none;"></div>
+				作者：<a href="blog.php?uid=$uid">$malbumdb[username]</a> <span>发表日期：$malbumdb[postdate]</span> <span style="cursor:pointer;" onclick="CopyURL('$db_blogurl/article.php?type=$type&maid=$maid')">复制链接</span> <span style="cursor:pointer;" onclick="Addboxes('$type','collecitems','$maid');">收藏</span>
+<!--
+EOT;
+if($_GROUP['cmdact']){print <<<EOT
+-->
+				<span id="boxesopen" style="cursor:pointer;" onclick="Open_Boxes(this.id);">推荐</span>
+				<div class="boxes" id="boxes" style="display:none;">
+					<table width="270" cellspacing="1" cellpadding="5">
+						<tbody>
+							<tr>
+								<td><div class="fr" style="cursor:pointer;" onclick="Close_Boxes();" title="close"><img src="$imgpath/wysiwyg/close.gif" /></div>
+									<b>推荐为精华</b> </td>
+							</tr>
+							<tr>
+								<td width="40%" align="center"><input type="radio" name="digest" id="digest" value="0" class="ip" $digest_0 />
+									取消精华
+									<input type="radio" name="digest" id="digest" value="1" class="ip" $digest_1 />
+									精华I
+									<input type="radio" name="digest" id="digest" value="2" class="ip" $digest_2 />
+									精华II
+									<input type="radio" name="digest" id="digest" value="3" class="ip" $digest_3 />
+									精华III</td>
+							</tr>
+						</tbody>
+					</table>
+					<center>
+						<input type="button" onclick="return Addboxes('$type','cmditems','$maid');" class="bt" value=" 提 交 " />
+						<input type="button" onclick="return Close_Boxes();" class="bt" value="取消" />
+					</center>
+				</div>
+<!--
+EOT;
+}if($_GROUP['delatc']){print <<<EOT
+-->
+				<span id="boxesopen" style="cursor:pointer;" onclick="Addboxes('$type','delatc','$maid');;">删除</span>
+<!--
+EOT;
+}print <<<EOT
+-->
+				</cite>
+				<div class="post-content">
+					<p>
+					<div class="gray">最后添加日期：$malbumdb[lastpost]</div>
+					<h3><a name="listen"></a></h3>
+					<table class="blog-content">
+						<tr>
+							<td><div style="margin:1em 0">
+									<dl class="fsn">
+										<dt class="gray">歌曲列表</dt>
+									</dl>
+									<p id="player"></p>
+									<table cellspacing="0" cellpadding="0" class="itable">
+										<tr class="tr1">
+											<td>歌曲名</td>
+											<td class="tac" width="15%">播放次数</td>
+											<td class="tac" width="10%">试听</td>
+											<td class="tac" width="10%">下载</td>
+											<td class="tac" width="18%">设为背景音乐</td>
+										</tr>
+<!--
+EOT;
+foreach ($musicdb as $value) {print <<<EOT
+-->
+										<tr>
+											<td><img src="$imgpath/default/music.gif" align="absbottom" /> $value[name]</td>
+											<td class="tac" id="mhits_{$value[mid]}">$value[mhits]</td>
+											<td class="tac"><a href="javascript:;" style="cursor:pointer;" onclick="window.open('player.php?mid=$value[mid]','lxplayer','width=500,height=200');add_mhits('$value[maid]','$value[mid]');"><img src="$imgpath/default/listen.gif" /></a></td>
+											<td class="tac"><a href="$value[murl]" target="_blank"><img src="$imgpath/default/download.gif" /></a></td>
+											<td class="tac"><a href="javascript:;" onclick="setbgmusic('$value[mid]')"><img src="$imgpath/default/bgm.gif" /></a></td>
+										</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+									</table>
+								</div>
+								<div class="c"></div></td>
+						</tr>
+					</table>
+					专辑描述：<br />
+					$malbumdb[descrip]
+<!--
+EOT;
+if($malbumdb['tagsdb']){print <<<EOT
+-->
+				<div class="tags">Tags:
+					<!--
+EOT;
+foreach ($malbumdb['tagsdb'] as $value){print <<<EOT
+-->
+					<a href="tags.php?tagname=$value[tagname]">$value[name]</a>
+					<!--
+EOT;
+}print <<<EOT
+-->
+				</div>
+				<!--
+EOT;
+}print <<<EOT
+-->
+				<div class="rank"> <span class="fr">欢迎到 <a href="blog.php?uid=$uid" class="input"><b>$malbumdb[username]</b></a> 的个人主页看更多内容</span> <a href='#c'>播放次数</a><span class="blue" >($malbumdb[hits])</span> | <a href='#c'>回复</a> <span class="blue">(<span id="rsum">$malbumdb[replies]</span>)</span></div>
+				</div>
+				<div class="comment">
+					<div id="newcomment" style="display:none;"></div>
+<!--
+EOT;
+foreach($malbumdb['cmttext'] as $value){print <<<EOT
+-->
+					<dl id="$value[id]">
+						<dt>
+<!--
+EOT;
+if($_GROUP['delcmt']){print <<<EOT
+-->
+							<a href="javascript:;" onclick="DelComment('$type','$value[id]');" class="fr">删除</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+							<a href="blog.php?uid=$value[authorid]"><img src="$value[picon]" class="authorPic" /></a><a href="blog.php?uid=$value[authorid]" class="b blue">$value[author]</a> $value[postdate] 回复： </dt>
+						<dd>$value[content]</dd>
+					</dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+					<div class="c"></div>
+					<div class="pages">$pages</div>
+<!--
+EOT;
+if($malbumdb[allowreply]){print <<<EOT
+-->
+					<div class="comment-post">
+						<div class="fl" style="width:450px;float:left">
+						<h5 class="colorA">发表评论</h5>
+<!--
+EOT;
+if(!$windid){print <<<EOT
+-->
+						用户名：
+						<input id="cmtuser" value="" size="22" class="input2 ip" />
+						<br />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+						<input id='cmtuser' type="hidden" value="$windid">
+<!--
+EOT;
+}print <<<EOT
+-->
+						    <textarea id="cmtcontent" class="ip" style="width:450px;height:11em;" onkeydown="quickpost(event,'$itemid')"></textarea><div>
+					        
+
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+						<input id="gdcode" value="" class="input2 ip" size=4  />
+						<img id="ck" src="ck.php?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" />
+<!--
+EOT;
+}else{print<<<EOT
+-->
+						<input id='gdcode' type="hidden" value="0">
+<!--
+EOT;
+}
+if($ifcmtq == '1' && !empty($db_question)){
+	$db_question = unserialize($db_question);
+	$qkey = array_rand($db_question);
+print<<<EOT
+-->
+		<br />验证问题: {$db_question[$qkey]} <input class="input" type="text" id="qanswer" name="qanswer" size=4/><input type="hidden" id="qkey" name="qkey" value="$qkey" />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+						<input id="qkey" type="hidden"  name="qkey" value="0" />
+						<input id='qanswer' type="hidden" value="0">
+						
+<!--
+EOT;
+}print <<<EOT
+-->
+						<input style="margin-top:0" valign="middle" class="bt" type="button" value="发表评论 Post Reply" onclick="AddComment('$type','$maid');">
+						</div></div>
+						<div style="display:block;padding:3px; text-align:right; width:200px; float:right">
+							<fieldset id="smiliebox" style="border:1px solid #eee">
+							<legend>表情</legend>
+							<div id="menu_show"></div>
+							<span style="float:right; margin:3px 10px 5px;"><a id="td_smile" style="cursor:pointer;" onClick="showDefault();" align="absmiddle">[更多]</a></span>
+							</fieldset>
+							<div id="menu_generalface" class="menu" style="display:none;"></div>
+							<div id="showmenu" style="z-index:100;display:none;"></div>
+							<div id="menu_smile" class="menu" style="display:none;"></div>
+							<script language="JavaScript" src="data/cache/smile.js"></script>
+							<script language="JavaScript" src="js/post.js"></script>
+							<script language="JavaScript" src="js/smile.js"></script>
+						</div>
+					</div>
+				</div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+			</div>
+		</div>
+		<!--main content music end-->
+	</div>
+<!--
+EOT;
+}elseif($type == 'bookmark'){print<<<EOT
+-->
+	<div id="in-content">
+		<!--main content -->
+		<div class="boxA">
+			<h5 class="tabB"> <a href="$db_blogurl">首页</a> &raquo; <a href="cate.php?type=$type">$typename</a> &raquo; <a href="cate.php?type=$type&cid=$blogdb[cid]">$cidname</a> &raquo; 文章正文 </h5>
+			<div class="c"></div>
+			<div class="post">
+				<div class="right"><a href="article.php?type=$type&cid=$cid&itemid=$itemid&goto=previous">上一篇</a>/ <a href="article.php?type=$type&cid=$cid&itemid=$itemid&goto=next">下一篇</a></div><br />
+				<div class="right"><img src="$blogdb[uicon]" class="read-author-pic"/></div>
+				<h1>$blogdb[subject]</h1>
+				<cite>
+				<style type="text/css">
+		  .boxes{position:absolute;background:#fff;border:1px solid #A6CBE7;}
+		  .boxes td, .boxes center{background:#E0F0F9;}
+		  .boxes center{list-style:none;padding:0;}
+		  .boxes a{display:block;padding:3px 15px 3px 15px}
+		  .boxes a:hover{background:#2f5fa1;text-decoration:none;color:#fff;}
+		  </style>
+				<div id="showboxes" style="z-index:100;display:none;"></div>
+				<span class="right" style="cursor:pointer;" onclick="Addboxes('$type','footprint','$itemid')">踩踩 <strong id="footnum" class="colorA">$blogdb[footprints]</strong></span>作者：<a href="blog.php?uid=$uid">$blogdb[username]</a> <span>发表日期：$blogdb[postdate]</span> <span style="cursor:pointer;" onclick="CopyURL('$db_blogurl/article.php?type=$type&itemid=$itemid')">复制链接</span>
+				<!--
+EOT;
+if($_GROUP['cmdact']){print <<<EOT
+-->
+				<span id="boxesopen" style="cursor:pointer;" onclick="Open_Boxes(this.id);">推荐</span>
+				<div class="boxes" id="boxes" style="display:none;">
+					<table width="270" cellspacing="1" cellpadding="5">
+						<tbody>
+							<tr>
+								<td><div class="fr" style="cursor:pointer;" onclick="Close_Boxes();" title="close"><img src="$imgpath/wysiwyg/close.gif" /></div>
+									<b>推荐为精华</b> </td>
+							</tr>
+							<tr>
+								<td width="40%" align="center"><input type="radio" name="digest" id="digest" value="0" class="ip" $digest_0 />
+									取消精华
+									<input type="radio" name="digest" id="digest" value="1" class="ip" $digest_1 />
+									精华I
+									<input type="radio" name="digest" id="digest" value="2" class="ip" $digest_2 />
+									精华II
+									<input type="radio" name="digest" id="digest" value="3" class="ip" $digest_3 />
+									精华III</td>
+							</tr>
+						</tbody>
+					</table>
+					<center>
+						<input type="button" onclick="return Addboxes('$type','cmditems','$itemid');" class="bt" value=" 提 交 " />
+						<input type="button" onclick="return Close_Boxes();" class="bt" value="取消" />
+					</center>
+				</div>
+				<!--
+EOT;
+}if($_GROUP['delatc']){print <<<EOT
+-->
+				<span id="boxesopen" style="cursor:pointer;" onclick="Addboxes('$type','delatc','$itemid');">删除</span>
+				<!--
+EOT;
+}print <<<EOT
+-->
+				</cite>
+				<div class="post-content">
+				<dt>
+					<h4>书签:<a class="active" href="$blogdb[bookmarkurl]" rel="external">$blogdb[subject]</a></h4>
+		  		</dt><br />
+		  			描述：<br />
+					$blogdb[content]
+				</div>
+				<!--
+EOT;
+if($blogdb['tagsdb']){print <<<EOT
+-->
+				<div class="tags">Tags:
+					<!--
+EOT;
+foreach ($blogdb['tagsdb'] as $value){print <<<EOT
+-->
+					<a href="tags.php?tagname=$value[tagname]">$value[name]</a>
+					<!--
+EOT;
+}print <<<EOT
+-->
+				</div>
+				<!--
+EOT;
+}print <<<EOT
+-->
+				<div class="rank"> <span class="fr">欢迎到 <a href="blog.php?uid=$uid" class="input"><b>$blogdb[username]</b></a> 的个人主页看更多内容</span> 浏览量 <span class="blue">($blogdb[hits])</span></div>
+					<!--
+EOT;
+if($db_setassociate == '1'){print <<<EOT
+-->
+				<div class="rank">
+					<h3>相关文章</h3>
+					<div class="list">
+						<ul>
+<!--
+EOT;
+foreach($tagsubject as $key => $value){print<<<EOT
+-->
+							<li>&raquo; <a href="{$articleurl}type=$type&itemid=$value[itemid]">$value[subject]</a> <span  class="green"><a href="blog.php?username={$value[author]}" target="_blank">($value[author])</a></span><span  class="gray">($value[addtime])</span> </li>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+						
+						</ul>
+					</div>
+				</div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+			</div>
+		</div>
+	</div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<!--sidebar-->
+  <div id="in-sidebar">
+	<div id="searchbar">
+	  <h3>搜索</h3>
+	  <div class="tac">
+		<form action="search.php?action=dosearch&" method="post">
+		<input name="keyword" id="sip" class="ip" style="width:65%"/>
+		<input class="bt" name="submit" type="submit" value="Go"  style="font-weight:bold"/>
+		</form>
+	  </div>
+	</div>
+	<div>
+	  <h3>热门$index_name[$type]</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+$id=0;
+foreach($_HOTCATE as $value){
+$id++;
+if($type == 'blog'){print <<<EOT
+-->
+		  <li>$id. <a href="{$articleurl}type=$type&itemid=$value[itemid]&">$value[subject]</a> <span class="gray">($value[author])</span> </li>
+<!--
+EOT;
+}elseif($type == 'photo'){print<<<EOT
+-->
+		   <li>$id. <a href="cate.php?type=$type&job=plist&aid=$value[aid]&">$value[subject]</a> <span class="gray">($value[author])</span> </li>
+<!--
+EOT;
+}elseif($type == 'music'){print<<<EOT
+-->
+ 			<li>$id. <a href="{$articleurl}type=$type&maid=$value[maid]&">$value[subject]</a> <span class="gray">($value[author])</span> </li>
+<!--
+EOT;
+}
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+	<div id="pools-brackets">
+	  <h3>推荐$index_name[$type]</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+foreach($_DIGESTCATE as $value){
+if($type == 'blog'){print <<<EOT
+-->
+		  <li>&raquo; <a href="{$articleurl}type=$type&itemid=$value[itemid]">$value[subject]</a> <span  class="green">($value[author])</span> </li>
+<!--
+EOT;
+}elseif($type == 'photo'){print<<<EOT
+-->
+ 		  <li>&raquo; <a href="cate.php?type=$type&job=plist&aid=$value[aid]">$value[subject]</a> <span  class="green">($value[author])</span> </li>
+<!--
+EOT;
+}elseif($type == 'music'){print<<<EOT
+-->
+			<li>&raquo;  <a href="{$articleurl}type=$type&maid=$value[maid]&">$value[subject]</a> <span class="gray">($value[author])</span> </li>
+<!--
+EOT;
+}
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+  </div>
+  <!--sidebar end-->
+	<div class="c"></div>
+</div>
+<script language="JavaScript" src="js/article.js"></script>
+<!--main end-->
+<!--
+EOT;
+?>
+-->

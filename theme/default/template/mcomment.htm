@@ -1,0 +1,125 @@
+<!--<?php
+$cdisplay = $blogdb[replies]>0 ? '' : 'none';print <<<EOT
+-->
+<script language="JavaScript">
+var imgpath = '$imgpath';
+function addsmile(NewCode){
+    GE('cmtcontent').value += ' [s:'+NewCode+'] ';
+}
+</script>
+		<!--begin comment-->
+		<a name="mao"></a>
+		<div class="comment bb">
+		  <h5 id="cdisplay" style="display:$cdisplay;">一共有 <span id="sums">$malbumdb[replies]</span> 条评论</h5>
+		  <div id="newcomment" style="display:none;"></div>
+<!--
+EOT;
+foreach($malbumdb['cmttext'] as $value){print <<<EOT
+-->
+			<dl id="$value[id]">
+			  <dd class="comment-pic left"><img src="$value[picon]" width="40" /></dd>
+			  <dd>
+<!--
+EOT;
+if($windgroup['delcmt']){print <<<EOT
+-->
+				<a href="javascript:;" onclick="DelComment('$type','$value[id]');" class="fr">删除</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+				<a href="blog.php?uid=$value[authorid]" class="big b">$value[author]</a> <span class="gray">$value[postdate]</span> Says:
+			  </dd>
+			  <dd class="comment-content"><div>$value[content]</div></dd>
+			</dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  </span>
+		  <div class="big">$pages</div>
+<!--
+EOT;
+if($malbumdb['allowreply']){print<<<EOT
+-->
+		  <div class="post-comment">
+			<h5>发表评论</h5>
+			<div>
+<!--
+EOT;
+if(!$windid){print <<<EOT
+-->
+			  <a>用户名：</a><input class="ip" id="cmtuser" size=22 />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+			  <input id='cmtuser' type="hidden" value="$windid"><a>{$windid}：</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+			</div>
+			<div>
+			  <textarea class="ip" id="cmtcontent" style="width:90%;height:15em" onkeydown="quickpost(event,'$itemid')"></textarea>
+			  <span style="margin-top:-1em;padding:3px; text-align:right; width:200px; position:absolute">
+						<fieldset id="smiliebox" style="border:1px solid #eee">
+						<legend>表情</legend>
+						<div id="menu_show"></div>
+						<span style="float:right; margin:3px 10px 5px;"><a id="td_smile" style="cursor:pointer;" onClick="showDefault();" align="absmiddle">[更多]</a></span>
+						</fieldset></div>
+						<div id="menu_generalface" class="menu" style="display:none;"></div>
+						<div id="showmenu" style="z-index:100;display:none;"></div>
+						<div id="menu_smile" class="menu" style="display:none;"></div>
+						<script language="JavaScript" src="data/cache/smile.js"></script>
+						<script language="JavaScript" src="js/post.js"></script>
+						<script language="JavaScript" src="js/smile.js"></script>
+			</span>
+			</div>
+			<div class="c"></div>
+			<div>
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+			  <input id="gdcode" value="" class="ip" size=4  />
+			  <img id="ck" src="ck.php?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+			  <input id='gdcode' type="hidden" value="0" >
+<!--
+EOT;
+}
+if($ifcmtq == '1' && !empty($db_question)){
+	$db_question = unserialize($db_question);
+	$qkey = array_rand($db_question);
+print<<<EOT
+-->
+
+		</br>验证问题: {$db_question[$qkey]} <input class="input" type="text" name="qanswer" id="qanswer" size=4 /><input type="hidden" name="qkey" id="qkey" value="$qkey" />
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<input type="hidden" name="qanswer" id="qanswer" value="0" />
+<input type="hidden" name="qkey" id="qkey" value="0" />
+<!--
+EOT;
+}print <<<EOT
+-->
+			  <input valign="middle" class="bt" tabIndex="5" type="button" value="提 交" name="Submit" onclick="AddComment('$type','$maid');">
+			</div>
+		  </div>
+		  <div class="c"></div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+		</div>
+		<!--begin comment-->
+<!--
+EOT;
+?>

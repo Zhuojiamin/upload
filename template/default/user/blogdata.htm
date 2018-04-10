@@ -1,0 +1,87 @@
+<!--<?php print <<<EOT
+-->
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5>
+<tr class="head" height="25"><td><h2>日志管理</h2></td></tr>
+<!--
+EOT;
+if($job!='lead'){print <<<EOT
+-->
+<tr><td class="b"><a href='$basename&job=lead'>导入日志</a>
+<b>日志备份</b></td></tr>
+</table><br />
+<form method="post" action="$basename&job=export&">
+<input name="step" type=hidden value=2>
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr><td class="b" width="25%">起始日期:</td>
+<td class="b"><select name='startyear'>$yeardate</select>年
+<select name='startmonth'>$monthdate</select>月</td></tr>
+<tr><td class="b" width="25%">结束日期:</td>
+<td class="b"><select name='endyear'>$yeardates</select>年
+<select name='endmonth'>$monthdates</select>月
+<input type="Submit" value="导 出" name="Submit" class="bt"></td></tr>
+</table><br />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="b"><b>导入日志</b>
+<a href='$basename&job=export'>日志备份</a></td></tr>
+</table><br />
+<!--
+EOT;
+if($viewover){print <<<EOT
+-->
+<form method="post" action="$basename&job=lead&" enctype="multipart/form-data">
+<input name="step" type=hidden value=2>
+<input name="sel" type=hidden value=1>
+<input name="farfeed" type=hidden value="$xmlname">
+<input name="xmltype" type=hidden value="$xmltype">
+<input name="cid" type=hidden value="$cid">
+<input name="itemtypeid" type=hidden value="$itemtypeid">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr><td class="b" width="10%">id</td>
+<td class="b" >标题</td>
+<td class="b" width="25%">时间</td>
+<td class="b">选择</td></tr>
+<!--
+EOT;
+foreach($newdate as $key => $value){print <<<EOT
+-->	
+<tr><td class="b">$key</td>
+<td class="b">$value[TITLE]</td>
+<td class="b">$value[PUBDATE]</td>
+<td class="b"><input type="checkbox" name="selid[]" value="$key"></td></tr>
+<!--
+EOT;
+}}else{print <<<EOT
+-->
+<form method="post" action="$basename&job=lead&" enctype="multipart/form-data">
+<input name="step" type=hidden value=2>
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr><td class="b" width="25%">输入远程feed:</td>
+<td class="b"><input type="text" class="input" name="farfeed"></td></tr>
+<tr><td class="b" width="25%">浏览本地文件</td>
+<td class="b"><input type="file" size="20" name="attachment_1">&nbsp;数据类型
+<select name='xmltype'>
+<option value='1'>LxBlog</option>
+<option value='1'>oblog</option>
+<option value='3'>blogbus</option>
+</select></td></tr>
+<tr><td class="b" width="25%">导入目标分类</td>
+<td class="b"><select name='cid'>$forumcache</select>
+<select name='itemtypeid'><option value="0">个人分类</option>$itemcache</select>
+<input type="checkbox" name="viewover" value="1"> 查看详细</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="Submit" value="导 入" name="Submit" class="bt"></center>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>

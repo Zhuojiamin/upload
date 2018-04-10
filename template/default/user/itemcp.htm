@@ -1,0 +1,494 @@
+<!--<?php
+if($job == 'list'){
+	if($type == 'photo'){print<<<EOT
+-->
+<script language="JavaScript" src="js/photo.js"></script>
+<script language="JavaScript" src="js/ajax.js"></script>
+
+<div style="width:900px; margin:auto">
+<h5>相册管理</h5>
+<div class="c"></div>
+<div style="width:20%; float:left; padding-right:2%; border-right:1px solid #eee">
+<table width="100%" border="0" cellspacing="1" cellpadding="0">
+	<tr style="vertical-align:top">
+		<td class="tac" style="width:120px;"><img id="hpage" src="$hpageurl" class="albumn-pic"/><br />
+		相册封面
+		</td>
+		<td>
+		</td>
+	</tr>
+</table>
+<div style=" padding:.6em 0">相册名称：$album_name<br />
+相片数：$count 张<br />
+</div>
+简介：$album_descrip
+</div>
+
+<div class="pic-list">
+<ul>
+<!--
+EOT;
+foreach ($photos as $value) {print <<<EOT
+-->
+	<li id=photo_{$value[pid]}>
+	<div><img src="$value[attachurl]" /></div>
+	<div>$value[name]<br />
+	描述:$value[descrip]<br />
+	tags:$value[tags]<br />
+	操作:<a href="javascript:;" onclick="del_photo($value[pid],$value[aid]);">删除</a>&nbsp;<a href="javascript:;" onclick="set_headpage($value[pid],$value[aid]);">设为封面</a>
+	</div>
+	</li>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</ul>
+</div>
+</div>
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+<div class="page">$pages</div>
+</table>
+<!--
+EOT;
+}elseif($type == 'music'){print<<<EOT
+-->
+<script language="JavaScript" src="js/music.js"></script>
+<script language="JavaScript" src="js/ajax.js"></script>
+<form action="$basename&job=update&" method="post">
+<input type="hidden" name="maid" value="$maid">
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+ <tr class="head">
+	<td colspan="10"><h2 class="left"><a href="$basename&">{$index_name[$type]}管理 </a></h2><div style="padding: 2px 2px;float:left;"> &raquo; {$malbum_name}</div></td>
+ </tr>
+ <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">歌曲名称</td>
+	<td class="b">发布日期</td>
+	<td class="b">播放数</td>
+	<td class="b">播放</td>
+    <td class="b">编辑</td>
+	<td class="b">删除</td>
+ </tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($musics as $key => $value){
+$id++;print <<<EOT
+-->
+  <tr align="center">
+	<td class="b">$id</td>
+	<td class="b" align="center">$value[name]</td>
+	<td class="b">$value[posttime]</td>
+	<td class="b" id="mhits_$value[mid]">$value[mhits]</td>
+	<td class="b"><a href="javascript:;" style="cursor:pointer;" onclick="window.open('player.php?mid=$value[mid]','lxplayer','width=500,height=200');add_mhits('$maid','$value[mid]');"><img src="$imgpath/wysiwyg/rm.gif"></a></td>
+	<td class="b"><a href="$user_file?action=post&type=$type&job=modify&mid=$value[mid]">编辑</a></td>
+	<td class="b"><input type="checkbox" name="selid[]" value="$value[mid]"></td>
+  </tr>
+  
+  
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+  <tr>
+	<td>$pages</td>
+  </tr>
+   <input type="hidden" name="ntype" id="delete" value="delete">
+</table><br />
+<center>
+  <input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)" class="bt">
+  <input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中主题？');" class="bt">
+</center>
+</form>
+<!--
+EOT;
+}
+}else{
+	if($type == 'blog'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="5" style="margin-bottom:6px;background-color:#EEEEEE;border-bottom:1px solid #999999;border-top:1px solid #999999;">
+  <tr class="b">
+	<td>
+	  查看：标题(可用通配符"*")：<input class="input" name="titlekey" size="15" value="">
+	  <select name="cid">
+		<option value="-1">所有系统分类</option>
+		$cateop
+	  </select>
+	  <select name="dirid">
+		<option value="-1">所有个人分类</option>
+		$dirop
+	  </select>
+	  <select name="ifcheck">
+		<option value="-1">不限审核</option>
+		<option value="1"{$sltcheck[1]}>已审</option>
+		<option value="0"{$sltcheck[0]}>未审</option>
+	  </select>
+	  排序：
+	 <select name="orderby">
+		<option value="postdate"{$sltorder[postdate]}>发布时间</option>
+		<option value="lastpost"{$sltorder[lastpost]}>最后回复</option>
+		<option value="replies"{$sltorder[replies]}>回复数</option>
+		<option value="hits"{$sltorder[hits]}>查看数</option>
+	  </select>
+	  <select name="sc">
+		<option value="desc"{$sltsc[desc]}>降序</option>
+		<option value="asc"{$sltsc[asc]}>升序</option>
+	  </select>
+	  <input class="bt" type="submit" value="提交">
+	</td>
+  </tr>
+</table>
+</form>
+<form action="$basename&job=update&" method="post">
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+  <tr class="head">
+	<td colspan="10"><h2>{$index_name[$type]}管理</h2></td>
+  </tr>
+  <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">标题</td>
+	<td class="b">系统分类</td>
+	<td class="b">个人分类</td>
+	<td class="b">发布日期</td>
+	<td class="b">回复数</td>
+	<td class="b">查看数</td>
+	<td class="b">审核</td>
+	<td class="b">编辑</td>
+	<td class="b">操作</td>
+  </tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($itemdb as $key => $value){
+$id++;print <<<EOT
+-->
+  <tr align="center">
+	<td class="b">$id</td>
+	<td class="b" align="left"><a href="{$articleurl}type=$type&cid=$value[cid]&itemid=$value[itemid]" target="_blank">$value[subject]</td>
+	<td class="b"><a href="$basename&cid=$value[cid]">$value[cate]</a></td>
+	<td class="b"><a href="$basename&dirid=$value[dirid]">$value[dir]</a></td>
+	<td class="b">$value[postdate]</td>
+	<td class="b">$value[replies]</td>
+	<td class="b">$value[hits]</td>
+	<td class="b">$value[ifcheck]</td>
+	<td class="b"><a href="$user_file?action=post&type=$type&job=modify&itemid=$value[itemid]">编辑</a></td>
+	<td class="b"><input type="checkbox" name="selid[]" value="$value[itemid]"></td>
+  </tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+  <tr>
+	<td>$pages</td>
+  </tr>
+  <tr>
+	<td align="right">
+	  <input type="radio" name="ntype" id="delete" value="delete" CHECKED> 删除
+	  <input type="radio" name="ntype" value="setcid" id="setcid"> 修改系统分类
+	  <select name="atccid" style="width:100px;" onclick="Changselect('setcid')">
+		<option value="-1">保持不变</option>
+		$cateop
+	  </select> 
+	  <input type="radio" name="ntype" value="setdirid" id="setdirid">修改个人分类
+	  <select name="atcdirid" style="width:100px;" onclick="Changselect('setdirid')">
+		<option value="-1">保持不变</option>
+		$dirop
+	  </select>
+	</td>
+  </tr>
+</table><br />
+<center>
+  <input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)" class="bt">
+  <input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中主题？');" class="bt">
+</center>
+</form>
+<!--
+EOT;
+}elseif($type == 'photo'){print <<<EOT
+-->
+<form action="$basename&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="5" style="margin-bottom:6px;background-color:#EEEEEE;border-bottom:1px solid #999999;border-top:1px solid #999999;">
+  <tr class="b">
+	<td>
+	  查看：标题(可用通配符"*")：<input class="input" name="titlekey" size="10" value="">
+	  <select name="cid">
+		<option value="-1">所有系统分类</option>
+		$cateop
+	  </select>
+	  <select name="aid">
+		<option value="-1">所有相册</option>
+		$albumop
+	  </select>
+	  <select name="ifcheck">
+		<option value="-1">不限审核</option>
+		<option value="1"{$sltcheck[1]}>已审</option>
+		<option value="0"{$sltcheck[0]}>未审</option>
+	  </select>
+	  排序：
+	 <select name="orderby">
+		<option value="postdate"{$sltorder[postdate]}>发布时间</option>
+		<option value="lastpost"{$sltorder[lastpost]}>最后回复</option>
+		<option value="replies"{$sltorder[replies]}>回复数</option>
+		<option value="hits"{$sltorder[hits]}>查看数</option>
+	  </select>
+	  <select name="sc">
+		<option value="desc"{$sltsc[desc]}>降序</option>
+		<option value="asc"{$sltsc[asc]}>升序</option>
+	  </select>
+	  <input class="bt" type="submit" value="提交">
+	</td>
+  </tr>
+</table>
+</form>
+<form action="$basename&job=update&" method="post">
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+  <tr class="head">
+	<td colspan="10"><h2>{$index_name[$type]}管理</h2></td>
+  </tr>
+  <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">相册名称</td>
+	<td class="b">系统分类</td>
+	<td class="b">发布日期</td>
+	<td class="b">相片数</td>
+	<td class="b">回复数</td>
+	<td class="b">查看数</td>
+	<td class="b">审核</td>
+	<td class="b">编辑</td>
+	<td class="b">操作</td>
+  </tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($itemdb as $key => $value){
+$id++;print <<<EOT
+-->
+  <tr align="center">
+	<td class="b">$id</td>
+	<td class="b"><a href="$user_file?action=itemcp&type=$type&job=list&aid=$value[aid]">$value[subject]</a></td>
+	<td class="b"><a href="$basename&cid=$value[cid]" target="_blank">$value[cate]</a></td>
+	<td class="b">$value[postdate]</td>
+	<td class="b">$value[photos]</td>
+	<td class="b">$value[replies]</td>
+	<td class="b">$value[hits]</td>
+	<td class="b">$value[ifcheck]</td>
+	<td class="b"><a href="$user_file?action=addalbum&type=$type&job=modify&aid=$value[aid]">编辑</a></td>
+	<td class="b"><input type="checkbox" name="selid[]" value="$value[aid]"></td>
+  </tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+  <tr>
+	<td>$pages</td>
+  </tr>
+  <tr>
+	<td align="right">
+	  <input type="radio" name="ntype" id="delete" value="delete" CHECKED> 删除
+	  <input type="radio" name="ntype" value="setcid" id="setcid"> 修改系统分类
+	  <select name="atccid" style="width:100px;" onclick="Changselect('setcid')">
+		<option value="-1">保持不变</option>
+		$cateop
+	  </select>
+	</td>
+  </tr>
+</table><br />
+<center>
+  <input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)" class="bt">
+  <input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中主题？');" class="bt">
+</center>
+</form>
+	  
+<!--
+EOT;
+}elseif($type == 'music'){print <<<EOT
+-->
+<script language="JavaScript" src="js/music.js"></script>
+<script language="JavaScript" src="js/ajax.js"></script>
+<form action="$basename&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="5" style="margin-bottom:6px;background-color:#EEEEEE;border-bottom:1px solid #999999;border-top:1px solid #999999;">
+  <tr class="b">
+	<td>
+	  查看：标题(可用通配符"*")：<input class="input" name="titlekey" size="10" value="">
+	  <select name="cid">
+		<option value="-1">所有系统分类</option>
+		$cateop
+	  </select>
+	  <select name="maid">
+		<option value="-1">所有专辑</option>
+		$malbumop
+	  </select>
+	  <select name="ifcheck">
+		<option value="-1">不限审核</option>
+		<option value="1"{$sltcheck[1]}>已审</option>
+		<option value="0"{$sltcheck[0]}>未审</option>
+	  </select>
+	  排序：
+	 <select name="orderby">
+		<option value="postdate"{$sltorder[postdate]}>发布时间</option>
+		<option value="lastpost"{$sltorder[lastpost]}>最后回复</option>
+		<option value="replies"{$sltorder[replies]}>回复数</option>
+		<option value="hits"{$sltorder[hits]}>查看数</option>
+	  </select>
+	  <select name="sc">
+		<option value="desc"{$sltsc[desc]}>降序</option>
+		<option value="asc"{$sltsc[asc]}>升序</option>
+	  </select>
+	  <input class="bt" type="submit" value="提交">
+	</td>
+  </tr>
+</table>
+</form>
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+  <tr class="head">
+	<td colspan="10"><h2>{$index_name[$type]}管理</h2></td>
+  </tr>
+  <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">专辑名称</td>
+	<td class="b">系统分类</td>
+	<td class="b">发布日期</td>
+	<td class="b">歌曲数</td>
+	<td class="b">回复数</td>
+	<td class="b">播放数</td>
+	<td class="b">审核</td>
+	<td class="b">编辑</td>
+	<td class="b">操作</td>
+  </tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($itemdb as $key => $value){
+$id++;print <<<EOT
+-->
+  <div id="malbum_{$value[maid]}">
+  <tr align="center">
+	<td class="b">$id</td>
+	<td class="b"><a href="$user_file?action=itemcp&type=$type&job=list&maid=$value[maid]">$value[subject]</a></td>
+	<td class="b"><a href="$basename&cid=$value[cid]" target="_blank">$value[cate]</a></td>
+	<td class="b">$value[postdate]</td>
+	<td class="b">$value[musics]</td>
+	<td class="b">$value[replies]</td>
+	<td class="b">$value[hits]</td>
+	<td class="b">$value[ifcheck]</td>
+	<td class="b"><a href="$user_file?action=addmalbum&type=music&job=modify&maid=$value[maid]">编辑</a></td>
+	<td class="b"><a href="javascript:;" onclick="del_malbums($value[cid],$value[maid])">删除</a></td>
+  </tr>
+  </div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+  <tr>
+	<td>$pages</td>
+  </tr>
+</table>
+<!--
+EOT;
+}elseif($type == 'bookmark'){print<<<EOT
+-->
+<form action="$basename&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="5" style="margin-bottom:6px;background-color:#EEEEEE;border-bottom:1px solid #999999;border-top:1px solid #999999;">
+  <tr class="b">
+	<td>
+	  查看：标题(可用通配符"*")：<input class="input" name="titlekey" size="15" value="">
+	  <select name="dirid">
+		<option value="-1">所有个人分类</option>
+		$dirop
+	  </select>
+	  <select name="ifcheck">
+		<option value="-1">不限审核</option>
+		<option value="1"{$sltcheck[1]}>已审</option>
+		<option value="0"{$sltcheck[0]}>未审</option>
+	  </select>
+	  排序：
+	 <select name="orderby">
+		<option value="postdate"{$sltorder[postdate]}>发布时间</option>
+		<option value="hits"{$sltorder[hits]}>查看数</option>
+	  </select>
+	  <select name="sc">
+		<option value="desc"{$sltsc[desc]}>降序</option>
+		<option value="asc"{$sltsc[asc]}>升序</option>
+	  </select>
+	  <input class="bt" type="submit" value="提交">
+	</td>
+  </tr>
+</table>
+</form>
+<form action="$basename&job=update&" method="post">
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+  <tr class="head">
+	<td colspan="10"><h2>{$index_name[$type]}管理</h2></td>
+  </tr>
+  <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">标题</td>
+	<td class="b">个人分类</td>
+	<td class="b">发布日期</td>
+	<td class="b">查看数</td>
+	<td class="b">审核</td>
+	<td class="b">编辑</td>
+	<td class="b">操作</td>
+  </tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($itemdb as $key => $value){
+$id++;print <<<EOT
+-->
+  <tr align="center">
+	<td class="b">$id</td>
+	<td class="b" align="left">$value[subject]</td>
+	<td class="b"><a href="$basename&dirid=$value[dirid]">$value[dir]</a></td>
+	<td class="b">$value[postdate]</td>
+	<td class="b">$value[hits]</td>
+	<td class="b">$value[ifcheck]</td>
+	<td class="b"><a href="$user_file?action=post&type=$type&job=modify&itemid=$value[itemid]">编辑</a></td>
+	<td class="b"><input type="checkbox" name="selid[]" value="$value[itemid]"></td>
+  </tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+  <tr>
+	<td>$pages</td>
+  </tr>
+  <tr>
+	<td align="right">
+	  <input type="radio" name="ntype" id="delete" value="delete" CHECKED> 删除
+	  <input type="radio" name="ntype" value="setdirid" id="setdirid">修改个人分类
+	  <select name="atcdirid" style="width:100px;" onclick="Changselect('setdirid')">
+		<option value="-1">保持不变</option>
+		$dirop
+	  </select>
+	</td>
+  </tr>
+</table><br />
+<center>
+  <input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)" class="bt">
+  <input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中的书签？');" class="bt">
+</center>
+</form>
+<!--
+EOT;
+}
+}
+?>
+-->

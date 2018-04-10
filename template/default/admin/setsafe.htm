@@ -1,0 +1,44 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<!--
+EOT;
+if($job=='ipban'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息:</td></tr>
+<tr><td class="b">
+<ul><br />每行一个ip，被禁止了一个IP将无法访问<br />
+可以禁止单个ip地址格式如：192.0.0.1<br />
+也可以禁止一段ip格式如：192.0.0</ul></td></tr>
+</table><br />
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">被禁IP</td></tr>
+<tr class="b"><td align="center"><textarea name="ipban" rows="10" cols="70" wrap="hard">$db_ipban</textarea></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}elseif($job=='other'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="5">其他安全设置</td></tr>
+<tr class="b"><td width="60%">是否开启ip验证：<br />
+(可以加强网站安全,选择开启将对登陆者ip进行验证.如果与上一次登陆ip前2位不同.将要求重新登陆)</td>
+<td><input type="radio" name="config[ipcheck]" value="1" $ipcheck_Y> 开启
+<input type="radio" name="config[ipcheck]" value="0" $ipcheck_N> 关闭</td></tr>
+<tr class="b"><td width="60%">网站安全验证参数：<br />
+(此功能可加强网站密码安全验证)</td>
+<td><input name="config[hash]" value="$db_hash" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

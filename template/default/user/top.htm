@@ -1,0 +1,40 @@
+<!--<?php
+include_once PrintEot('css');print <<<EOT
+-->
+<div id="guide1">
+  <ul>
+<!--
+EOT;
+foreach($headerdb as $value){
+$value[1] && $value[1] = "href=\"$value[1]\"";
+$add  = $value[1] ? '' : 'class="a2"';
+print <<<EOT
+-->
+	<li><a $value[1] $add>$value[0]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+  </ul>
+</div>
+<div id="guide2">
+  <ul>
+<!--
+EOT;
+foreach($showhead as $value){
+$value[1] && $value[1] = "href=\"$value[1]\"";
+$add  = !$value[1] ? 'class="a2"' : 'class="a1"';
+$add2 = !$value[1] ? 'class="li2"' : '';print <<<EOT
+-->
+	<li $add2><a {$value[1]}$add>$value[0]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+  </ul>
+  <div class="c"></div>
+</div>
+<div id="main">
+<!--
+EOT;
+?>

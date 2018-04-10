@@ -1,0 +1,20 @@
+<!--<?php
+include_once PrintEot('css');print <<<EOT
+-->
+</head>
+<body>
+<script language="JavaScript" src="js/admin.js"></script>
+<div id="right-top" style="margin:0 1% 2%; border-bottom:1px solid #F0EFEF; padding:5px" align="center">
+<!--
+EOT;
+if ($action == 'admin') {print <<<EOT
+-->
+<a href="./index.php" target="_blank"><img src="$imgpath/admin/admin-home.gif" />进入首页</a><a href="http://www.phpwind.net/thread.php?fid=21" target="_blank"><img src="$imgpath/admin/admin-forums.gif" />LxBlog 讨论专区</a><a style="color:#FF6600" href="http://www.phpwind.net/thread-htm-fid-39.html" target="_blank"><img src="$imgpath/admin/admin-suj.gif" />程序发展建议</a><a href="http://www.phpwind.net/thread.php?fid=18" target="_blank"><img src="$imgpath/admin/admin-new.gif" />检查最新版本</a><a href="http://www.phpwind.com" target="_blank"><img src="$imgpath/admin/admin-pw.gif" />关于PHPWind</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+</div>
+<!--
+EOT;
+?>

@@ -1,0 +1,42 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+<script language="JavaScript">
+function deltag(id){
+	if(confirm('确定删除tag?')) {
+		var url="$db_ajxurl/user_index.php?action=schtags&job=del&id=" + id;
+		send_request(url,del_tag);
+	}
+}
+function del_tag(){
+	GE("tg_"+http_request.responseText).style.display='none';
+}
+</script>
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr height="25"><td colspan="2">&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<b>标签管理</b></td></tr>
+	<tr align=center>
+		<td class="head_2">名称</td>
+		<td class="head_2" width='15%'>日志个数</td>
+		<td class="head_2" width='15%'>相片个数</td>
+		<td class="head_2" width='6%'>删除</td>
+	</tr>
+<!--
+EOT;
+foreach($usertagdb as $key=>$val){
+print <<<EOT
+-->
+	<tr align=center id="tg_$val[tagid]">
+		<td class="b">$val[tagname]</td>
+		<td class="b">$val[blognum]</td>
+		<td class="b">$val[photonum]</a></td>
+		<td class="b"><a href="javascript:" onclick="deltag($val[tagid]);">删除</a></td>
+	</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<!--
+EOT;
+?>

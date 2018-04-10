@@ -1,0 +1,72 @@
+<!--<?php
+//include_once PrintEot('top');
+if(empty($job)){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<input name='job' type=hidden value='search'>
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr height="25"><td colspan="2" class="head"><h2>{$db_teamname}日志管理</h2></td></tr>
+<tr><td width="10%" >{$db_teamname}</td>
+<td><select name='teamid'><option></option>$teamsel</select></td></tr>
+<tr><td width="10%" >推送者</td><td><input type="text" class="input" name="username"></td></tr>
+<tr><td width="10%" >关键字</td><td><input type="text" class="input" name="keyword" size=48></td></tr>
+<tr><td class="b" width="10%" >推送日期</td><td class="b"><input type="text" class="input" size="20" name="postdate1" value="$postdate1"> - <input type="text" class="input" size="20" name="postdate2" value="$postdate2"></td></tr>
+</table>
+<br><center><input class="bt" type='Submit' value='提 交' name='Submit'></center></form><br>
+<!--
+EOT;
+} elseif($job=='search'){print <<<EOT
+-->
+<form name='form2' method="post" action="$basename&">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2"><h2>{$db_teamname}日志管理</h2></td></tr>
+<tr align='center' height="20">
+<td class="head_2" width='5%'>ID</td>
+<td class="head_2">标题</td>
+<td class="head_2">类型</td>
+<td class="head_2">{$db_teamname}名称</td>
+<td class="head_2">推送者</td>
+<td class="head_2">推送日期</td>
+<td class="head_2">推荐</td>
+<td class="head_2" width='10%'>操作</td></tr>
+<!--
+EOT;
+$id=0;
+foreach($tblogdb as $key => $tblog){
+$id++;
+$tblog[commend] = $tblog[commend] ? '推荐': '未推荐';
+print <<<EOT
+-->
+<tr align='center'>
+<td class="b">$id</td>
+<td class="b"><a href="$B_url/blog.php?do=showone&type=$tblog[type]&itemid=$tblog[itemid]" target='_blank'>$tblog[subject]</a></td>
+<td class="b">$tblog[type]</td>
+<td class="b">$tblog[name]</td>
+<td class="b"><a href="$B_url/blog.php?uid=$tblog[uid]" target='_blank'>$tblog[username]</a></td>
+<td class="b" class='smalltxt'>$tblog[postdate]</td>
+<td class="b">$tblog[commend]</td>
+<td class="b"><input type="checkbox" name="selid[]" value='$tblog[itemid]'></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr align="right">
+<td colspan="7">
+	  <input type="radio" name="job" id="del" value="del" CHECKED> 删除 
+	  <input type="radio" name="job" value="commend" id="commend"> 推荐设置
+<select name="commend" style="width:100px;" onclick="Changselect('commend')">
+<option value="1">推荐</option>
+<option value="0">未推荐</option>
+</select> 
+</td>
+</tr>
+</table>
+<br><center>
+<input type="button" name="chkall" class="bt" value="全 选" onclick="CheckAll(this.form)">
+<input class="bt" type='Submit' value='提 交' name='Submit'>
+</center></form><br>
+<center>$pages</center>
+<!--
+EOT;
+}
+?>

@@ -1,0 +1,86 @@
+<!--<?php print<<<EOT
+-->
+<!--main-->
+<script language="JavaScript" src="js/bookmark.js"></script>
+<script language="JavaScript" src="js/ajax.js"></script>
+<div id="main">
+  <div id="in-content">
+  <!--main content -->
+	<div class="boxA">
+	  <h5 class="tabB">
+		<a href="$db_blogurl">首页</a> &raquo; <a href="bookmark.php">书签列表</a>
+	  </h5>
+	  <div class="c"></div>
+	  <ul class="listArticle">
+<!--
+EOT;
+foreach($bookmarkdb as $value){print<<<EOT
+-->
+		<li>
+		  <em><cite><a href="blog.php?uid=$value[uid]" target="_blank">$value[author] </a>  <a href="$value[bookmarkurl]" target="_blank" onclick="add_bmhits('$value[itemid]','0')">　共查看 <span id="bmhits_$value[itemid]">$value[hits]</span>次</a></cite></a> $value[postdate]</em>
+		  <a href="$value[bookmarkurl]" target="_blank" title="描述： $value[content]" onclick="add_bmhits('$value[itemid]','0')">$value[subject]</a>
+		</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	  $pages
+	</div>
+  </div>
+<!--sidebar-->
+  <div id="in-sidebar">
+	<div id="searchbar">
+	  <h3>搜索</h3>
+	  <div class="tac">
+		<form action="search.php?action=dosearch&" method="post">
+		<input name="keyword" id="sip" class="ip" style="width:65%"/>
+		<input class="bt" name="submit" type="submit" value="Go"  style="font-weight:bold"/>
+		</form>
+	  </div>
+	</div>
+	<div>
+	  <h3>热门书签</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+$id=0;
+foreach($_HOTBOOKMARK as $value){
+$id++;
+print<<<EOT
+-->
+		  <li>$id. <a href="$value[bookmarkurl]" target="_blank" onclick="add_bmhits('$value[itemid]','1')">$value[subject]</a> <span class="gray">($value[hits])</span> </li>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+	<div id="pools-brackets">
+	  <h3>推荐书签</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+foreach($_HOTBOOKMARK as $value){
+print <<<EOT
+-->
+		  <li>&raquo; <a href="$value[bookmarkurl]" target="_blank" onclick="add_bmhits('$value[itemid]','1')">$value[subject]</a> <span  class="green">($value[hits])</span> </li>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+  </div>
+  <!--sidebar end-->
+  <div class="c"></div>
+</div>
+<!--main end-->
+<!--
+EOT;
+?>
+-->

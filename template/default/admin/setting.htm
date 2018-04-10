@@ -1,0 +1,363 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<!--
+EOT;
+if($job=='set'){print <<<EOT
+-->
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">参数设置</td></tr>
+<tr class="b"><td width='60%'>博客状态(关闭后,通过后台验证的管理人员也可进入)</td>
+<td><input type="radio" name="config[blogifopen]" value="1" $blogifopen_Y> 开启
+<input type="radio" name="config[blogifopen]" value="0" $blogifopen_N> 关闭</td></tr>
+<tr class="b"><td>博客关闭的原因(支持html代码)<br />
+PS: 管理员从本管理区登录后仍可以进入博客操作</td>
+<td><textarea name="config[whyblogclose]" rows="6" cols="45">$db_whyblogclose</textarea></td></tr>
+<tr class="b"><td>DEBUG 模式运行博客：<br />不屏蔽程序报错信息，出现异常时打开此模式，可得错误信息</td>
+<td><input type="radio" name="config[debug]" value="1" $debug_Y> 开启
+<input type="radio" name="config[debug]" value="0" $debug_N> 关闭</td></tr>
+<tr class="b"><td><font color="blue">博客标题</font>：</td>
+<td><input name="config[blogname]" size="35" value="$db_blogname"></td></tr>
+<tr class="b"><td><font color="blue">博客地址</font>：(注意不要在网址最后加 / )</td>
+<td><input name="config[blogurl]" size="35" value="$db_blogurl"></td></tr>
+<tr class="b"><td>默认博客风格：<br />博客的界面风格，游客和使用默认风格的会员将以此风格显示</td>
+<td><select name="config[defaultstyle]">$styledb</select></td></tr>
+<tr class="b"><td>默认会员风格：<br />会员的界面风格，新注册会员将以此风格显示</td>
+<td><select name="config[defaultustyle]">$ustyledb</select></td></tr>
+<tr class="b"><td>默认编码设置<br />请检查您使用的版本编码是否与此处设置相同，如无需要请不要随意更改</td>
+<td><select name="config[charset]">
+<option value="gbk" $charset_gbk>简体中文 (gbk)</option>
+<option value="big5" $charset_big5>繁体中文 (big5)</option>
+<option value="utf-8" $charset_utf8>UTF8编码 (utf-8)</option>
+</select></td></tr>
+<tr class="b"><td>默认时区设置<br />博客所在时区的默认设置，游客和新注册用户的时间按此设置显示</td>
+<td><select name="config[timedf]">
+<option value="-12" $zone_012>(标准时-12:00) 日界线西</option>
+<option value="-11" $zone_011>(标准时-11:00) 中途岛、萨摩亚群岛</option>
+<option value="-10" $zone_010>(标准时-10:00) 夏威夷</option>
+<option value="-9" $zone_09>(标准时-9:00) 阿拉斯加</option>
+<option value="-8" $zone_08>(标准时-8:00) 太平洋时间(美国和加拿大)</option>
+<option value="-7" $zone_07>(标准时-7:00) 山地时间(美国和加拿大)</option>
+<option value="-6" $zone_06>(标准时-6:00) 中部时间(美国和加拿大)、墨西哥城</option>
+<option value="-5" $zone_05>(标准时-5:00) 东部时间(美国和加拿大)、波哥大</option>
+<option value="-4" $zone_04>(标准时-4:00) 大西洋时间(加拿大)、加拉加斯</option>
+<option value="-3.5" $zone_03_5>(标准时-3:30) 纽芬兰</option>
+<option value="-3" $zone_03>(标准时-3:00) 巴西、布宜诺斯艾利斯、乔治敦</option>
+<option value="-2" $zone_02>(标准时-2:00) 中大西洋</option>
+<option value="-1" $zone_01>(标准时-1:00) 亚速尔群岛、佛得角群岛</option>
+<option value="111" $zone_111>(格林尼治标准时) 西欧时间、伦敦、卡萨布兰卡</option>
+<option value="1" $zone_1>(标准时+1:00) 中欧时间、安哥拉、利比亚</option>
+<option value="2" $zone_2>(标准时+2:00) 东欧时间、开罗，雅典</option>
+<option value="3" $zone_3>(标准时+3:00) 巴格达、科威特、莫斯科</option>
+<option value="3.5" $zone_3_5>(标准时+3:30) 德黑兰</option>
+<option value="4" $zone_4>(标准时+4:00) 阿布扎比、马斯喀特、巴库</option>
+<option value="4.5" $zone_4_5>(标准时+4:30) 喀布尔</option>
+<option value="5" $zone_5>(标准时+5:00) 叶卡捷琳堡、伊斯兰堡、卡拉奇</option>
+<option value="5.5" $zone_5_5>(标准时+5:30) 孟买、加尔各答、新德里</option>
+<option value="6" $zone_6>(标准时+6:00) 阿拉木图、 达卡、新亚伯利亚</option>
+<option value="7" $zone_7>(标准时+7:00) 曼谷、河内、雅加达</option>
+<option value="8" $zone_8>(北京时间) 北京、重庆、香港、新加坡</option>
+<option value="9" $zone_9>(标准时+9:00) 东京、汉城、大阪、雅库茨克</option>
+<option value="9.5" $zone_9_5>(标准时+9:30) 阿德莱德、达尔文</option>
+<option value="10" $zone_10>(标准时+10:00) 悉尼、关岛</option>
+<option value="11" $zone_11>(标准时+11:00) 马加丹、索罗门群岛</option>
+<option value="12" $zone_12>(标准时+12:00) 奥克兰、惠灵顿、堪察加半岛</option>
+</select></td></tr>
+<tr class="b"><td>默认时间显示格式<br />格式如:yyyy-mm-dd，yy-m-d<br />
+yyyy代表4位数年份，yy代表2位数年份<br />
+mm代表有前导零01-12，m代表没前导零1-12<br />
+dd代表有前导零01-31，d代表没前导零1-31</td>
+<td><input name="config[datefm]" value="$db_datefm">
+<input type="radio" name="time_f" value="24" $check_24>24
+<input type="radio" name="time_f" value="12" $check_12>12</td></tr>
+<tr class="b"><td>定时打开与关闭博客搜索功能： <br />
+允许用户使用搜索功能的时间段，时间格式为 24小时制，管理员不受此限制<br />
+比如允许用户在8点到18点这段时间内可以搜索，可设置如下：<br />
+搜索开启于(点):  8 点 搜索关闭于(点):  18 点<br />
+支持跨越零点，如允许用户在每晚22:00 到 次日 10:00 可设置如下：<br />
+搜索开启于(点):  22 点 搜索关闭于(点):  10 点</td></td>
+<td><input type="radio" name="schcontrol[opensch]" value="1" $opensch_Y> 开启
+<input type="radio" name="schcontrol[opensch]" value="0" $opensch_N>关闭<br /><br />
+搜索开启于(点): <select name="schcontrol[schstart]">
+<option value="" $schstart_0></option>
+<option value="1" $schstart_1>1</option>
+<option value="2" $schstart_2>2</option>
+<option value="3" $schstart_3>3</option>
+<option value="4" $schstart_4>4</option>
+<option value="5" $schstart_5>5</option>
+<option value="6" $schstart_6>6</option>
+<option value="7" $schstart_7>7</option>
+<option value="8" $schstart_8>8</option>
+<option value="9" $schstart_9>9</option>
+<option value="10" $schstart_10>10</option>
+<option value="11" $schstart_11>11</option>
+<option value="12" $schstart_12>12</option>
+<option value="13" $schstart_13>13</option>
+<option value="14" $schstart_14>14</option>
+<option value="15" $schstart_15>15</option>
+<option value="16" $schstart_16>16</option>
+<option value="17" $schstart_17>17</option>
+<option value="18" $schstart_18>18</option>
+<option value="19" $schstart_19>19</option>
+<option value="20" $schstart_20>20</option>
+<option value="21" $schstart_21>21</option>
+<option value="22" $schstart_22>22</option>
+<option value="23" $schstart_23>23</option>
+<option value="24" $schstart_24>24</option>
+</select>
+搜索关闭于(点): <select name="schcontrol[schend]">
+<option value="" $schend_0></option>
+<option value="1" $schend_1>1</option>
+<option value="2" $schend_2>2</option>
+<option value="3" $schend_3>3</option>
+<option value="4" $schend_4>4</option>
+<option value="5" $schend_5>5</option>
+<option value="6" $schend_6>6</option>
+<option value="7" $schend_7>7</option>
+<option value="8" $schend_8>8</option>
+<option value="9" $schend_9>9</option>
+<option value="10" $schend_10>10</option>
+<option value="11" $schend_11>11</option>
+<option value="12" $schend_12>12</option>
+<option value="13" $schend_13>13</option>
+<option value="14" $schend_14>14</option>
+<option value="15" $schend_15>15</option>
+<option value="16" $schend_16>16</option>
+<option value="17" $schend_17>17</option>
+<option value="18" $schend_18>18</option>
+<option value="19" $schend_19>19</option>
+<option value="20" $schend_20>20</option>
+<option value="21" $schend_21>21</option>
+<option value="22" $schend_22>22</option>
+<option value="23" $schend_23>23</option>
+<option value="24" $schend_24>24</option>
+</select></td></tr>
+<tr class="b"><td>是否在页脚显示程序运行时间：</td>
+<td><input type="radio" name="config[footertime]" value="1" $footertime_Y> 开启
+<input type="radio" name="config[footertime]" value="0" $footertime_N> 关闭</td></tr>
+<tr class="b"><td>管理员信箱：</td>
+<td><input name="config[ceoemail]" size="35" value="$db_ceoemail"></td></tr>
+<tr class=b><td>ICP 备案信息：</td>
+<td><input name="config[icp]" size="35" value="$db_icp"></td></tr>
+<tr class=b><td>ICP 备案信息链接地址：</td>
+<td><input name="config[icpurl]" size="35" value="$db_icpurl"></td></tr>
+</table><br />
+<!--
+EOT;
+}elseif($job=='core'){print <<<EOT
+-->
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">核心功能设置</td></tr>
+<tr class="b"><td width="60%">进程优化:<br />
+建议<b>15分钟</b>在线<b>1000人</b>以上的博客打开此选项</td>
+<td><input type="radio" name="config[lp]" value="1" $lp_Y> 开启
+<input type="radio" name="config[lp]" value="0" $lp_N> 关闭</td></tr>
+<tr class="b"><td>
+GZIP 压缩级别:<br>设置 GZIP 在输出时的压缩级别: <b>0=关闭GZIP功能，9=最大压缩比</b>。<br>如果您已经在服务器上使用了mod_gzip 或者 mod_deflate，请设置为0关闭GZIP功能，否则强烈推荐使用级别 1。另外，此功能要求 ZLIB 库支持。<br><br>GZIP 压缩输出简介：使用 GZIP HTML 压缩输出给用户页面，这会减少带宽要求。此功能要求客户端浏览器的支持，以及 HTTP 1.1 兼容。它会产生服务器额外的性能开销。</td>
+<td><input name="config[obstart]" value="$db_obstart"></td>
+</tr>
+<tr class="b"><td>强制设置编码(默认关闭)<br />
+当使用国外的空间乱码时，可以使用此功能强制设置编码!</td>
+<td><input type="radio" name="config[forcecharset]" value="1" $forcecharset_Y> 开启
+<input type="radio" name="config[forcecharset]" value="0" $forcecharset_N> 关闭</td></tr>
+<tr class="b"><td>服务器时间校正 (分)<br />
+此功能用于校正服务器操作系统时间设置错误的问题<br />
+当确认博客默认时区设置正确后，博客显示时间仍有错误，请使用此功能校正</td>
+<td><input name="config[cvtime]" value="$db_cvtime"></td></tr>
+<tr class="b"><td>是否使用自动跳转(如果服务器为NT.如果关闭此选项而出现无法登录.请开启)</td>
+<td><input type="radio" name="config[ifjump]" value="1" $ifjump_Y> 开启
+<input type="radio" name="config[ifjump]" value="0" $ifjump_N> 关闭</td></tr>
+<tr class="b"><td>刷新预防时间(多少秒间刷新被视为恶意刷新,设为0则不做限制)：</td>
+<td><input name="config[refreshtime]" size="35" value="$db_refreshtime"></td></tr>
+<tr class="b"><td>是否记录会员在线时间</td>
+<td><input type="radio" name="config[ifonlinetime]" value="1" $ifonlinetime_Y> 开启
+<input type="radio" name="config[ifonlinetime]" value="0" $ifonlinetime_N> 关闭 </td></tr>
+<tr class="b"><td>在线用户时限（多少分钟内有动作视为在线）：</td>
+<td><input name="config[onlinetime]" size="35" value="$db_onlinetime"></td></tr>
+<tr class="b"><td>搜索查询的最大结果数：</td>
+<td><input name="config[maxresult]" size="35" value="$db_maxresult"></td></tr>
+<tr class="b"><td>是否开启头像上传功能：</td>
+<td><input type="radio" name="config[uploadface]" value="1" $uploadface_Y>开启
+<input type="radio" name="config[uploadface]" value="0" $uploadface_N>关闭<br /><br />
+头像大小(k) <input name="facesize[facesize]" size="10" value="$db_facesize">
+长 <input name="facesize[faceh]" size="4" value="$db_faceh">
+宽 <input name="facesize[facew]" size="4" value="$db_facew"></td></tr>
+<tr class="b"><td>二级域名功能：</td>
+<td><input type="radio" name="config[userdomain]" value="1" $userdomain_Y> 开启
+<input type="radio" name="config[userdomain]" value="0" $userdomain_N> 关闭</td></tr>
+<tr class="b"><td>二级域名注册长度限制：</td>
+<td><input name="domainlen[domainmin]" size="8" value="$rg_domainmin"> 最小值
+<input name="domainlen[domainmax]" size="8" value="$rg_domainmax"> 最大值</td></tr>
+<tr class="b"><td>二级域名保留：(程序默认保留bbs blog www，用空格隔开)</td>
+<td><input name="config[domainhold]" size="35" value="$db_domainhold"></td></tr>
+<tr class="b"><td>博客二级域名：格式如： lxblog.net，留空则程序自动获取当前域名做为用户二级域名</td>
+<td><input name="config[domain]" size="35" value="$db_domain"></td></tr>
+<tr class="b"><td>COOKIE有效域名：比如可能会有人使用 http://lxblog.net访问您的网站这时您可以设置为 .lxblog.net 或留空<br /><font color="red">注：请勿随意更改此项设置，若开启二级域名功能，请务必设置COOKIE域为 <font color="blue">.lxblog.net</font> 的形式，否则将可能导致无法登录博客等异常现象</font></td>
+<td><input name="config[ckdomain]" size="35" value="$db_ckdomain"></td></tr>
+<tr class="b"><td>COOKIE有效目录：使一个空间放置多个博客,都能访问!<br />
+（如果您网站在blog目录下可以设置为/blog/ 或为 /）：</td>
+<td><input name="config[ckpath]" size="35" value="$db_ckpath"></td></tr>
+</table><br />
+<!--
+EOT;
+}elseif($job=='code'){print <<<EOT
+-->
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">认证码设置</td></tr>
+<tr class="b"><td>后台登录认证码功能</td>
+<td><input type="radio" name="gdcheck[admin]" value="1" $admingd_Y> 开启
+<input type="radio" name="gdcheck[admin]" value="0" $admingd_N> 关闭</td></tr>
+<tr class="b"><td width="60%">注册认证码功能</td>
+<td><input type="radio" name="gdcheck[reg]" value="1" $reggd_Y> 开启
+<input type="radio" name="gdcheck[reg]" value="0" $reggd_N> 关闭</td></tr>
+<tr class="b"><td>前台登录认证码功能</td>
+<td><input type="radio" name="gdcheck[login]" value="1" $logingd_Y> 开启
+<input type="radio" name="gdcheck[login]" value="0" $logingd_N> 关闭</td></tr>
+<tr class="b"><td>发帖认证码功能<br />
+设置100，则发贴数小于100的会员，将显示验证码;设置0 则关闭该功能</td>
+<td><input name="gdcheck[post]" size="15" value="$postgd"></td></tr>
+<tr class="b"><td>强制评论认证码功能<br />
+此处为全局控制，此功能开启则所有用户都需要认证码评论</td>
+<td><input type="radio" name="gdcheck[cmt]" value="1" $cmtgd_Y> 开启
+<input type="radio" name="gdcheck[cmt]" value="0" $cmtgd_N> 关闭</td></tr>
+<tr class="b"><td>强制留言认证码功能<br />
+此处为全局控制，此功能开启则所有用户都需要认证码留言</td>
+<td><input type="radio" name="gdcheck[gbookgd]" value="1" $gbookgd_Y> 开启
+<input type="radio" name="gdcheck[gbookgd]" value="0" $gbookgd_N> 关闭</td></tr>
+<tr class="b"><td>强制短消息认证码功能<br />
+此处为全局控制，此功能开启则所有用户都需要认证码发送短消息</td>
+<td><input type="radio" name="gdcheck[msggd]" value="1" $msggd_Y> 开启
+<input type="radio" name="gdcheck[msggd]" value="0" $msggd_N> 关闭</td></tr>
+</table><br />
+<!--
+EOT;
+}elseif($job=='meta'){print <<<EOT
+-->
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">搜索引擎优化设置</td></tr>
+<tr class="b"><td width="60%">title 描述<br />
+为所有页面输入 title 描述,让搜索引擎更容易找到您的博客.</td>
+<td><input name="metadata[title]" size="35" value="$db_metatitle"></td></tr>
+<tr class="b"><td>Meta 关键词<br />
+为所有页面输入 Meta 关键词,让搜索引擎更容易找到您的博客.</td>
+<td><input name="metadata[keyword]" size="35" value="$db_metakeyword"></td></tr>
+<tr class="b"><td>Meta 描述<br />
+为所有页面输入 Meta 描述,以便能够在搜索引擎中正确搜索到您的博客.</td>
+<td><input name="metadata[descrip]" size="35" value="$db_metadescrip"></td></tr>
+</table><br />
+<!--
+EOT;
+}elseif($job=='cate'){print <<<EOT
+-->
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<tr><td class="head" align="center" colspan="2">前台分类显示设置</td></tr>
+<tr class="b"><td width="60%">前台分类显示开关，选中则于前台显示<br />
+选中则于前台显示，包括分类与模块.</td>
+<td>
+<!--
+EOT;
+$id=0;
+foreach($catesigndb as $value) {
+$id++;
+$br = $id==3 ? '<br />' : '';print <<<EOT
+-->
+<input type="checkbox" name="showcate[]" value="$value" ${'cate_'.$value} />$catelang[$value]$br
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+</table><br />
+<!--
+EOT;
+}elseif($job == 'mail'){print <<<EOT
+-->
+<a name="mail"></a>
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+	<tr><td class="head" colspan="2" align="center"><a href="#top">发送邮件设置</a></td></tr>
+	<tr class=b>
+		<td width="60%">是否开启发送邮件功能</td>
+		<td>
+			<input type=radio value=1 name="config[ml_mailifopen]" $mailifopen_Y>是
+			<input type=radio value=0 name="config[ml_mailifopen]" $mailifopen_N>否
+		</td>
+	</tr>
+	<tr class=b>
+		<td width="60%">邮件发送模式</td>
+		<td>
+			<input type=radio value=1 name="config[ml_mailmethod]" $mailmethod_1> mail 函数发送
+			<input type=radio value=2 name="config[ml_mailmethod]" $mailmethod_2>SMTP 模块发送
+			<input type=radio value=3 name="config[ml_mailmethod]" $mailmethod_3>MX 模块发送
+		</td>
+	</tr>
+	<tr class=head_2>
+		<td colspan="2">SMTP 模块发送设置</td>
+	</tr>
+	<tr class=b>
+		<td>SMTP 服务器</td>
+		<td><input type=text name="config[ml_smtphost]" value="$ml_smtphost"></td>
+	</tr>
+	<tr class=b>
+		<td>SMTP 端口, 默认不需修改</td>
+		<td><input type=text name="config[ml_smtpport]" value="$ml_smtpport"></td>
+	</tr>
+	<tr class=b>
+		<td>发信人地址</td>
+		<td><input type=text name="config[ml_smtpfrom]" value="$ml_smtpfrom"></td>
+	</tr>
+	<tr class=b>
+		<td>是否需要 AUTH LOGIN 验证, 1=是, 0=否</td>
+		<td>
+			<input type=radio value=1 name="config[ml_smtpauth]" $smtpauth_Y>是
+			<input type=radio value=0 name="config[ml_smtpauth]" $smtpauth_N>否
+		</td>
+	</tr>
+	<tr class=b>
+		<td>验证用户名</td>
+		<td><input type=text name="config[ml_smtpuser]" value="$ml_smtpuser"></td>
+	</tr>
+	<tr class=b>
+		<td>验证密码<br />安全考虑，只显示密码的前后两位，中间显示八个 * 号</td>
+		<td><input type=text name="config[ml_smtppass]" value="$ml_smtppass"></td>
+	</tr>
+	<tr class=head_2>
+		<td colspan="2">MX 模块发送设置</td>
+	</tr>
+	<tr class=b>
+		<td colspan="2">
+以 www.example.net 为例说明MX模块发送邮件设置<br><br>
+域名mx记录：mail.example.net (同时需要在域名控制面版里增加一条mx记录到 mail.example.net)<br>
+发送邮件帐号：admin@example.net<br>
+主DNS地址：可联系空间商查询您的服务器的DNS地址<br>
+辅DNS地址：可联系空间商查询您的服务器的DNS地址</td>
+	</tr>
+	<tr class=b>
+		<td width="60%">域名mx记录：</td>
+		<td><input type=text name="config[ml_smtphelo]" value="$ml_smtphelo"></td>
+	</tr>
+	<tr class=b>
+		<td>发送邮件帐号</td>
+		<td><input type=text name="config[ml_smtpmxmailname]" value="$ml_smtpmxmailname"></td>
+	</tr>
+	<tr class=b>
+		<td>主DNS地址</td>
+		<td><input type=text name="config[ml_mxdns]" value="$ml_mxdns"></td>
+	</tr>
+	<tr class=b>
+		<td>辅DNS地址</td>
+		<td><input type=text name="config[ml_mxdnsbak]" value="$ml_mxdnsbak"></td>
+	</tr>
+</table>
+<br>
+<!--
+EOT;
+}
+print <<<EOT
+-->
+<center><input type="submit" value="提 交"></center>
+</form>
+<!-- 
+EOT;
+?>-->

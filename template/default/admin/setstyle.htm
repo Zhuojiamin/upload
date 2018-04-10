@@ -1,0 +1,191 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="b"><b>风格添加说明:</b><br />
+<ul>前提：拥有空间创建权，
+<!--
+EOT;
+if($job == 'sys'){print <<<EOT
+-->
+以下以"wind"风格为例<br /><br />
+一、data/style/wind.php文件结构<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\$stylepath = 'default';----此为图片文件夹名称<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\$tplpath = 'default';----此为模板文件夹名称<br /><br />
+<!--
+EOT;
+}else{print <<<EOT
+-->
+以下以"default"风格为例<br /><br />
+一、theme/default/info.txt文件结构<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name:LxBlog6.0默认风格 ----此为风格名称<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;author:phpwind ui team ----此为风格作者<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;date:2007年3月 ----此为风格完成日期<br /><br />
+<!--
+EOT;
+}print <<<EOT
+-->
+二、通过FTP将文件上传至博客对应目录<br /><br />
+三、进入后台，进行相关操作</ul></td></tr>
+</table>
+<form action="$basename&set=$set" method="post">
+<input type="hidden" name="step" value="2">
+<!--
+EOT;
+if($set=='list'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="6">风格列表</td></tr>
+<tr align="center" class="head_2">
+<td width="5%">ID</td>
+<td width="65%">风格名称</td>
+<td width="10%">设为默认</td>
+<!--
+EOT;
+if($job != 'sys'){print <<<EOT
+-->
+<td width="10%">管理</td>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<td width="10%">编辑</td>
+<td width="10%">删除</td>
+<!--
+EOT;
+}print <<<EOT
+-->
+</tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($styles as $value){
+$value[ifdefault] = $value[dcolor]?'默认风格':"<a href=\"$basename&set=default&sign=$value[nameurl]\">设为默认</a>";
+$id++;print <<<EOT
+-->
+<tr align="center" class="b">
+<td>$id</td>
+<td>$value[name]</td>
+<td{$value[dcolor]}>$value[ifdefault]</td>
+<!--
+EOT;
+if($job != 'sys'){print <<<EOT
+-->
+<td><a href="$basename&set=cp&sign=$value[nameurl]">管理</a></td>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<td><a href="$basename&set=edit&sign=$value[nameurl]">编辑</a></td>
+<!--
+EOT;
+if($value[name] == 'wind'){print <<<EOT
+-->
+<td>---</td>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<td><input type="checkbox" name="selid[]" value="$value[name]"></td>
+<!--
+EOT;
+}}print <<<EOT
+-->
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+</table><br />
+<!--
+EOT;
+if($job == 'sys'){print <<<EOT
+-->
+<input type="hidden" id="delete" value="1">
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中风格？');"></center>
+<!--
+EOT;
+}}elseif($set=='cp' && $job == 'user'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="5">风格列表</td></tr>
+<tr align="center" class="head_2">
+<td width="10%">ID</td>
+<td width="40%">风格名称</td>
+<td width="30%">所属用户</td>
+<td width="10%">编辑</td>
+<td width="10%">删除</td></tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($userskin as $value){
+$id++;print <<<EOT
+-->
+<tr align="center" class="b">
+<td>$id</td>
+<td>$value[name]</td>
+<td>$value[username]</td>
+<td><a href="$basename&set=edit&sign=$value[sign]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[id]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+</table><br />
+<input type="hidden" id="delete" value="1">
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中风格？');"></center>
+<!--
+EOT;
+}elseif($set=='edit'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑风格<input type="hidden" name="sign" value="$sign"></td></tr>
+<!--
+EOT;
+if($job == 'sys'){print <<<EOT
+-->
+<tr class="b"><td width="30%">图片文件夹名称</td>
+<td><input name="newstylepath" value="$style[stylepath]">
+<input type="hidden" name="oldstylepath" value="$style[stylepath]"></td></tr>
+<tr class="b"><td>模板文件夹名称</td>
+<td><input name="newtplpath" value="$style[tplpath]">
+<input type="hidden" name="oldtplpath" value="$style[tplpath]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr class="b"><td valign="top">CSS</td>
+<td>
+<!--
+EOT;
+if($css_777){print <<<EOT
+-->
+<textarea name="css" rows="32" cols="78" style="background-color:#F0F0f3; border: 1 double #B4B4B4" title="请慎重,这里的一举一动将改变博客整个风格">
+$style[css]</textarea>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<font color="#0000FF">CSS样式文件不可写，请将“template/$style[tplpath]/wind/header.htm”设为777可写模式</font>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

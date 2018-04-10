@@ -1,0 +1,60 @@
+<!--<?php print <<<EOT
+-->
+<tr id="showtagdisplay" class="b">
+  <td>
+	<span id="taglist" class="div_tag" style="margin-bottom:6px;" style="display:$tagdisplay">
+<!--
+EOT;
+foreach($tagname as $value){print <<<EOT
+-->
+	  <a href="javascript:;" title="点击删除此Tag" onclick="DeleteTag(this,'$value')" style="padding-right:3px;">$value<input name="atc_tagdb[]" type="hidden" value="$value"></a>
+<!--
+EOT;
+}print <<<EOT
+-->
+	</span>
+  </td>
+</tr>
+<tr class="b">
+  <td height="50">
+	<input type="text" class="input" id="tagname" style="width:120px;" onkeydown="if(event.keyCode==13) {addtag(GE('newtg').value);return false;}" value="">
+	<input type="button" value="添加Tag" class="bt" onclick="AddTag(GE('tagname').value)">
+  </td>
+</tr>
+<!--
+EOT;
+if (!empty($tagdb)) {print <<<EOT
+-->
+<tr class="b">
+  <td height="50">热门Tag<br />
+<!--
+EOT;
+foreach($tagdb as $value){print <<<EOT
+-->
+	<a href="javascript:;" title="点击插入此Tag" onclick="AddTag('$value')">$value</a>&nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->
+  </td>
+</tr>
+<!--
+EOT;
+}if (!empty($tagcltdb)) {print <<<EOT
+-->
+<tr class="b">
+  <td height="50">收藏Tag<br />
+<!--
+EOT;
+foreach($tagcltdb as $value){print <<<EOT
+-->
+	<a href="javascript:;" title="点击插入此Tag" onclick="AddTag('$value')">$value</a>&nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->
+  </td>
+</tr>
+<!--
+EOT;
+}?>

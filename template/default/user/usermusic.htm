@@ -1,0 +1,117 @@
+<!--<?php
+//include_once PrintEot('top');
+if(!$job){print <<<EOT
+-->
+<script language="JavaScript">
+var mid;
+function delmusic(id){
+	if(confirm('确定删除音乐')) {
+		var url="$db_ajxurl/user_index.php?action=usermusic&job=del&id=" + id;
+		send_request(url,del_music);
+	}
+}
+function del_music(){
+	GE("ml_"+http_request.responseText).style.display='none';
+}
+function editmusic(id){
+	GE("mname_"+id).innerHTML='<input type="text" size=10 id="mname2_'+id+'" value="'+GE("mname_"+id).innerHTML+'">';
+	GE("singer_"+id).innerHTML='<input type="text" size=10 id="singer2_'+id+'" value="'+ GE("singer_"+id).innerHTML+'">';
+	GE("murl_"+id).innerHTML='<input type="text" size=45 id="murl2_'+id+'" value="'+ GE("temp_"+id).innerHTML+'">';
+	GE("msave_"+id).innerHTML='<a href="javascript:" onclick="saveedit('+id+');"><img src="$imgpath/$stylepath/page_save.gif"></a>';
+	GE("sh_"+id).style.display='none';
+	GE("tsh_"+id).style.display='';
+	
+}
+function saveedit(id){
+		GE("process").style.display='';
+		var url="$db_ajxurl/user_index.php?action=usermusic&job=saveedit&id=" + id;
+		var param = "id=" + id + "&mname=" + ajax_convert(GE("mname2_"+id).value)+"&murl="+ ajax_convert(GE("murl2_"+id).value)+"&singer=" + ajax_convert(GE("singer2_"+id).value);
+		send_request(url,save_edit(id),param);
+}
+function save_edit(id){
+	GE("mname_"+id).innerHTML=GE("mname2_"+id).value;
+	GE("singer_"+id).innerHTML=GE("singer2_"+id).value;
+	GE("temp_"+id).innerHTML=GE("murl2_"+id).value;
+	GE("murl_"+id).innerHTML='<a href="'+ GE("murl2_"+id).value +'" target="_blank">点击试听</a>';
+	GE("msave_"+id).innerHTML='<a href="javascript:" onclick="editmusic('+id+');"><img src="$imgpath/$stylepath/page_edit.gif"></a>';
+	GE("process").style.display='none';
+}
+</script>
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr height="25"><td colspan="2" class="head">&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<b>用户音乐列表</b>&nbsp;&nbsp;&nbsp;<a href="user_index.php?action=usermusic&job=add">添加音乐</a></td></tr>
+	<tr align=center>
+		<td class="head_2" width='15%'>音乐名称</td>
+		<td class="head_2" width='10%'>歌手</td>
+		<td class="head_2" >地址</td>
+		<td class="head_2" width='15%'>音乐分类</td>
+		<td class="head_2" width='15%'>添加日期</td>
+		<td class="head_2" width='6%'>编辑</td>
+		<td class="head_2" width='6%'>删除</td>
+	</tr>
+<!--
+EOT;
+$id=($page-1)*$db_perpage;
+foreach($musicdb as $key=>$val){
+$id++;
+print <<<EOT
+-->
+	<tr align=center id="ml_$val[id]">
+		<td class="b" style="display:none;" id="temp_$val[id]">$val[musicurl]</td>
+		<td class="b" id="mname_$val[id]">$val[musicname]</td>
+		<td class="b" id="singer_$val[id]">$val[singer]</td>
+		<td class="b" id="murl_$val[id]"><a href="musicplayer.php?musicid=$val[id]" target="_blank">点击试听</a></td>
+		<td class="b" ><a id="sh_$val[id]">$val[musictype]<a>&nbsp;<select id="tsh_$val[id]" name="musictype_$val[id]" style="display:none;">
+		$val[usertype]
+	</select></td>
+		<td class="b" class='smalltxt'>$val[adddate]</td>
+		<td class="b" id="msave_$val[id]"><a href="javascript:" onclick="editmusic($val[id]);"><img src="$imgpath/$stylepath/page_edit.gif"></a></td>
+		<td class="b"><a href="javascript:" onclick="delmusic($val[id]);">删除</a></td>
+	</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+
+</table>
+<center>$pages</center>
+<br>
+
+<!--
+EOT;
+}elseif($job=="add"){print <<<EOT
+-->
+<form name="form1" method="post" action="$basename&">
+<input name="job" type=hidden value="add">
+<input name="step" type=hidden value=2>
+<table width="95%" align=center cellspacing=0 cellpadding=0 class="userbg">
+<tr height="25"><td colspan="2">&nbsp;<img src="$imgpath/$stylepath/bloglogo.gif"> &nbsp;<a href="user_index.php?action=usermusic">用户音乐列表</a>&nbsp;&nbsp;&nbsp;<b>添加音乐</b></td></tr>
+	<tr >
+		<td class="b"  width="25%">&nbsp;音乐名称:</td>
+		<td class="b"><input type="text" name="mname"></td>
+	</tr>
+	<tr >
+	<td class="b"  width="25%">&nbsp;音乐分类:</td>
+	<td class="b">
+	<select  name="musictype">
+		$typedb
+	</select>
+	</td></tr>
+	<tr >
+		<td class="b"  width="25%">&nbsp;歌手:</td>
+		<td class="b"><input type="text" name="singer"></td>
+	</tr>
+	<tr >
+		<td class="b"  width="25%">&nbsp;音乐地址:</td>
+		<td class="b"><input type="text" name="murl"></td>
+	</tr>
+</table>
+<br>
+<br>
+<center><input class="bt" type="Submit" value="提 交" name="Submit"></center>
+</form><br>
+
+<!--
+EOT;
+}
+?>
+

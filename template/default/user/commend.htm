@@ -1,0 +1,47 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<input name='job' type="hidden" value="commend">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2"> <h2>申请推荐博客</h2></td></tr>
+	<tr class="b">
+		<td>
+			说明：如果您觉得自己的博客足够优秀，并希望让更多的人欣赏您的博客家园，您可以申请将自己的博客加入到<font color="blue">推荐博客</font>中，申请加入推荐博客后管理员会对您的博客进行审核并做相应才处理<br><br>
+<!--
+EOT;
+if($rt[commend]==1){print <<<EOT
+-->
+			<font color="red">您已经是推荐博客</font>
+<!--
+EOT;
+}elseif($rt[commend]==2){print <<<EOT
+-->
+			<font color="red">您已经申请成为推荐博客，等待管理员审核</font>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+			<font color="red">您还没有申请成为推荐博客 或 上次的申请没有通过管理员的审核</font>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</td>
+	</tr>
+</table>
+<br>
+<!--
+EOT;
+if($rt[commend]=='0'){print <<<EOT
+-->
+<center><input class="bt" type='Submit' value='申请推荐博客'></center><br>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>

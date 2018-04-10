@@ -1,0 +1,75 @@
+<!--<?php print <<<EOT
+-->
+<br />
+<form action="$basename&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="5" style="margin-bottom:6px;background-color:#EEEEEE;border-bottom:1px solid #999999;border-top:1px solid #999999;">
+  <tr class="b">
+	<td>
+	  评论用户(可使用通配符"*")：<input class="input" name="author" size="15" value="">
+	  关键字(可使用通配符"*")：<input class="input" name="keyword" size="15" value="">
+	  <select name="ifcheck">
+		<option value="-1">不限审核</option>
+		<option value="1"{$sltcheck[1]}>已审</option>
+		<option value="0"{$sltcheck[0]}>未审</option>
+	  </select>
+	  排序：<select name="sc">
+		<option value="desc"{$sltsc[desc]}>降序</option>
+		<option value="asc"{$sltsc[asc]}>升序</option>
+	  </select><input class="bt" type="submit" value="提交">
+	</td>
+  </tr>
+</table>
+</form>
+<form action="$basename&job=update&" method="post">
+<table width="95%" align="center" class="userbg" cellspacing="0" cellpadding="5">
+  <tr class="head">
+	<td colspan="7"><h2>{$index_name[$type]}评论</h2></td>
+  </tr>
+  <tr align="center">
+	<td class="b" width="5%">ID</td>
+	<td class="b">作者</td>
+	<td class="b">主题</td>
+	<td class="b">发布日期</td>
+	<td class="b">内容</td>
+	<td class="b">审核</td>
+	<td class="b">操作</td>
+  </tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($cmtdb as $key => $value){
+$id++;print <<<EOT
+-->
+  <tr align="center">
+	<td class="b" width="5%">$id</td>
+	<td class="b"><a href="blog.php?uid=$value[authorid]" target="_blank">$value[author]</a></td>
+	<td class="b">$value[subject]</td>
+	<td class="b">$value[postdate]</td>
+	<td class="b">$value[content]</td>
+	<td class="b">$value[ifcheck]</td>
+	<td class="b"><input type="checkbox" name="selid[]" value="$value[id]"></td>
+  </tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="5">
+  <tr>
+	<td>$pages</td>
+  </tr>
+  <tr>
+	<td align="right">
+	  <input type="radio" name="ntype" id="delete" value="delete" CHECKED> 删除
+	  <input type="radio" name="ntype" value="allowcheck"> 审核
+	</td>
+  </tr>
+</table><br />
+<center>
+  <input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)" class="bt">
+  <input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中评论？');" class="bt">
+</center>
+</form>
+<!--
+EOT;
+?>

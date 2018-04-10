@@ -1,0 +1,97 @@
+<!--<?php print <<<EOT
+-->
+	<script language="javascript" src="js/music.js"></script>
+	<div class="box">
+<!--
+EOT;
+if($malbumdb[subject]){print <<<EOT
+-->
+	  <div class="text">
+	  <div class="center"><h1>$malbumdb[subject]</h1></div>
+		<table class="blog-content">
+		  <tr>
+			<td>
+			<div>
+						<dl class="fsn">
+							<dt>音乐列表</dt>
+							<p id="player"></p>
+							<table cellspacing="0" cellpadding="0" class="itable">
+								<tr class="tr1">
+									<td>歌曲名</td>
+									<td class="tc" width="10%">歌手</td>
+									<td class="tc" width="10%">试听</td>
+									<td class="tc" width="10%">下载</td>
+									<td class="tc" width="18%">设为背景音乐</td>
+								</tr>
+<!--
+EOT;
+foreach ($musicdb as $value) {print <<<EOT
+-->
+								<tr>
+									<td><img src="theme/$style/images/music.gif" align="absbottom" /> $value[name]</td>
+									<td>$value[singer]</td>
+									<td class="tc"><a href="javascript:;" style="cursor:pointer;" onclick="window.open('player.php?mid=$value[mid]','lxplayer','width=500,height=200');add_mhits('$value[maid]','$value[mid]');"><img src="theme/$style/images/listen.gif" /></a>（ <strong id="mhits_{$value[mid]}">$value[mhits]</strong>）</td>
+									<td class="tc"><a href="$value[murl]" target="_blank"><img src="theme/$style/images/download.gif" /></a></td>
+									<td class="tc"><a href="javascript:;" onclick="setbgmusic('$value[mid]')"><img src="theme/$style/images/bgm.gif" /></a></td>
+								</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+							</table>
+						</dl>
+					</div>
+			  <div class="c"></div>
+			  作者： <a href="blog.php?uid=$uid">$malbumdb[username]</a> <br />
+			  发表日期： $malbumdb[postdate]<br />
+			 专辑描述：<br />
+					$malbumdb[descrip]
+<!--
+EOT;
+if($malbumdb['tagsdb']){print <<<EOT
+-->
+				<div class="tags">Tags:
+					<!--
+EOT;
+foreach ($malbumdb['tagsdb'] as $value){print <<<EOT
+-->
+					<a href="tags.php?tagname=$value[tagname]">$value[name]</a>
+					<!--
+EOT;
+}print <<<EOT
+-->				
+				</div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+					<br />
+					操作：<span style="cursor:pointer;" onclick="CopyURL('$db_blogurl/blog.php?do=showone&type=music&maid=$maid')">复制链接</span> <span style="cursor:pointer;" onclick="Addboxes('$type','collecitems','$maid');"> 收藏</span>
+<!--
+EOT;
+if($_GROUP['delatc']){print <<<EOT
+-->
+				<span id="boxesopen" style="cursor:pointer;" onclick="Addboxes('$type','delatc','$maid');">删除</span>
+<!--
+EOT;
+}
+print <<<EOT
+-->	
+			</td>
+		  </tr>
+		</table>
+<!--
+EOT;
+$do == 'showone' && @include_once(getPath('mcomment'));
+print <<<EOT
+-->
+	  </div>
+<!--
+EOT;
+}print <<<EOT
+-->	
+	</div>
+<!--
+EOT;
+?>

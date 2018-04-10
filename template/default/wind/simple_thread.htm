@@ -1,0 +1,60 @@
+<!--<?php print <<<EOT
+-->
+<br />
+<table cellspacing=1 cellpadding=8 width="$tablewidth" $i_table align=center>
+	<tr>
+		<td bgcolor="#FFFFFF">
+			<div style="float:left;">
+				<b>
+				<a href="simple/index.php">{$db_blogname}</a> -&gt; <a href="simple/index.php?type=$type">$catename</a> -&gt; <a href='simple/index.php?type=$type&cid=$cid'>$title</a>$cupnav
+				</b>
+			</div>
+			<div style="float:right;">
+				<b>
+				<a href="login.php">登陆</a> -&gt; 
+				<a href="register.php">注册</a> -&gt; 
+				<a href="user_index.php">博客管理</a> -&gt; 
+				<a href="search.php">搜索</a>
+				</b>
+			</div>
+		</td>
+	</tr>
+</table>
+<br />
+<table cellspacing=1 cellpadding=7 width="$tablewidth" $i_table align=center>
+	<tr>
+		<td bgcolor="#FFFFFF">
+			<ul type=1 start=$start>
+<!--
+EOT;
+foreach($itemdb as $value){
+if($type == 'blog' || $type == 'bookmark'){print <<<EOT
+-->
+			<li><a href="simple/index.php?type=$type&itemid=$value[itemid]" target="_blank">$value[subject][{$value[replies]}回复]</a></li>
+<!--
+EOT;
+}elseif($type == 'photo'){print <<<EOT
+-->
+			<li><a href="cate.php?type=photo&job=plist&cid=$value[cid]&aid=$value[aid]&" target="_blank">$value[subject][{$value[photos]}相片][{$value[replies]}回复]</a></li>
+<!--
+EOT;
+}elseif($type == 'music'){print <<<EOT
+-->
+			<li><a href="article.php?type=music&cid=$value[cid]&maid=$value[maid]&" target="_blank">$value[subject][{$value[musics]}歌曲][{$value[replies]}回复]</a></li>
+<!--
+EOT;
+}
+}print <<<EOT
+-->
+			</ul>
+		</td>
+	</tr>
+</table>
+<table cellspacing=1 cellpadding=0 width="$tablewidth"  align=center>
+	<tr><td bgcolor="#FFFFFF">$pages 共:{$count}条记录 </td></tr>
+</table>
+<br />
+<center><b>查看完整版本: [--<a href="cate.php?type=$type&cid=$cid" target=_blank>$title</a> --] [-- <a href="javascript:scroll(0,0)">top</a> --]</b></center>
+<!--
+EOT;
+?>-->

@@ -1,0 +1,86 @@
+<!--<?php print <<<EOT
+-->
+<div id="main">
+  <div>
+  	<!--main content -->
+    <div class="boxA">
+      <h5 class="tabB">
+      	<a href="$db_blogurl">首页</a> &raquo; 爱好搜索
+      </h5>
+      <div class="c"></div>
+	  <div class="listArticle">
+	  	<div style="font-size:12px; text-align:left;padding:0 0 .5em 1em; margin:0 1em;border-bottom:1px solid #E6EBEF; ">
+	  		您{$_HOBBY[$hid][name]}是：$hobbyname,和您一样爱好的朋友有:
+	  	</div>
+	  	<table width="95%" align="center" cellspacing="1" cellpadding="3" style="font-size:12px;">
+	  		<tr align="center">
+			<td><img src="$imgpath/$stylepath/nonemini.gif" /></td>
+			<td>用户名</td>
+			<td>性 别</td>
+			<td>来 自</td>
+			<td>QQ</td>
+			<td>MSN</td>
+			<td>注册时间</td>
+			<td>最后登陆</td>
+			<td class="tc">推荐</td>
+            <td class="tc">主页</td>
+			<td></td>
+		  </tr>
+<!--
+EOT;
+foreach($userdb as $key=>$val){
+$val[commend]=$val[commend] ? '推荐' : '<br />';
+$site=$val[site] ? (strrpos($val[site],'http://')!==false ? "<a href=\"$val[site]\" target=\"_blank\">访问</a>" : "<a href=\"http://$val[site]\" target=\"_blank\">访问</a>") : '&nbsp;';
+print <<<EOT
+-->
+          <tr align="center" onmouseover="this.className='tr2';" onmouseout="this.className=''">
+		  	<td><img src="$val[icon]" style="width:28px"/></td>
+            <td><a href="blog.php?uid=$val[uid]" target="_blank"><b>$val[username]</b></a> </td>
+            <td><!--
+EOT;
+if($val[gender]==1){print <<<EOT
+-->
+              男
+              <!--
+EOT;
+}elseif($val[gender]==2){print <<<EOT
+-->
+              女
+              <!--
+EOT;
+}else{print <<<EOT
+-->
+              保密
+              <!--
+EOT;
+}print <<<EOT
+-->
+            </td>
+
+            <td>{$val[province]}{$val[city]}<br />
+</td>
+            <td><a href="http://wpa.qq.com/msgrd?V=1&Uin=$val[qq]" class="f10">$val[qq]</a><br />
+</td>
+            <td>$val[msn]<br /></td>
+            <td>$val[regdate]</td>
+            <td>$val[thisvisit]</td>
+            <td>$val[commend]</td>
+            <td>$site</td>
+          </tr>
+          <!--
+EOT;
+}
+print <<<EOT
+-->
+		  
+	  	</table>
+	  </div>
+	  $pages
+	  </div>
+	</div>
+	<div class="c"></div>
+</div>
+<!--main end-->
+<!--
+EOT;
+?>-->

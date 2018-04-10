@@ -1,0 +1,163 @@
+<!--<?php
+if (!$type) {print <<<EOT
+-->
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="b" height="25"><td colspan="3" class="head"><h2>系统风格列表</h2></td></tr>
+</table>
+<table width="95%" align="center" cellspacing="0" cellpadding="5" class="userbg">
+<tr class="head" height="25"><td colspan="2">&nbsp; &nbsp;<b></b></td></tr>
+<!--
+EOT;
+$num=0;
+foreach ($listdb as $value){
+if($num==0){print <<<EOT
+-->
+<tr height="20">
+<!--
+EOT;
+}$num++;print <<<EOT
+-->
+<td class="b"><img src="$value[demo]" width="150" height="150" border="0"><br />
+风格名称：$value[name]<br />
+风格作者：$value[author]<br />
+创建时间：$value[date]<br />
+操作：<a href="$basename&job=use&style=$value[sign]" title="使用此风格">使用</a> <a href="$basename&job=collection&style=$value[sign]" title="收藏为个人风格">收藏</a>
+</td>
+<!--
+EOT;
+if($num==3){
+$num=0;
+print <<<EOT
+-->
+</tr>
+<!--
+EOT;
+}}if($num!=0){
+for($i=$num;$num<3;$num++){print <<<EOT
+-->
+<td class="b"><br /></td>
+<!--
+EOT;
+}print <<<EOT
+-->
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<!--
+EOT;
+}elseif ($type=='collection'){
+if ($job!='edit') {print <<<EOT
+-->
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="b" height="25"><td colspan="3" class="head"><h2>个人风格收藏夹</h2></td></tr>
+</table>
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2">&nbsp; &nbsp;<b></b></td></tr>
+<!--
+EOT;
+$num=0;
+foreach ($listdb as $value){
+if($num==0){print <<<EOT
+-->
+<tr height="20">
+<!--
+EOT;
+}$num++;print <<<EOT
+-->
+<td class="b"><img src="$value[demo]" width="150" height="150" border="0"><br />
+风格名称：$value[name]<br />
+操作：
+<!--
+EOT;
+if ($admindb['style'] == $value[sign]) {print <<<EOT
+-->
+<font color="#FF0000"><b>使用</b></font>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<a href="$basename&job=use&style=$value[sign]" title="使用此风格">使用</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+<a href="$basename&job=edit&style=$value[sign]" title="编辑此风格">编辑</a>
+<a href="#" title="还原此默认风格" onclick="checkclick('return','$basename&job=return&style=$value[sign]')">还原</a>
+<!--
+EOT;
+if ($admindb['style'] == $value[sign]) {print <<<EOT
+-->
+<font color="#FF0000"><b>删除</b></font>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<a href="#" title="删除此风格" onclick="checkclick('delete','$basename&job=delete&style=$value[sign]')">删除</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<!--
+EOT;
+if($num==3){
+$num=0;
+print <<<EOT
+-->
+</tr>
+<!--
+EOT;
+}}if($num!=0){
+for($i=$num;$num<3;$num++){print <<<EOT
+-->
+<td class="b"><br /></td>
+<!--
+EOT;
+}print <<<EOT
+-->
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<script language="JavaScript">
+function checkclick(type,url){
+	if (type == 'return') {
+		if (!confirm("确定还原吗? 如果您还原了此风格,将清除你对此风格的编辑与修改")) {
+			return false;
+		}
+	} else if (type == 'delete') {
+		if (!confirm("确定删除吗? 如果您删除了此风格,请从新在系统风格列表中添为收藏")) {
+			return false;
+		}
+	} else {
+		alert('非法操作');
+	}
+	location.href = url;
+}
+</script>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="0" cellpadding="5" class="userbg">
+<tr class="b" height="25"><td colspan="3" class="head"><h2>编辑{$name}CSS</h2></td></tr>
+</table>
+<form name="FORM" method="post" action="$basename&">
+<input type="hidden" name="job" value="$job">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="style" value="$style">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2">&nbsp; &nbsp;<b></b></td></tr>
+<tr align="center"><td class="b"><textarea class="ip" id="content" tabindex="4" name="usercss" rows=30 style="width:80%" onkeydown="quickpost(event)">$usercss</textarea></td></tr>
+</table>
+<br /><center><input class="bt" type="submit" name="Submit" value="提交"></center>
+</form>
+<!--
+EOT;
+}}
+?>

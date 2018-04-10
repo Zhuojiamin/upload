@@ -1,0 +1,69 @@
+<!--<?php print <<<EOT
+-->
+<tr class="b"><td width="30%" height="30" class="bold">专辑名称: </td>
+<td><input name="atc_title" size="35" value="$atc_title"></td></tr>
+<tr class="b"><td height="30" class="bold">系统分类: </td>
+<td><select name="atc_cid" style="width:150px;">
+$categpslt
+</select><input name="atc_oldcid" type="hidden" value="$cid"></td></tr>
+<tr class="b"><td height="30" class="bold">专辑封面: </td>
+<td>
+<img id='hpage' src='$hpagesrc' width="180" /><br /><input type="radio" name="ckulface" id="chttp" value="http" onclick="ckuploadface(this.value)" checked> 外部连接<input type="radio" name="ckulface" id="cupload" value="upload" onclick="ckuploadface(this.value)" $facedisabled> 上传封面
+<span id="fupload" style="display:$uploadstyle;"><br /><input class="input" type="file" size="35" name="attachment_1" id="pupload" onchange="preview_icon('upload')"></span>
+<span id="fhttp" style="display:$httpstyle;"><br /><input class="input" type="text" size="35" name="attachment_1" id="phttp" value="$hpageurl" onchange="preview_icon('http')"></span>
+</td></tr>
+<tr class="b"><td height="30" valign="top"><br /><b>内 容</b>: <br /><br />
+评论设置: 
+<select name="atc_allowreply">
+<option value="1"$allowreply_1>允许</option>
+<option value="0"$allowreply_0>不许</option>
+</select><br /><br />
+<td><table cellspacing="0" cellpadding="3" width="100%">
+<tr class="b"><td height="30">
+<!--
+EOT;
+if($_GROUP['htmlcode']){print <<<EOT
+-->
+<input type="checkbox" name="atc_htmlcode" id="atc_html" value="1" $html_CK> 使用html代码
+<!--
+EOT;
+}print <<<EOT
+-->
+<input type="checkbox" name="atc_autourl" value="1" CHECKED> 自动分析url<br />
+<!--
+EOT;
+include PrintEot('wysiwyg');print <<<EOT
+-->
+<span id="showmsg" style="color:red;margin-top:5px;padding:6px;display:none;"></span>
+</td></tr>
+</table>
+</td></tr>
+<script language="JavaScript">
+function preview_icon(value){
+	if (GE('p'+value).value != '' && GE('c'+value).checked == true) {
+		GE('hpage').src = GE('p'+value).value;
+	}
+}
+function ckuploadface(value){
+	var ckulface = document.getElementsByName('ckulface');
+	for (i=0;i<ckulface.length;i++) {
+		if (value && ckulface[i].value == value) {
+			ckulface[i].checked = true;
+			GE('f' + value).style.display = '';
+		}
+	}
+	if (value == 'http') {
+		GE('fupload').value = '';
+		GE('fhttp').style.display = ''
+		GE('fupload').style.display = 'none';
+	} else {
+		GE('fhttp').value = '';
+		GE('fhttp').style.display = 'none'
+		GE('fupload').style.display = '';
+	}
+}
+ckuploadface('$uploadface');
+</script>
+<!--
+EOT;
+?>

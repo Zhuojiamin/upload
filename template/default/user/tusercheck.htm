@@ -1,0 +1,51 @@
+<!--<?php
+//include_once PrintEot('top');
+if($job == 'invite'){print<<<EOT
+-->
+<form method="POST" action="$basename&job=invite&">
+<input type="hidden" name="step" value="2">
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2"><h2>邀请{$db_teamname}会员</h2></td></tr>
+<tr align='center' height="20">
+	<td>选择圈子： <select name="teamid">
+$teamsel
+	</select></td>
+</tr>
+<tr align='center' height="20">
+	<td>邀请会员名称: <input type='text' name="username" id="username"></td>
+</tr>
+<tr align='center' height="20">
+	<td><input type="submit" name="submit" value="提交"></td>
+</tr>
+</table>
+</form>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<table width="95%" align=center cellspacing=0 cellpadding=5 class="userbg">
+<tr class="head" height="25"><td colspan="2"><h2>审核{$db_teamname}会员</h2> <a href="$basename&job=invite">邀请会员</a>　</td></tr>
+<tr align='center' height="20"><td class="head_2" width='5%'>ID</td><td class="head_2">{$db_teamname}名称</td><td class="head_2">用户名</td><td class="head_2" width='20%'>申请日期</td>
+<td class="head_2" width='8%'>状态</td>
+<td class="head_2" width='8%'>通过</td><td class="head_2" width='8%'>删除</td></tr>
+<!--
+EOT;
+$id=0;
+foreach($tuserdb as $key => $tuser){
+$id++;
+$state=$tuser['ifcheck'] ? '已审' : '<font color="red">未审</font>';
+print <<<EOT
+-->
+<tr align='center'><td class="b">$id</td><td class="b">$tuser[name]</td><td class="b">$tuser[username]</td><td class="b" class='smalltxt'>$tuser[joindate]</td>
+<td class="b">$state</td>
+<td class="b"><a href="$basename&job=pass&teamid=$tuser[teamid]&uid=$tuser[uid]">通过</a></td>
+<td class="b"><a href="$basename&job=del&teamid=$tuser[teamid]&uid=$tuser[uid]">删除</a></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<!--
+EOT;
+}
+?>

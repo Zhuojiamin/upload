@@ -1,0 +1,33 @@
+<!--<?php print <<<EOT
+-->
+<div id="main">
+  <div>
+	<div class="boxA">
+	  <h5 class="tabB">
+		<a href="$db_blogurl">首页</a> &raquo; 系统公告
+	  </h5>
+	  <div class="post">
+<!-- 
+EOT;
+foreach($notice as $value){print <<<EOT
+-->
+		<div class="rank">
+		  <h3>$value[subject]<a name="$value[aid]"></a></h3>
+<div style="margin:.7em auto">$value[content]</div>
+<div class="c"></div>
+			  <div class="tar">作者:$value[author] 时间:$value[startdate]</div>
+		</div>
+
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </div>
+	  $pages
+	</div>
+  </div>
+  <div class="c"></div>
+</div>
+<!--
+EOT;
+?>

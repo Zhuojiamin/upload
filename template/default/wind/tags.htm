@@ -1,0 +1,99 @@
+<!--<?php print <<<EOT
+-->
+<!--main-->
+<div id="main">
+  <div id="in-content">
+	<!--main content -->
+	<div class="boxA">
+	  <h5 class="tabB">
+		<span class="fr" style="margin-top:-.3em">
+		  <select name="selectgid" onChange="tagjump(this.value)">
+		  <option value="blog"$sblog>$ilang[cblog]</option>
+		  <option value="photo"$sphoto>$ilang[cphotos]</option>
+		  <option value="music"$smusic>$ilang[cmusic]</option>
+		  <option value="bookmark"$sbookmark>$ilang[cbookmark]</option>
+		  </select>
+		</span>
+		<a href="$db_blogurl">首页</a> &raquo; Tag: $tagname &raquo; 文章列表
+	  </h5>
+<script language="JavaScript">
+function tagjump(type){
+	var url = "tags.php?tagname=$tagnameurl";
+	if (type) {
+		url += "&type=" + type;
+	}
+	window.location = url;
+}
+</script>
+	  <div class="c"></div>
+	  <ul class="listArticle">
+<!--
+EOT;
+foreach($tagdb as $value){print <<<EOT
+-->
+		<li>
+<!--
+EOT;
+if($type == 'blog' || $type == 'bookmark'){print<<<EOT
+-->
+		  <em><cite><a href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a></cite></a> $value[addtime]</em>
+		  <a href="{$articleurl}type=$value[tagtype]&itemid=$value[itemid]">$value[subject]</a>
+<!--
+EOT;
+}elseif($type == 'photo'){print<<<EOT
+-->
+		 <em><cite><a href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a></cite></a> $value[addtime]</em>
+		 <a href="{$articleurl}type=$value[tagtype]&cid=$value[cid]&aid=$value[aid]&pid=$value[pid]">$value[name]</a>
+<!--
+EOT;
+}elseif($type == 'music'){print<<<EOT
+-->
+		 <em><cite><a href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a></cite></a> $value[addtime]</em>
+		 <a href="{$articleurl}type=$value[tagtype]&maid=$value[maid]">$value[name]</a>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+		</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	  $pages
+	</div>
+  </div>
+  <!--sidebar-->
+  <div id="in-sidebar">
+	<div id="searchbar">
+	  <h3>Tags搜索</h3>
+	  <input name="tagname" id="tagname" class="ip" style="width:65%"/>
+	  <input class="bt" name="botton" type="button" value="Go" style="font-weight:bold" onclick="window.location = '$db_blogurl/tags.php?tagname=' + GE('tagname').value" />
+	</div>
+	<div id="pools-billboard">
+	  <h3>最热的Tags</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+$id=0;
+foreach($_HOTTAG as $value){
+$id++;print <<<EOT
+-->
+		  <li>$id. <a href="tags.php?tagname=$value[tagnameurl]">$value[tagname]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+  </div>
+  <!--sidebar end-->
+  <div class="c"></div>
+</div>
+<!--main end-->
+<!--
+EOT;
+?>-->

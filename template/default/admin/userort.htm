@@ -1,0 +1,242 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<!--
+EOT;
+if($job!='edit'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b"><br />
+<ul>使用此功能可以在开启<font color='red'>禁止注册新用户</font>功能时,由管理员添加特定用户<br />
+<font color='red'>创始人</font>可以使用此功能添加<font color='red'>管理员</font>(普通管理员无此权限)</ul></td></tr>
+</table><br />
+<table width="80%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">添加用户</td></tr>
+<tr class="b"><td width="30%">用户名</td>
+<td><input name="username" size="30" value=""></td></tr>
+<tr class="b"><td>密 码</td>
+<td><input name="userpwd" size="30" value=""></td></tr>
+<tr class="b"><td>Email</td>
+<td><input name="email" size="30" value=""></td></tr>
+<tr class="b"><td>个性域名(只能由数字和字母组成)</td>
+<td><input name="domainname" size="30" value=""></td></tr>
+<tr class="b"><td>博客标题</td>
+<td><input name="blogtitle" size="30" value=""></td></tr>
+<tr class="b"><td>用户头衔</td>
+<td><select name="usergid" style="width:100px;">
+<option value="-1">普通会员</option>
+$sysgpslt
+</select></td></tr>
+<tr class="b"><td>博客分类</td>
+<td><select name="usercid" style="width:100px;">
+<option value="0">未分类</option>
+$categpslt
+</select></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" name="uid" value="$uid">
+<input type="hidden" name="ustyle" value="$userdb[ustyle]">
+<script src="js/initcity.js"></script>
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑用户 <a>用户ID(UID)：$uid</a></td></tr>
+<tr class="b"><td width="60%">用户名：<br />
+<!--
+EOT;
+if ($db_cbbbsopen || $db_pptifopen) {print <<<EOT
+-->
+(<font color="red">注意：系统已经开启“通行证”或“与论坛数据整合”，如果需要修改用户名的请同时修改“整合用户名”，以确保数据唯一，否则丢失通行整合数据</font>)
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td><input name="username" size="30" value="$userdb[username]"></td></tr>
+<!--
+EOT;
+if ($db_cbbbsopen || $db_pptifopen) {print <<<EOT
+-->
+<tr class="b"><td>整合用户名：<br />
+以确保唯一性，请填“<a style="cursor:pointer" onclick="GE('bbsid').value = '$userdb[username]';"><font color="blue" class="bold">$userdb[username]</font></a>”</td>
+<td><input name="bbsid" id="bbsid" size="30" value="$userdb[bbsid]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr class="b"><td>新密码：<br />
+<!--
+EOT;
+if ($db_cbbbsopen || $db_pptifopen) {print <<<EOT
+-->
+(<font color="red">注意：系统已经开启“通行证”或“与论坛数据整合”，请不要修改密码，以确保数据唯一，否则系统登陆不成功</font>)
+<!--
+EOT;
+}print <<<EOT
+-->
+</td>
+<td><input name="password" size="30" value=""></td></tr>
+<tr class="b"><td>确认新密码：</td>
+<td><input name="ckpassword" size="30" value=""></td></tr>
+<tr class="b"><td>Email：</td>
+<td><input name="email" size="30" value="$userdb[email]">
+<input type="checkbox" name="publicmail" value="1" $publicmail> 公开邮箱</td></tr>
+<tr><td class="b">邮件激活状态(<font color='red'>设为'1'激活帐号,'1'为激活状态</font>)</td>
+<td><input name="emailjh" size="30" value="$userdb[emailjh]"></td></tr>
+<tr class="b"><td>博客标题</td>
+<td><input name="blogtitle" size="30" value=""></td></tr>
+<tr class="b"><td>个性域名：<br />
+(<font color="red">注意：必须开启2级域名功能才有效,只能由数字和字母组成</font>)</td>
+<td><input name="domainname" size="30" value="$userdb[domainname]"></td></tr>
+<tr class="b"><td>用户头衔：</td>
+<td><select name="groupid" style="width:100px;">
+<option value="-1">普通会员</option>
+$sysgpslt
+</select></td></tr>
+<tr class="b"><td>博客分类：</td>
+<td><select name="cid" style="width:100px;">
+<option value="0">未分类</option>
+$categpslt
+</select></td></tr>
+<tr class="b"><td>设置推荐博客：</td>
+<td><input type="radio" name="commend" value="0" $cmddb[0]> 非推荐
+<input type="radio" name="commend" value="1" $cmddb[1]> 推荐</td></tr>
+<tr class="b"><td>性 别：</td>
+<td><input type="radio" name="gender" value="0" $sexdb[0]> 保密
+<input type="radio" name="gender" value="1" $sexdb[1]> 男
+<input type="radio" name="gender" value="2" $sexdb[2]> 女</td></tr>
+<tr class="b"><td>注册日期：(格式 yyyy-mm-dd)</td>
+<td><input name="regdate" size="30" value="$userdb[regdate]"></td></tr>
+<tr class="b"><td>用户风格：</td>
+<td><select name="style">
+$styleslt
+</select>
+</td></tr>
+<tr class="b"><td>博客访问权限：</td>
+<td><input type="radio" name="friendview" value="0" $viewdb[0]> 公开
+<input type="radio" name="friendview" value="1" $viewdb[1]> 好友可见
+<input type="radio" name="friendview" value="2" $viewdb[2]> 完全隐藏</td></tr>
+<tr class="b"><td>所在城市：</td>
+<td><select onchange="initcity();" name="province" id="province">
+<script>creatprovince('$userdb[province]');</script>
+</select>
+<select name="city" id="city">
+<script>initcity('$userdb[city]');</script>
+</select></td></tr>
+<tr class="b"><td>最后登陆IP：</td>
+<td><input name="userip" size="30" value="$userdb[userip]"></td></tr>
+<tr class="b"><td>金 钱：</td>
+<td><input name="money"  size="30"value="$userdb[money]"></td></tr>
+<tr class="b"><td>威 望：</td>
+<td><input name="rvrc" size="30" value="$userdb[rvrc]"></td></tr>
+<tr class="b"><td>贡献值：</td>
+<td><input name="credit" size="30" value="$userdb[credit]"></td></tr>
+<tr class="b"><td>日志数：</td>
+<td><input name="blogs"  size="30"value="$userdb[blogs]"></td></tr>
+<tr class="b"><td>评论数：</td>
+<td><input name="comments" size="30" value="$userdb[comments]"></td></tr>
+<tr class="b"><td>留言数：</td>
+<td><input name="msgs" size="30" value="$userdb[msgs]"></td></tr>
+<tr class="b"><td>访问次数：</td>
+<td><input name="views" size="30" value="$userdb[views]"></td></tr>
+<tr class="b"><td>QQ：</td>
+<td><input name="qq" size="30" value="$userdb[qq]"></td></tr>
+<tr class="b"><td>MSN：</td>
+<td><input name="msn" size="30" value="$userdb[msn]"></td></tr>
+<tr class="b"><td>Yahoo：</td>
+<td><input name="yahoo" size="30" value="$userdb[yahoo]"></td></tr>
+<tr class="b"><td>个人主页：</td>
+<td><input name="site" size="30" value="$userdb[site]"></td></tr>
+<tr class="b"><td>生 日：</td>
+<td><select name="year">
+<option value="0"></option>
+<!--
+EOT;
+for($i=1960;$i<=2004;$i++){print <<<EOT
+-->
+<option value="$i" $yeardb[$i]>$i</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+</select> 年
+<select name="month">
+<option value="0"></option>
+<!--
+EOT;
+for($i=1;$i<=12;$i++){print <<<EOT
+-->
+<option value="$i" $monthdb[$i]>$i</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+</select> 月
+<select name="day">
+<option value="0"></option>
+<!--
+EOT;
+for($i=1;$i<=31;$i++){print <<<EOT
+-->
+<option value="$i" $daydb[$i]>$i</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+</select> 日
+</td></tr>
+<tr class="b"><td>选择您所在的时区：<br />
+可将博客的所有时间显示为您的当地时间</td>
+<td><select name="timedf">
+<option value="0">使用默认</option>
+<option value="-12" $zone_012>(标准时-12:00) 日界线西</option>
+<option value="-11" $zone_011>(标准时-11:00) 中途岛、萨摩亚群岛</option>
+<option value="-10" $zone_010>(标准时-10:00) 夏威夷</option>
+<option value="-9" $zone_09>(标准时-9:00) 阿拉斯加</option>
+<option value="-8" $zone_08>(标准时-8:00) 太平洋时间(美国和加拿大)</option>
+<option value="-7" $zone_07>(标准时-7:00) 山地时间(美国和加拿大)</option>
+<option value="-6" $zone_06>(标准时-6:00) 中部时间(美国和加拿大)、墨西哥城</option>
+<option value="-5" $zone_05>(标准时-5:00) 东部时间(美国和加拿大)、波哥大</option>
+<option value="-4" $zone_04>(标准时-4:00) 大西洋时间(加拿大)、加拉加斯</option>
+<option value="-3.5" $zone_03_5>(标准时-3:30) 纽芬兰</option>
+<option value="-3" $zone_03>(标准时-3:00) 巴西、布宜诺斯艾利斯、乔治敦</option>
+<option value="-2" $zone_02>(标准时-2:00) 中大西洋</option>
+<option value="-1" $zone_01>(标准时-1:00) 亚速尔群岛、佛得角群岛</option>
+<option value="111" $zone_111>(格林尼治标准时) 西欧时间、伦敦、卡萨布兰卡</option>
+<option value="1" $zone_1>(标准时+1:00) 中欧时间、安哥拉、利比亚</option>
+<option value="2" $zone_2>(标准时+2:00) 东欧时间、开罗，雅典</option>
+<option value="3" $zone_3>(标准时+3:00) 巴格达、科威特、莫斯科</option>
+<option value="3.5" $zone_3_5>(标准时+3:30) 德黑兰</option>
+<option value="4" $zone_4>(标准时+4:00) 阿布扎比、马斯喀特、巴库</option>
+<option value="4.5" $zone_4_5>(标准时+4:30) 喀布尔</option>
+<option value="5" $zone_5>(标准时+5:00) 叶卡捷琳堡、伊斯兰堡、卡拉奇</option>
+<option value="5.5" $zone_5_5>(标准时+5:30) 孟买、加尔各答、新德里</option>
+<option value="6" $zone_6>(标准时+6:00) 阿拉木图、 达卡、新亚伯利亚</option>
+<option value="7" $zone_7>(标准时+7:00) 曼谷、河内、雅加达</option>
+<option value="8" $zone_8>(北京时间) 北京、重庆、香港、新加坡</option>
+<option value="9" $zone_9>(标准时+9:00) 东京、汉城、大阪、雅库茨克</option>
+<option value="9.5" $zone_9_5>(标准时+9:30) 阿德莱德、达尔文</option>
+<option value="10" $zone_10>(标准时+10:00) 悉尼、关岛</option>
+<option value="11" $zone_11>(标准时+11:00) 马加丹、索罗门群岛</option>
+<option value="12" $zone_12>(标准时+12:00) 奥克兰、惠灵顿、堪察加半岛</option>
+</select></td></tr>
+<tr class="b"><td>自我简介：</td>
+<td><textarea name="introduce" rows="5" cols="47">$userdb[introduce]</textarea></td></tr>
+<tr class="b"><td>个性签名：</td>
+<td><textarea name="signature" rows="5" cols="47">$userdb[signature]</textarea></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

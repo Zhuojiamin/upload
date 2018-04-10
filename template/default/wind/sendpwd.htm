@@ -1,0 +1,121 @@
+<!--<?php print <<<EOT
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$db_blogname} {$db_metatitle} - powered by lxblog.net</title>
+<meta name="keywords" content="$db_metakeyword" />
+<meta name="description" content="$db_metadescrip" />
+<style type="text/css">
+.ip{ border:1px solid #7DE7FD; padding:2px;color:#666 ; height:15px; vertical-align:middle; font-size:14px}
+p{ margin:0 0 1em}
+.bt{ padding-top:.1em ;padding-left:.5em ;padding-right:.5em; background:url($imgpath/$stylepath/bt.gif) left top; border:1px solid #7DE7FD; color:#35A0B6; font-size:12px; font-family:Tahoma}
+.c{clear:both;height:1px;font:1px/1px Arial; margin-top:-1px}
+.fr,.right{float:right}
+/*login*/
+.logintable td{ padding:.2em 0}
+</style>
+</head>
+<body style="font-size:12px">
+<form action="$sendpwdurl?" method="post">
+	<input type="hidden" name="step" value="2">
+	<div style="width:400px; padding:1px 0;background:#fff; border:1px solid #D2E8F1;margin:50px auto">
+		<div style="width:396px; margin:auto ;background:url($imgpath/$stylepath/bodybg.gif) ;height:60px; overflow:hidden"> <a href="$db_blogurl"><img src="$imgpath/$stylepath/logo.gif" border="0" /></a> </div>
+		<div style="width:350px;margin: auto">
+			<div style="margin-top:1em">
+				<h4 style="color:#8BC5DC">密码发送程序</h4>
+				<div id="showmsg" style="width:90%;margin:-.5em auto 1em;display:none;"></div>
+				<div style="width:90%;margin:-.5em auto 3em;">
+					<p>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="logintable">
+						<tr>
+							<td style=" width:22%">
+								用户名
+							</td>
+							<td><input name="username" value="" size="40" class="ip" style="width:150px" /></td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td><input name="email" value="" size="40" class="ip" style="width:150px" /></td>
+						</tr>
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+						<tr>
+							<td>认证码</td>
+							<td><input name="gdcode" value="" size="5" class="ip">
+								<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /></td>
+						</tr>
+<!--
+EOT;
+if($loginq == '1' && !empty($db_question)){
+	$db_question = unserialize($db_question);
+	$qkey = array_rand($db_question);
+print<<<EOT
+-->
+						<tr>
+							<td>验证问题</td>
+							<td>
+							{$db_question[$qkey]}
+							<input name="qanswer" id="qanswer" value="" class="ip">
+							<input type="hidden" name="qkey" id="qkey" value="$qkey" />
+							</td>
+						</tr>
+<!--
+EOT;
+}
+
+}print <<<EOT
+-->
+					</table>
+					</p>
+					<div class="tac"> <span class="fr"><a href="$regurl" style="color: #0066CC">注册新用户</a></span>
+						<input type="submit" value="  提 交  " class="bt" onclick="return CheckLogin(this.form);" />
+						<div class="c"></div>
+					</div>
+				</div>
+				<div class="c"></div>
+			</div>
+		</div>
+		<div class="c"></div>
+	</div>
+</form>
+<script language="JavaScript">
+function CheckLogin(form){
+	if (form.username.value=='' || form.email.value===''
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+ || form.gdcode.value==''
+<!--
+EOT;
+}print <<<EOT
+-->
+ ) {
+<!--
+EOT;
+if($rawwindid){print <<<EOT
+-->
+		newgdcode(document.getElementById('ck'),'$ckurl?windid=$rawwindid');
+<!--
+EOT;
+}print <<<EOT
+-->
+		document.getElementById('showmsg').style.display = '';
+		document.getElementById('showmsg').style.color = '#FF0000';
+		document.getElementById('showmsg').innerHTML = '任意项没有填写，请检查每项是否填写正确';
+		return false;
+	}
+}
+function newgdcode(obj,url) {
+	obj.src = url + '&nowtime=' + new Date().getTime();
+}
+</script>
+</body>
+</html>
+<!--
+EOT;
+?>-->

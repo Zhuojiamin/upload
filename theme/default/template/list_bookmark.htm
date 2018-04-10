@@ -1,0 +1,53 @@
+<!--<?php print <<<EOT
+-->
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	  <h2>$left_name[bookmarklists]</h2>
+	  <!--begin-->
+	  <div class="text fav">
+<!--
+EOT;
+foreach ($_ITEMDB as $value) {print <<<EOT
+-->
+		<dl>
+		  <dt>
+			<h4><a class="active" href="$value[bookmarkurl]" rel="external" onclick="externallinks()">$value[subject]</a></h4>
+			&nbsp;&nbsp;<span class="gray">$value[postdate]</span>
+		  </dt>
+		  <dd>
+		  $value[content]<br /><br />
+		  </dd>
+<!--
+EOT;
+if($value[tagsdb]){print <<<EOT
+-->
+		  <dd class="bb">Tags：
+<!--
+EOT;
+foreach($value[tagsdb] as $tags){print <<<EOT
+-->
+			<a href="tags.php?tagname=$tags[tagname]" class="tags">$tags[name]</a> &nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->
+		  </dd>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </div>
+	  <div class="big">$pages</div>
+	  <!--end-->
+	</div>
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>

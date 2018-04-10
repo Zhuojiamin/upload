@@ -1,0 +1,171 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+<script language="JavaScript">
+var imgpath = '$imgpath';
+</script>
+<script language="JavaScript" src="js/friend.js"></script>
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript" src="js/article.js"></script>
+<div id="showmenu" style="z-index:100;display:none;"></div>
+<div class="menu" id="edit_friend_box" style="display:none"></div>
+<div class="menu" id="add_friend_box" style="display:none">
+<table style="width:200px;margin:5px;border:1px solid #eee;">
+	<tr>
+		<td>
+			<span class="fl"><h2>添加新组名称</h2></span><span class="fr" style="cursor:pointer;" onclick="closep();" title="close"><img src="$imgpath/wysiwyg/close.gif" /></span>
+		</td>
+	</tr>
+	<tr>
+		<td><input type="text" name="gname" id="gname" value=""></td>
+	</tr>
+	<tr>
+	    <td><input class="bt" type="button" name="save" value="确 定" onclick="AddFriendGroupSubmit();">  <input class="bt" type="button" name="cancel" value="取 消" onclick="closep();"></td>
+	</tr>
+</table>
+</div>
+<table width="95%" align="center" class="userbg" cellspacing=0 cellpadding=5 >
+<tr class="head" height="25"><td><h2>好友管理</h2></td></tr>
+<tr>
+	<td class="b">
+		<a href="$basename">我的好友</a>
+		<a href="$basename&job=check">审核好友</a>
+        <a href="javascript:;" id="add_friend" onclick="AddFriendGroup('add_friend_box',this.id);">添加分组</a>
+	</td>
+</tr>
+</table>
+<br />
+<div style="width:15%; float:left; padding-right:2%; border-right:1px solid #eee">
+　　　　 <div><a href="$basename">所有好友 </a></div>
+		<ul class="list" id="fgbody">
+<!--
+EOT;
+if(empty($friendgroup)){print<<<EOT
+-->
+           <li><span id="nofriendgroup">暂无好友分组 </span></li>
+<!--
+EOT;
+}else{print<<<EOT
+-->        
+           <li id="nofriendgroup" style="display:none;"></li>
+<!--
+EOT;
+	foreach($friendgroup as $key => $value){
+$active = $value[gid]==$gid ? ' class="active"' : '';print <<<EOT
+-->
+           <li id="gid_{$value[gid]}"><a href="$basename&gid=$value[gid]" onmouseover="mt=setTimeout('EditBox($value[gid]);',700);" onmouseout="clearTimeout(mt);CloseEditBoxm($value[gid]);" id="gname_{$value[gid]}" $active>$value[gname]</a><span>($value[gnum])</span>  <span id="edit_{$value[gid]}" style="display:none;" onmouseover="clearTimeout(t);" onmouseout="CloseEditBoxm($value[gid]);"><a href="javascript:;" id="edit_pos_{$value[gid]}" onclick="EditFriendGroup($value[gid],this.id,'$value[gname]')"><img src="$imgpath/$stylepath/user/edit.gif"></a> <a href="javascript:;" onclick="DelFriendGroup($value[gid])"><img src="$imgpath/$stylepath/user/del.gif"></a></span></li>
+<!--
+EOT;
+}
+}
+print<<<EOT
+-->
+	   </ul>
+</div>
+<!--
+EOT;
+if(empty($job)){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<input name='step' type=hidden value='del'>
+<div style="width:80%; float:right;">
+<table width="100%" align="center" class="userbg" cellspacing=0 cellpadding=5>
+<tr class="head" height="25"><td><h2>我的好友</h2></td></tr>
+<tr>
+	<td class="b">用户名</td>
+	<td class="b">短消息</td>
+	<td class="b">查看空间</td>
+	<td class="b">留言</td>
+	<td class="b">添加日期</td>
+	<td class="b">操作</td>
+</tr>
+<!--
+EOT;
+foreach($friends as $key=>$val){print <<<EOT
+-->
+<tr>
+	<td class="b">$val[username]</td>
+	<td class="b"><a href="user_index.php?action=message&type=write&touid=$val[fuid]">写消息</a></td>
+	<td class="b"><a href="blog.php?uid=$val[fuid]" target="_blank">查看空间</a></td>
+	<td class="b"><a href="blog.php?do=list&uid=$val[fuid]&type=gbook" target="_blank">留言</a></td>
+	<td class="b">$val[fdate]</td>
+	<td class="b"><input type="checkbox" name="selid[]" value='$val[id]'></td>
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<table width="100%" align="center" class="userbg" cellspacing=0 cellpadding=5>
+<tr>
+    <td align="right">
+      <input type="radio" name="ntype" id="delete" value="delete" CHECKED> 删除
+	  <input type="radio" name="ntype" value="setgid" id="setgid"> 转移分组
+	  <select name="atcgid" style="width:100px;" onclick="Changselect('setgid')">
+		<option value="0">取消分组</option>
+<!--
+EOT;
+foreach ($friendgroup as $key => $value){print<<<EOT
+-->
+        <option value="$value[gid]">$value[gname]</option>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	  </select>
+    </td>
+</tr>
+</table>
+<br />
+<center>
+<input type="button" name="chkall" class="bt" value="全 选" onclick="CheckAll(this.form)">
+<input class="bt" type='Submit' value='提 交' name='Submit'></center>
+</div>
+<div class="c"></div>
+</form>
+<!--
+EOT;
+}elseif($job=='check'){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&job=check">
+<div style="width:80%; float:right;">
+<table width="100%" align="center" class="userbg" cellspacing=0 cellpadding=5>
+<tr class="head" height="25"><td><h2>等待审核</h2></td></tr>
+<tr>
+	<td class="head_2">用户名</td>
+	<td class="head_2">查看空间</td>
+	<td class="head_2">留言</td>
+	<td class="head_2">添加日期</td>
+	<td class="head_2">操作</td>
+</tr>
+<!--
+EOT;
+foreach($friends as $key=>$val){print <<<EOT
+-->
+<tr>
+	<td class="b">$val[username]</td>
+	<td class="b"><a href="blog.php?uid=$val[fuid]" target="_blank">查看空间</a></td>
+	<td class="b"><a href="blog.php?do=list&uid=$val[uid]&type=gbook" target="_blank">留言</a></td>
+	<td class="b">$val[fdate]</td>
+	<td class="b"><input type="checkbox" name="selid[]" value='$val[id]'></td>
+</tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+<br />
+<center><input type="radio" name="step" value='check' checked>通过 
+<input type="radio" name="step" value='del'>删除</center><br />
+<center>
+<input type="button" name="chkall" value="全 选" class="bt" onclick="CheckAll(this.form)">
+<input class="bt" type='Submit' value='提 交' name='Submit'></center>
+</div>
+<div class="c"></div>
+</form>
+<!--
+EOT;
+}
+?>

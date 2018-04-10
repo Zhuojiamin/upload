@@ -1,0 +1,56 @@
+<!--<?php print <<<EOT
+-->
+	<!--begin dirs-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">{$left_name[$type.'list']}</h2>
+	  <ul class="list" id="bloglist">
+<!--
+EOT;
+if ($type == 'blog' || $type == 'bookmark') {print <<<EOT
+-->
+		<li><a href="blog.php?do=list&uid=$uid&type=$type">所有{$index_name[$type]}</a></li>
+<!--
+EOT;
+foreach ($dirdb as $key => $value) {
+$active = $key==$dirid ? ' class="active"' : '';print <<<EOT
+-->
+		<li><a href="blog.php?do=list&uid=$uid&type=$type&dirid=$key"$active>$value[name]</a></li>
+<!--
+EOT;
+}} elseif ($type == 'music') {print<<<EOT
+-->
+	<li><a href="blog.php?do=list&uid=$uid&type=$type">所有{$index_name[$type]}</a></li>
+<!--
+EOT;
+foreach ($malbumdb as $class) {
+$active = $class[maid]==$maid ? ' class="active"' : '';print <<<EOT
+-->
+		  <li id="$class[maid]"><a href="blog.php?do=showone&type=$type&maid=$class[maid]"$active>$class[subject]</a></li>
+		 
+<!--
+EOT;
+}print <<<EOT
+-->
+		</ul></li>
+<!--
+EOT;
+} elseif($type == 'photo' || $type=='photos'){print<<<EOT
+-->
+<li><a href="blog.php?do=list&uid=$uid&type=photo">所有相册</a></li>
+<!--
+EOT;
+foreach($albumdb as $album){
+$active = $album[aid]==$aid ? ' class="active"' : '';print<<<EOT
+-->
+	<li id="$album[aid]"><a href="blog.php?do=list&uid=$uid&type=photos&aid=$album[aid]"$active>$album[subject]</a></li>
+<!--
+EOT;
+}
+}print <<<EOT
+-->
+	  </ul>
+	</div>
+	<!--end dirs-->
+<!--
+EOT;
+?>

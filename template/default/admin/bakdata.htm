@@ -1,0 +1,172 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&job=$job" method="post">
+<input type="hidden" name="step" value="1">
+<!--
+EOT;
+if($job == 'bakout' || ($job == 'repair' && $do != 'repair' && $do != 'optimize')){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息:</td></tr>
+<tr><td class="b">
+<ul><br />
+<!--
+EOT;
+if($job == 'bakout'){print <<<EOT
+-->
+您可以根据自己的需要选择需要备份的数据库表，导出的数据文件可用“数据恢复”功能。<br />
+为了数据安全，备份文件采用时间戳命名保存，如果备份数据超过设定的大小程序会自动采用分卷备份功能，请耐心等待直到程序提示全部备份完成。<br />
+附件的备份只需手工转移附件目录和文件即可，风格备份也同！PHPWind不提供单独备份。
+<!--
+EOT;
+}else{print <<<EOT
+-->
+修复表: 此操作可修复数据库在进行查询，删除，更新等操作时产生的错误。<br />
+优化表: 此操作可优化数据库表结构，以获得更好的数据库运行效率。
+<!--
+EOT;
+}print <<<EOT
+-->
+</ul></td></tr>
+</table><br />
+<table width="75%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3">LxBlog数据库表</td></tr>
+<tr class="head_2" align="center"><td width="5%">ID</td>
+<td width="90%">数据库表</td>
+<td width="5%">操作</td></tr>
+<!--
+EOT;
+foreach($tabledb as $key => $value){
+$id = (int)$key+1;
+$table = $PW.$value;print <<<EOT
+-->
+<tr class="b" align="center"><td>$id</td>
+<td align="left">$table</td>
+<td><input type="checkbox" name="selid[]" value="$value" CHECKED></td></tr>
+<!--
+EOT;
+}if($job == 'bakout'){print <<<EOT
+-->
+<tr><td class="head" colspan="3">分卷备份</td></tr>
+<tr><td class="b" colspan="3"><input name="sizelimit" value="2048" size="10">
+每个分卷文件长度</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="b" colspan="3" align="center"><input type="radio" name="do" value="repair"> 修复表
+<input type="radio" name="do" value="optimize" CHECKED> 优化表</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交"></center>
+</form><br /><br />
+<form action="$basename&job=$job" method="post">
+<input type="hidden" name="step" value="2">
+<table width="75%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3">非LxBlog数据库表</td></tr>
+<tr class="head_2" align="center"><td width="5%">ID</td>
+<td width="90%">数据库表</td>
+<td width="5%">操作</td></tr>
+<!--
+EOT;
+foreach($othortable as $key => $value){
+$id = (int)$key+1;print <<<EOT
+-->
+<tr class="b" align="center"><td>$id</td>
+<td align="left">$value</td>
+<td><input type="checkbox" name="selid[]" value="$value" CHECKED></td></tr>
+<!--
+EOT;
+}if($job == 'bakout'){print <<<EOT
+-->
+<tr><td class="head" colspan="3">分卷备份</td></tr>
+<tr><td class="b" colspan="3"><input name="sizelimit" value="2048" size="10">
+每个分卷文件长度</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="b" colspan="3" align="center"><input type="radio" name="do" value="repair"> 修复表
+<input type="radio" name="do" value="optimize" CHECKED> 优化表</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交"></center>
+<!--
+EOT;
+}elseif($job == 'repair' && ($do == 'repair' || $do == 'optimize')){print <<<EOT
+-->
+<table width="75%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="3">数据库优化信息</td></tr>
+<tr class="head_2" align="center"><td width="15%">数据库表</td>
+<td width="15%">操作</td>
+<td width="70%">信息</td></tr>
+<!--
+EOT;
+foreach($msgdb as $value){print <<<EOT
+-->
+<tr class="b"><td>$value[Table]</td>
+<td align="center">$value[Op]</td>
+<td>$value[Msg_type]:$value[Msg_text]</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<!--
+EOT;
+}elseif($job == 'bakin'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息:</td></tr>
+<tr><td class="b">
+<ul><br />本功能在恢复备份数据的同时,将覆盖原有数据,请确定是否需要恢复,以免造成数据损失。<br />
+数据恢复功能只能恢复由当前版本导出的数据文件,其他软件导出格式可能无法识别。<br />
+如果一个备份文件有多个分卷，您只需任选一个备份文件导入，程序会自动导入其他分卷</ul></td></tr>
+</table><br />
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="7">LxBlog备份文件</td></tr>
+<tr class="head_2" align="center"><td width="10%">ID</td>
+<td width="30%">文件名</td>
+<td width="10%">版本</td>
+<td width="20%">备份时间</td>
+<td width="10%">卷号</td>
+<td width="10%">导入</td>
+<td width="10%">删除</td></tr>
+<!--
+EOT;
+$id=0;
+foreach($filedb as $value){
+$id++;print <<<EOT
+-->
+<tr class="b" align="center"><td>$id</td>
+<td align="left">$value[name]</td>
+<td>$value[version]</td>
+<td>$value[time]</td>
+<td>$value[num]</td>
+<td><a style="cursor:pointer" onclick="deleteslt('$basename&job=bakin&step=1&pre=$value[pre]&count={$predb[$value[pre]]}','备份恢复功能将覆盖原来的数据,您确认要导入备份数据！')">导入</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[fullname]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<input type="hidden" id="delete" value="1">
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中数据库？');"></center>
+<!--
+EOT;
+}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

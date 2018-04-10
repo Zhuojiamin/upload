@@ -1,0 +1,209 @@
+<!--<?php print <<<EOT
+-->
+<div id="main">
+<!--
+EOT;
+if($action!='dosearch'){print <<<EOT
+-->
+  <div>
+	<!--main content -->
+<style type="text/css">
+fieldset{border:1px solid #35A0B6; padding:2px;color:#666}
+</style>
+	<div class="boxA">
+	  <h5 class="tabB">
+		<a href="$db_blogurl">首页</a> &raquo; <a href="search.php">搜 索</a> &raquo; 高级搜索
+	  </h5>
+	  <div class="c"></div>
+	  <div class="listArticle">
+	    <div style="text-align:left;padding:0 0 .5em 1em;margin:0 1em;border-bottom:1px solid #E6EBEF;"><h3>搜索选项</h3></div>
+		<form action="search.php?action=dosearch&" method="post">
+		  <table width="95%" align="center" cellspacing="1" cellpadding="3" style="font-size:12px;">
+			<tr>
+			  <td width="50%">
+				<fieldset style="margin: 0px">
+				  <legend style="color:#35A0B6"><h5>按关键词搜索</h5></legend>
+				  <table cellspacing="1" cellpadding="3" border="0">
+					<tr>
+					  <td>
+						<div>关键词:<br />(至少2个字符，多关键词用 | 分开)</div>
+						<div><input name="keyword" class="ip" style="width: 250px" size="35"></div>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<select name="kw_area">
+						  <option value="0" selected>主题标题</option>
+<!--
+EOT;
+if($_GROUP['allowsearch']==2){print <<<EOT
+-->
+						  <option value="1">主题标题与内容</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+						</select>
+					  </td>
+					</tr>
+				  </table>
+				</fieldset>
+			  </td>
+			  <td width="50%">
+				<fieldset style="MARGIN: 0px">
+				  <legend><h5>按用户名搜索</h5></legend>
+				  <table cellspacing="1" cellpadding="3" border="0">
+					<tr>
+					  <td>
+						<div>用户名:<br />(可使用通配符 *，如 lxb* 匹配 lxblog)</div>
+						<div><input name="author" class="ip" style="width: 250px" size="35"></div>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<select name="at_area">
+						  <option value="0" selected>查找该用户发表的所有主题</option>
+						  <option value="1">查找该用户参与的所有主题</option>
+						</select>
+					  </td>
+					</tr>
+				  </table>
+				</fieldset>
+			  </td>
+			</tr>
+		  </table>
+		  <table width="95%" align="center" cellspacing="1" cellpadding="3" style="font-size:12px;">
+			<tr>
+			  <td width="50%" valign="top">
+				<fieldset style="margin: 0px">
+				  <legend><h5>搜索分类</h5></legend>
+				  <div style="padding-right:3px;padding-left:3px;padding-bottom:3px;padding-top:3px">
+					<div>
+					  <select style="width:100%" name="types" onchange="GetCid(this.value)">
+<!--
+EOT;
+foreach($catedb as $value){print <<<EOT
+-->
+						<option value="$value[value]">$value[name]</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+					  </select>
+					</div>
+					<div id="sltcid" style="display:none;"></div>
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript">
+GetCid('blog');
+function GetCid(type){
+	if (type && type != 'all') {
+		var url = ajaxurl + '?action=getcid&type=' + ajax_convert(type);
+		send_request(url,GetCidResponse);
+	} else {
+		GE('sltcid').style.display = 'none';
+	}
+	return false;
+}
+function GetCidResponse(){
+	if (http_request.responseText) {
+		if (http_request.responseText == 'undefined_action') {
+			GE('sltcid').style.display = 'none';
+			alert('非法操作');
+		} else {
+			var msg = http_request.responseText;
+			msg = msg.split("\t");
+			GE('sltcid').style.display = '';
+			GE('sltcid').innerHTML = '<select style="width:100%" multiple size="6" name="ciddb[]"><option value="all" SELECTED>搜索所有' + msg[0] + '分类</option>' + msg[1] + '</select>';
+		}
+	} else {
+		GE('sltcid').style.display = 'none';
+	}
+	return false;
+}
+</script>
+				  </div>
+				</fieldset>
+			  </td>
+			  <td width="50%" valign="top">
+				<fieldset style="margin: 0px">
+				  <legend><h5>主题发表时间</h5></legend>
+				  <div style="padding-right: 3px; padding-left: 3px; padding-bottom: 3px; padding-top: 3px">
+					<select style="width: 150px" name="postdate">
+					  <option value="0" selected>任何日期</option>
+					  <option value="86400">1 天内</option>
+					  <option value="604800">1 周内</option>
+					  <option value="1209600">2 周内</option>
+					  <option value="2592000">1 月内</option>
+					  <option value="7776000">3 月内</option>
+					  <option value="15552000">6 月内</option>
+					  <option value="31536000">1 年内</option>
+					</select>
+				  </div>
+				</fieldset><br />
+				<fieldset style="margin: 0px">
+				  <legend><h5>结果排序</h5></legend>
+				  <div style="padding-right: 3px; padding-left: 3px; padding-bottom: 3px; padding-top: 3px">
+					<select style="width: 150px" name="orderby">
+					  <option value="replies">回复数</option>
+					  <option value="hits">浏览数</option>
+					  <option value="author">主题作者</option>
+					  <option value="cid">系统分类</option>
+					  <option value="lastpost">最后发表时间</option>
+					  <option value="postdate" selected>主题发表时间</option>
+					</select>
+					<select style="width: 150px" name="sc">
+					  <option value="1">降序</option>
+					  <option value="0">升序</option>
+					</select>
+				  </div>
+				</fieldset><br />
+				<center><input type="submit" value=" 开始搜索 " class="bt"> <input type="reset" value=" 重新填写 " class="bt"></center>
+			  </td>
+			</tr>
+		  </table>
+		</form>
+	  </div>
+	</div>
+  </div>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+  <!--sidebar-->
+  <div id="searchbar">
+	<div class="tac fl">
+	  <form action="search.php?action=dosearch&" method="post">
+		<h5>搜索 <input name="keyword" class="ip" style="width:200px" value="" />
+		<input class="bt" name="submit" type="submit" value="Go"  style="font-weight:bold"/>
+		<a href="search.php">高级搜索</a></h5><br />
+	  </form>
+	</div>
+  </div>
+  <!--sidebar  end-->
+  <!--main content -->
+  <div class="boxA">
+	<h5 class="tabB"><a href="$db_blogurl">首页</a> &raquo; <a href="search.php">搜 索</a> &raquo; 搜索结果：$skeyword ( 共有 <span class="colorA">$total</span> 条搜索结果 )</h5>
+	<div class="c"></div>
+	<ul class="listArticle">
+<!--
+EOT;
+foreach($scheddb as $value){print <<<EOT
+-->
+	  <li> <em><cite><a href="blog.php?uid=$value[uid]">$value[author]</a></cite></a></cite>$value[postdate]</em> <a href="{$articleurl}type=$value[type]&itemid=$value[itemid]">$value[subject]</a> </li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	</ul>
+	$pages
+  </div>
+  <div class="c"></div>
+<!--
+EOT;
+}print <<<EOT
+-->
+  <div class="c"></div>
+</div>
+<!--
+EOT;
+?>

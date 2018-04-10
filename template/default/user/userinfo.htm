@@ -1,0 +1,363 @@
+<!--<?php
+include_once PrintEot('top');print <<<EOT
+-->
+<script src="js/initcity.js"></script>
+<form name='creator' method="post" action="$basename&" enctype="multipart/form-data">
+<input name="step" type="hidden" value="2">
+<input type="hidden" name="ustyle" value="$userdb[ustyle]">
+<table width="95%" align=center cellspacing=0 class="userbg">
+<tr class="head" height="30"><td colspan="2"><h2>修改个人信息</h2></td></tr>
+<tr class="b"><td width="35%" height="30"><b>用户名</b></td>
+<td>$admin_name</td></tr>
+<!--
+EOT;
+if ($db_cbbbsopen=='1') {print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30"><b>论坛用户名</b></td>
+<td>
+<!--
+EOT;
+if(!$userdb['bbsid']){print <<<EOT
+-->
+<input class="input" size="35" name="bbsid" value='$userdb[bbsid]'>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" name="bbsid" value='$userdb[bbsid]'>
+$userdb[bbsid]
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+<!--
+EOT;
+}if ($db_userdomain && ($_GROUP['ifdomain'] || $userdb['domainname'])) {print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30"><b>个性域名</b><br>只能由数字和字母组成</td>
+<td>
+<!--
+EOT;
+if($db_userdomain && (($_GROUP['ifdomain']==1 && !$userdb['domainname']) || $_GROUP['ifdomain']==2)){print <<<EOT
+-->
+<input class="input" size="35" name="domainname" value='$userdb[domainname]'>.$db_domain
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" name="domainname" value='$userdb[domainname]'>
+http://$userdb[domainname].{$db_domain}
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30"><b>博客标题</b><br>出现在个人主页头部位置</td>
+<td><input class="input" size="35" name="blogtitle" value='$userdb[blogtitle]'></td></tr>
+<tr class="b"><td width="35%" height="30"><b>博客访问权限</b></td>
+<td><input type="radio" name="friendview" value="0" $view[0]> 公开
+<input type="radio" name="friendview" value="1" $view[1]> 好友可见
+<input type="radio" name="friendview" value="2" $view[2]> 完全隐藏</td></tr>
+<tr class="b"><td width="35%" height="30"><b>博客留言权限</b></td>
+<td><input type="radio" name="ifgbook" value="1" $gbook[1]> 开启
+<input type="radio" name="ifgbook" value="0" $gbook[0]> 关闭</td></tr>
+<!--
+EOT;
+if(!$cmtgd){print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30"><b>评论认证码</b></td>
+<td><input type="radio" name="cmtgd" value="1" $cmtcheck[1]> 开启
+<input type="radio" name="cmtgd" value="0" $cmtcheck[0]> 关闭</td></tr>
+<!--
+EOT;
+}if(!$gbgd){print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30"><b>留言认证码</b></td>
+<td><input type="radio" name="gbgd" value="1" $gbcheck[1]> 开启
+<input type="radio" name="gbgd" value="0" $gbcheck[0]> 关闭</td></tr>
+<!--
+EOT;
+}if(!$cmtq){print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30"><b>评论验证问题</b></td>
+<td><input type="radio" name="cmtq" value="1" $cmtqcheck[1]> 开启
+<input type="radio" name="cmtq" value="0" $cmtqcheck[0]> 关闭</td></tr>
+<!--
+EOT;
+}if(!$gbq){print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30"><b>留言验证问题</b></td>
+<td><input type="radio" name="gbq" value="1" $gbqcheck[1]> 开启
+<input type="radio" name="gbq" value="0" $gbqcheck[0]> 关闭</td></tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<tr class="b"><td width="35%" height="30"><b>其他会员每天最多允许发表多少篇</b></td>
+<td><input name="postnum[]" size="15" value="$postnum[0]" class="input"> 评论
+<input name="postnum[]" size="15" value="$postnum[1]" class="input"> 留言</td></tr>
+<tr class="b"><td width="35%" height="30"><b>其他会员灌水预防(多少秒间隔内不能)</b></td>
+<td><input name="plimitnum[]" size="15" value="$plimitnum[0]" class="input"> 评论
+<input name="plimitnum[]" size="15" value="$plimitnum[1]" class="input"> 留言</td></tr>
+<!--
+EOT;
+if(!$db_pptifopen || $db_ppttype!='client'){print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30">旧密码</td>
+<td><input class="input" size="35" name="oldpwd"></td></tr>
+<!--
+EOT;
+if ($db_cbbbsopen=='1') {print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30">是否同步BLOG密码为论坛密码<br />此功能主要是使BLOG和论坛密码达到唯一性，建议选择“是”，否则整合不成功</td>
+<td><input type="radio" id="pwdsyn" name="pwdsyn" value="1" onclick="ckpwdtype(this.value)"> 是
+<input type="radio" id="pwdsyn" name="pwdsyn" value="0" onclick="ckpwdtype(this.value)"> 否</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tbody id="pwdsyns" style="display:;">
+<tr class="b"><td width="35%" height="30">新密码</td>
+<td><input type="password" class="input" size="35" name="password"></td></tr>
+<tr class="b"><td width="35%" height="30">确认密码</td>
+<td><input type="password" class="input" size="35" name="ckpassword"></td></tr>
+</tbody>
+<tr class="b"><td width="35%" height="30">Email</td>
+<td><input class="input" size="35" name="email" value='$userdb[email]'></td></tr>
+<!--
+EOT;
+}else{
+if(!$userdb[email]){print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30">Email</td>
+<td><input class="input" size="35" name="email" value='$userdb[email]'></td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" name="email" value='$userdb[email]'>
+<!--
+EOT;
+}}print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30">所在城市</td>
+<td><select onchange="initcity();" name="province" id="province">
+<script>creatprovince('$userdb[province]');</script>
+</select>
+<select name="city" id="city">
+<script>initcity('$userdb[city]');</script>
+</select></td></tr>
+<tr class="b"><td width="35%" height="30">博客分类：</td>
+<td><select name="cid" style="width:100px;">
+<!--
+EOT;
+if (!$userdb[cid]) {print <<<EOT
+-->
+<option value="0">未分类</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+$categpslt
+</select></td></tr>
+<tr class="b"><td width="35%" height="30">性别</td>
+<td><input type="radio" name="gender" value="0" $sex[0]> 保密
+<input type="radio" name="gender" value="1" $sex[1]> 男
+<input type="radio" name="gender" value="2" $sex[2]> 女</td></tr>
+<tr class="b"><td width="35%" height="30">头像</td>
+<td><img id='icon' src='$userdb[icon]' width="180" />
+<!--
+EOT;
+if(strpos($userdb['icon'],'upload/none.gif') === false){print <<<EOT
+-->
+<input type="checkbox" name="delicon" value='1'>删除头像
+<!--
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+<!--
+EOT;
+if ($db_cbbbsopen=='1') {print <<<EOT
+-->
+<tr class="b"><td width="35%" height="30">是否同步BLOG头像为论坛头像</td>
+<td><input type="radio" id="facesyn" name="facesyn" value="1" onclick="ckfacesyn(this.value)"> 是
+<input type="radio" id="facesyn" name="facesyn" value="0" onclick="ckfacesyn(this.value)"> 否</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" name="facesyn" value='0'>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tbody id="showface" style="display:;">
+<tr class="b"><td width="35%" height="30">头像处理</td>
+<td><input type="radio" name="ckulface" id="chttp" value="http" onclick="ckuploadface(this.value)"> 外部连接
+<input type="radio" name="ckulface" id="cupload" value="upload" onclick="ckuploadface(this.value)" $facedisabled> 上传头像
+<span id="fupload" style="display:$uploadstyle;"><br /><input class="input" type="file" size="35" name="attachment_2" id="pupload" onchange="preview_icon('upload')"></span>
+<span id="fhttp" style="display:$httpstyle;"><br /><input class="input" type="text" size="35" name="attachment_1" id="phttp" value="$httpface" onchange="preview_icon('http')"></span></td></tr>
+</tbody>
+<tr class="b"><td width="35%" height="30">头像尺寸</td>
+<td>头像宽度：<input class="input" size="5" name="iconw" value='$iconw'>必须是1 -- {$_GROUP['upfacew']}之间的一个整数<br /> 头像高度：<input class="input" size="5" name="iconh" value='$iconh'>必须是1 -- {$_GROUP['upfaceh']}之间的一个整数</td></tr>
+<tr class="b"><td width="35%" height="30">QQ</td>
+<td><input class="input" size="35" name="qq" value='$userdb[qq]'></td></tr>
+<tr class="b"><td width="35%" height="30">Yahoo</td>
+<td><input class="input" size="35" name="yahoo" value='$userdb[yahoo]'></td></tr>
+<tr class="b"><td width="35%" height="30">MSN</td>
+<td><input class="input" size="35" name="msn" value='$userdb[msn]'></td></tr>
+<tr class="b"><td width="35%" height="30">个人主页</td>
+<td><input class="input" size="35" name="site" value='$userdb[site]'></td></tr>
+<tr class="b"><td width="35%" height="30">生日</td>
+<td><select name='year'>
+<option value="0"></option>
+<!--
+EOT;
+for($i=1960;$i<=2004;$i++){print <<<EOT
+-->
+<option value=$i $ckyear[$i]>$i</option>  
+<!--
+EOT;
+}print <<<EOT
+-->
+</select>年 
+<select name='month'>
+<option value="0"></option>
+<!--
+EOT;
+for($i=1;$i<=12;$i++){
+print <<<EOT
+-->
+<option value=$i $ckmonth[$i]>$i</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+</select>月 
+<select name='day'>
+<option value="0"></option>
+<!--
+EOT;
+for($i=1;$i<=31;$i++){print <<<EOT
+-->
+<option value=$i $ckday[$i]>$i</option>
+<!--
+EOT;
+}print <<<EOT
+-->
+</select>日</td></tr>
+<tr><td width="35%" height="30">选择您所在的时区<br>可将论坛的所有时间显示为您的当地时间</td>
+<td><select name="timedf">
+<option value="0">使用默认</option>
+<option value="-12" $zone_012>(标准时-12:00) 日界线西</option>
+<option value="-11" $zone_011>(标准时-11:00) 中途岛、萨摩亚群岛</option>
+<option value="-10" $zone_010>(标准时-10:00) 夏威夷</option>
+<option value="-9" $zone_09>(标准时-9:00) 阿拉斯加</option>
+<option value="-8" $zone_08>(标准时-8:00) 太平洋时间(美国和加拿大)</option>
+<option value="-7" $zone_07>(标准时-7:00) 山地时间(美国和加拿大)</option>
+<option value="-6" $zone_06>(标准时-6:00) 中部时间(美国和加拿大)、墨西哥城</option>
+<option value="-5" $zone_05>(标准时-5:00) 东部时间(美国和加拿大)、波哥大</option>
+<option value="-4" $zone_04>(标准时-4:00) 大西洋时间(加拿大)、加拉加斯</option>
+<option value="-3.5" $zone_03_5>(标准时-3:30) 纽芬兰</option>
+<option value="-3" $zone_03>(标准时-3:00) 巴西、布宜诺斯艾利斯、乔治敦</option>
+<option value="-2" $zone_02>(标准时-2:00) 中大西洋</option>
+<option value="-1" $zone_01>(标准时-1:00) 亚速尔群岛、佛得角群岛</option>
+<option value="111" $zone_111>(格林尼治标准时) 西欧时间、伦敦、卡萨布兰卡</option>
+<option value="1" $zone_1>(标准时+1:00) 中欧时间、安哥拉、利比亚</option>
+<option value="2" $zone_2>(标准时+2:00) 东欧时间、开罗，雅典</option>
+<option value="3" $zone_3>(标准时+3:00) 巴格达、科威特、莫斯科</option>
+<option value="3.5" $zone_3_5>(标准时+3:30) 德黑兰</option>
+<option value="4" $zone_4>(标准时+4:00) 阿布扎比、马斯喀特、巴库</option>
+<option value="4.5" $zone_4_5>(标准时+4:30) 喀布尔</option>
+<option value="5" $zone_5>(标准时+5:00) 叶卡捷琳堡、伊斯兰堡、卡拉奇</option>
+<option value="5.5" $zone_5_5>(标准时+5:30) 孟买、加尔各答、新德里</option>
+<option value="6" $zone_6>(标准时+6:00) 阿拉木图、 达卡、新亚伯利亚</option>
+<option value="7" $zone_7>(标准时+7:00) 曼谷、河内、雅加达</option>
+<option value="8" $zone_8>(北京时间) 北京、重庆、香港、新加坡</option>
+<option value="9" $zone_9>(标准时+9:00) 东京、汉城、大阪、雅库茨克</option>
+<option value="9.5" $zone_9_5>(标准时+9:30) 阿德莱德、达尔文</option>
+<option value="10" $zone_10>(标准时+10:00) 悉尼、关岛</option>
+<option value="11" $zone_11>(标准时+11:00) 马加丹、索罗门群岛</option>
+<option value="12" $zone_12>(标准时+12:00) 奥克兰、惠灵顿、堪察加半岛</option>
+</select></td></tr>
+<tr class="b"><td width="35%" height="30">自我简介</td>
+<td><textarea name='introduce' rows='4' cols='50'>$userdb[introduce]</textarea></td></tr>
+<tr class="b"><td width="35%" height="30">个性签名</td>
+<td><textarea name='signature'  rows='4' cols='50'>$userdb[signature]</textarea></td></tr>
+</table>
+<br><center><input class="bt" type='Submit' value='提 交' name='Submit'></center>
+</form><br>
+<script language="JavaScript">
+function preview_icon(value){
+	if (GE('p'+value).value != '' && GE('c'+value).checked == true) {
+		GE('icon').src = GE('p'+value).value;
+	}
+}
+function ckuploadface(value){
+	var ckulface = document.getElementsByName('ckulface');
+	for (i=0;i<ckulface.length;i++) {
+		if (value && ckulface[i].value == value) {
+			ckulface[i].checked = true;
+			GE('f' + value).style.display = '';
+		}
+	}
+	if (value == 'http') {
+		GE('fupload').value = '';
+		GE('fhttp').style.display = ''
+		GE('fupload').style.display = 'none';
+	} else {
+		GE('fhttp').value = '';
+		GE('fhttp').style.display = 'none'
+		GE('fupload').style.display = '';
+	}
+}
+function ckfacesyn(value){
+	var facesyn = document.getElementsByName('facesyn');
+	for (i=0;i<facesyn.length;i++) {
+		if (value && facesyn[i].value == value) {
+			facesyn[i].checked = true;
+			GE('showface').style.display = 'none';
+		}
+		if (facesyn[i].checked) {
+			if (facesyn[i].value=='1') {
+				GE('showface').style.display = 'none';
+				break;
+			} else {
+				GE('showface').style.display = '';
+				break;
+			}
+		}
+	}
+}
+function ckpwdtype(value){
+	var pwdsyn = document.getElementsByName('pwdsyn');
+	for (i=0;i<pwdsyn.length;i++) {
+		if (value && pwdsyn[i].value == value) {
+			pwdsyn[i].checked = true;
+			GE('pwdsyns').style.display = 'none';
+		}
+		if (pwdsyn[i].checked) {
+			if (pwdsyn[i].value=='1') {
+				GE('pwdsyns').style.display = 'none';
+				break;
+			} else {
+				GE('pwdsyns').style.display = '';
+				break;
+			}
+		}
+	}
+}
+ckuploadface('$uploadface');
+ckfacesyn('$facesyn');
+ckpwdtype('$pwdsyn');
+</script>
+<!--
+EOT;
+?>

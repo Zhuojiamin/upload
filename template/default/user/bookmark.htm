@@ -1,0 +1,119 @@
+<!--<?php print <<<EOT
+-->
+<form id="FORM" name="FORM" action="$basename&job=$job&" method="post">
+<input name="step" type="hidden" value="2">
+<input name="itemid" type="hidden" value="$itemid">
+<div class="ml ml2">
+<table align="center" class="userbg" cellspacing="0" cellpadding="5">
+	<tr class="b">
+  		<td>网址名称<br /><input class="input" type="text" size="45" name="atc_title" value="$atc_title"></td>
+	</tr>
+	<tr class="b">
+  		<td>网址链接<br /><input class="input" size="45" name="bookmarkurl" value="$bookmarkurl" /></td>
+	</tr>
+	<tr class="b">
+  		<td>收藏描述<br /><textarea class="input" rows="10" cols="103" size="200" name="atc_content" value="$atc_content">$atc_content</textarea></td>
+	</tr>
+<!--
+EOT;
+if ($rawwindid) {print <<<EOT
+-->
+	<tr class="b">
+	  <td>认证码：<input name="gdcode" value="" size="5" class="input">&nbsp;<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /></td>
+	</tr>
+<!--
+EOT;
+} 
+if($postq == '1' && $db_question){
+$db_question = unserialize($db_question);
+$qkey = array_rand($db_question);
+print<<<EOT
+-->
+	<tr class="b">
+		<td>验证问题: {$db_question[$qkey]} <input class="input" type="text" name="qanswer"/><input type="hidden" name="qkey" value="$qkey" /></td>
+	</tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<input type="hidden" name="step" value="2">
+</table>
+</div>
+<div class="mr mr2">
+	<div id="last_information" class="box1 box3">
+	<h2>选项</h2>
+	<div class="box1text">
+	<h3 onclick="schdiv('hide3',this);" class="heiyo2" style="cursor:pointer;">分类 &raquo;</h3>
+	   <div class="div1" id="hide2">
+		<table cellspacing="0" cellpadding="0">
+		  <tr class="b">
+			<td height="50" colspan="2">个人分类<br />
+<!--
+EOT;
+include_once PrintEot('itemtype');print<<<EOT
+-->
+			</td>
+		  </tr>
+		  <tr class="b">
+			<td width="50%" height="30">共享设置</td>
+			<td>
+			  <select name="atc_ifhide" style="width:98px;">
+			  <option value="0" $ifhide_0>完全共享</option>
+			  <option value="2" $ifhide_2>好友可见</option>
+			  <option value="1" $ifhide_1>完全隐藏</option>
+			  </select>
+			</td>
+		  </tr>
+		</table>
+	   </div>
+	 </div>
+	</div>
+</div>
+<div class="c"></div><br/>
+<center><input type="submit" name="Submit" value="提 交" class="bt"></center>
+</form>
+</div>
+<script language="JavaScript" src="js/post.js"></script>
+<script language="JavaScript">
+var cnt = 0;
+function checkpost(obj){
+	if (obj.atc_title.value=="") {
+		alert("标题不能为空");
+		obj.ab_desc.focus();
+		return false;
+	} else if (strlen(obj.atc_title.value) > $db_titlemax) {
+		alert("标题超过最大长度 $db_titlemax 个字节");
+        obj.ab_desc.focus();
+		return false;
+	}
+	if (strlen(obj.atc_content.value) < $db_postmin) {
+		alert("文章内容少于 $db_postmin 个字节");
+		obj.ab_desc.focus();
+		return false;
+	} else if (strlen(obj.atc_content.value) > $db_postmax) {
+		alert("文章内容大于 $db_postmax 个字节");
+		obj.ab_desc.focus();
+		return false;
+	}
+	document.FORM.Submit.disabled = true;
+	cnt++;
+	if (cnt!=1) {
+		alert('Submission Processing. Please Wait');
+		return false;
+	}
+	return true;
+}
+function schdiv(id,obj2){
+	if (GE(id).style.display=='none'){
+		obj2.className='heiyo2';
+		GE(id).style.display='';
+	} else {
+		obj2.className='heiyo1';
+		GE(id).style.display='none';
+	}
+}
+</script>
+<!--
+EOT;
+?>

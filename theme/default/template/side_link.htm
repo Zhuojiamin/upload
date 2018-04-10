@@ -1,0 +1,27 @@
+<!--<?php print <<<EOT
+-->
+	<!--begin link-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]</h2>
+	  <ul class="list">
+<!--
+EOT;
+foreach ($linkdb as $value) {
+if (!$value[2]) {print <<<EOT
+-->
+		<li><a href="$value[1]" title="$value[3]" target="_blank">$value[0]</a></li>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+		<li><a href="$value[1]" title="$value[3]" target="_blank"><img src="$value[2]" border="0" alt="$value[0]" onload="if(this.width>88)this.width=88;if(this.height>31) this.height=31;" /></a></li>
+<!--
+EOT;
+}}print <<<EOT
+-->
+	  </ul>
+	</div>
+	<!--end link-->
+<!--
+EOT;
+?>

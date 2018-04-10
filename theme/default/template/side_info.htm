@@ -1,0 +1,22 @@
+<!--<?php print <<<EOT
+-->
+	<!--begin info-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]</h2>
+	  <dl class="text">
+		<dd>用户名: $blogdb[username]</dd>
+		<dd>等级: $blogdb[level]</dd>
+		<dd>威望: $blogdb[rvrc]</dd>
+		<dd>金钱: $blogdb[money]</dd>
+		<dd>在线时间: $blogdb[onlinetime] 小时</dd>
+		<dd>日志总数: $blogdb[blogs]</dd>
+		<dd>评论数量: $blogdb[comments]</dd>
+		<dd>访问次数: $blogdb[views]</dd>
+		<dd>建立时间: $blogdb[rdate]</dd>
+		<dd><a href="rss.php?uid=$uid&type=$type"><img src="theme/$style/images/rss.png" alt="" align="absmiddle" /> RSS订阅</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="wap/index.php"><img src="theme/$style/images/wap.png" align="absmiddle"/> 手机访问</a></dd>
+	  </dl>
+	</div>
+	<!--end info-->
+<!--
+EOT;
+?>

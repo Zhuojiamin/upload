@@ -1,0 +1,100 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&job=$job&" method="post">
+<input type="hidden" name="step" value="2">
+<!-- 
+EOT;
+if($job == 'cp'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="6">导航栏列表</td></tr>
+<tr align="center" class="head_2">
+<td width="20%">名称</td>
+<td width="20%">显示位置</td>
+<td width="15%">新建页面</td>
+<td width="15%">是否显示</td>
+<td width="10%">顺序</td>
+<td width="20%">操作</td></tr>
+<!-- 
+EOT;
+foreach($listdb as $value){
+$value[type] = str_replace(array('head','foot'),array('头部','尾部'),$value[type]);
+$value[_ifblank] = $value[_ifblank] ? '是' : '否';
+$value[_ifshow] = $value[_ifshow] ? '是' : '否';print <<<EOT
+-->
+<tr class="b" align="center">
+<td>$value[name]</td>
+<td>$value[type]</td>
+<td>$value[_ifblank]</td>
+<td>$value[_ifshow]</td>
+<td><input name="order[$value[id]]" size="5" value="$value[vieworder]"></td>
+<td><a href="$basename&job=ort&set=edit&id=$value[id]">编辑</a>
+<!--
+EOT;
+if($value[id]>5){print <<<EOT
+-->
+<a style="cursor:pointer" onclick="deleteslt('$basename&job=ort&set=del&id=$value[id]','确定删除此导航栏？')">删除</a>
+<!-- 
+EOT;
+}print <<<EOT
+-->
+</td></tr>
+<!-- 
+EOT;
+}}elseif ($job == 'ort'){
+if($set=='edit'){print <<<EOT
+-->
+<input type="hidden" name="id" value="$id">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑导航栏</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">添加导航栏</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr><td class="b" width="40%">名称</td>
+<td class="b"><input name="itemdb[name]" size="30" maxlength="14" value="$edit[name]"></td></tr>
+<!--
+EOT;
+if($set!='edit' || $id>5){print <<<EOT
+-->
+<tr><td class="b">目标url</td>
+<td class="b"><input name="itemdb[url]" size="30" value="$edit[url]">&nbsp; &nbsp;外部链接请以http开头</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="b">目标url</td>
+<td class="b"><input type="hidden" name="itemdb[url]" value="$edit[url]">$edit[url]</td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr><td class="b">排序</td>
+<td class="b"><input name="itemdb[vieworder]" size="10" value="$edit[vieworder]"></td></tr>
+<tr><td class="b">是否新窗口调用</td>
+<td class="b"><input type="radio" name="itemdb[_ifblank]" value="1" $ifblank_Y> 是
+<input type="radio" name="itemdb[_ifblank]" value="0" $ifblank_N>否</td></tr>
+<tr><td class="b">是否显示</td>
+<td class="b"><input type="radio" name="itemdb[_ifshow]" value="1" $ifshow_Y> 是
+<input type="radio" name="itemdb[_ifshow]" value="0"  $ifshow_N>否</td></tr>
+<tr><td class="b">位置</td>
+<td class="b"><input type="checkbox" name="selid[]" value="head" $ck_head> 头部
+<input type="checkbox" name="selid[]" value="foot" $ck_foot> 底部
+</td></tr>
+<!-- 
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!-- 
+EOT;
+?>-->

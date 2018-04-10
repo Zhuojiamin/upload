@@ -1,0 +1,41 @@
+<!--<?php
+if(!$job){print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<input name='job' type=hidden value='update'>
+<table width='98%' align=center cellspacing=0 cellpadding=3 class="userbg">
+<tr><td colspan=9 class="head"><h2>帖子推送管理</h2></td></tr>
+<tr align=center><td class="head_2" width='5%'>ID</td>
+<td class="head_2" width='20%'>所属版块</td>
+<td class="head_2">标题</td>
+<td class="head_2" width='15%'>发表日期</td>
+<td class="head_2" width='6%'>&nbsp;</td>
+</tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($blogdb as $key=>$value){
+$id++;print <<<EOT
+-->
+<tr align=center><td class="b">$id</td>
+<td class="b">$value[name]</td>
+<td class="b"><a href="$db_cbbbsurl/read.php?tid=$value[tid]" title="$value[content]" target='_blank'>$value[subject]</a></td>
+<td class="b">$value[postdate]</td>
+<td class="b"><input type="checkbox" name="selid[]" value='$value[tid]'></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table>
+&nbsp; $pages<br />
+<center>加入我的博客, 选择日志所属系统分类
+<select name='cidto'>$forumcache</select>
+选择日志所属个人分类 <select name='dirto'>
+<option></option>
+$itemcache</select></center><br />
+<center><input type="button" name="chkall" class="bt" value="全 选" onclick="CheckAll(this.form)">
+<input class="bt" type='Submit' value='提 交' name='Submit'></center>
+</form>
+<!--
+EOT;
+}?>

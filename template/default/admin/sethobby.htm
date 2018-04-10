@@ -1,0 +1,155 @@
+<!--<?php
+include_once PrintEot('left');
+if($job == 'class'){
+if($set != 'edit'){print <<<EOT
+-->
+<form action="$basename&set=add&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr><td class="head">添加分类</td></tr>
+<tr><td class="b"><br />
+分类名称 <input name="hname" size="35" value="">
+<input type="submit" value="提 交"><br /><br /></td></tr>
+</table>
+</form>
+<form action="$basename&set=list&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="5">分类列表</td></tr>
+<tr align="center" class="head_2">
+<td width="55%">分类名称</td>
+<td width="15%">顺序</td>
+<td width="10%">管理</td>
+<td width="10%">编辑</td>
+<td width="10%">操作</td></tr>
+<!--
+EOT;
+foreach($_HCATE as $value){print<<<EOT
+-->
+<tr align="center" class="b">
+<td align="left">$value[name]</td>
+<td><input name="orders[$value[id]]" value="$value[vieworder]" size="10"></td>
+<td><a href="$admin_file?action=sethobby&job=cp&set=list&hid=$value[id]">管理</a></td>
+<td><a href="$basename&set=edit&hid=$value[id]">编辑</a></td>
+<td><a style="cursor:pointer" onclick="deleteslt('$basename&set=delete&hid=$value[id]','将删除{$catelang[hobby]}下的{$value[name]}分类，请确认!')">删除</a></td></tr>
+<!--
+EOT;
+}print<<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<form action="$basename&set=edit&" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="hid" value="$hid">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑分类</td></tr>
+<tr class="b"><td width="60%">分类名称</td>
+<td><input name="hname" size="35" value="{$_HCATE[$hid][name]}"></td></tr>
+<tr class="b"><td>顺序</td>
+<td><input name="vieworder" size="10" value="{$_HCATE[$hid][vieworder]}"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}}else{
+if($set != 'edit'){print<<<EOT
+-->
+<form action="$basename&set=add&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr><td class="head">添加分类</td></tr>
+<tr><td class="b"><br />
+爱好名称 <input name="name" size="35" value="">
+<select name="hid">
+<option value="0">选择分类</option>
+$categpslt
+</select>
+<input type="submit" value="提 交"><br /><br /></td></tr>
+</table>
+</form>
+<form action="$basename&set=list&" method="post">
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr><td class="head">爱好搜索</td></tr>
+<tr><td class="b"><br />
+选择分类: <select name="hid">
+<option value="-1">不限制</option>
+$categpslt
+</select>
+审核: <select name="ifcheck">
+<option value="-1">不限制</option>
+<option value="0"$checkslt_0>未审</option>
+<option value="1"$checkslt_1>已审</option>
+</select>
+<input type="submit" value="提 交"><br /><br /></td></tr>
+</table>
+</form>
+<form action="$basename&set=list&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="6">爱好列表</td></tr>
+<tr align="center" class="head_2">
+<td width="35%">爱好名称</td>
+<td width="20%">所属分类</td>
+<td width="15%">顺序</td>
+<td width="10%">审核</td>
+<td width="10%">编辑</td>
+<td width="10%">删除</td></tr>
+<!--
+EOT;
+foreach($hobbydb as $value){
+$value[ifcheck] = $value[ifcheck]?'已审':'未审';print<<<EOT
+-->
+<tr align="center" class="b">
+<td align="left">$value[name]</td>
+<td>{$_HCATE[$value[hid]][name]}</td>
+<td><input name="orders[$value[id]]" value="$value[vieworder]" size="10"></td>
+<td>$value[ifcheck]</a></td>
+<td><a href="$basename&set=edit&id=$value[id]&hid=$value[hid]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[id]"></td></tr>
+<!--
+EOT;
+}print<<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+<tr><td align="right"><input type="radio" name="type" id="delete" value="delete" CHECKED> 删除
+<input type="radio" name="type" value="cgcheck"> 审核
+<input type="radio" name="type" value="cghid" id="cghid"> 修改分类
+<select name="orthid" onclick="Changselect('cghid')">
+$categpslt
+</select>
+</td></tr>
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中爱好？');"></center>
+</form>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<form action="$basename&set=edit&" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="id" value="$id">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑爱好</td></tr>
+<tr class="b"><td width="60%">名称</td>
+<td><input name="name" size="35" value="$hobbydb[name]"></td></tr>
+<tr class="b"><td>分类</td>
+<td><select name="hid">
+$categpslt
+</select></td></tr>
+<tr class="b"><td>顺序</td>
+<td><input name="vieworder" size="10" value="$hobbydb[vieworder]"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}}?>-->

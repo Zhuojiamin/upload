@@ -1,0 +1,160 @@
+<!--<?php print <<<EOT
+-->
+<form id="FORM" name="FORM" action="$basename&job=$job" method="post" onsubmit="return checkpost(document.FORM);" enctype="multipart/form-data">
+<input name="step" type="hidden" value="2">
+<input name="post_hpageurl" type="hidden" value="$post_hpageurl">
+<input name="maid" type="hidden" value="$maid">
+<input name="pushlog" type="hidden" value="$pushlog">
+<div class="ml ml2">
+<table align="center" class="userbg" cellspacing="0" cellpadding="5">
+	<tr class="b">
+  		<td>专辑名称<br /><input class="input" type="text" size="45" name="ab_title" value="$ab_title"></td>
+	</tr>
+	<tr class="b">
+  		<td>专辑封面<br />
+  		<img id='hpage' src='$hpagesrc' width="180" /><br />
+  		<input type="radio" name="ckulface" id="chttp" value="http" onclick="ckuploadface(this.value)" checked> 外部连接<input type="radio" name="ckulface" id="cupload" value="upload" onclick="ckuploadface(this.value)" $facedisabled> 上传封面
+<span id="fupload" style="display:$uploadstyle;"><br /><input class="input" type="file" size="35" name="attachment_2" id="pupload" onchange="preview_icon('upload')"></span>
+<span id="fhttp" style="display:$httpstyle;"><br /><input class="input" type="text" size="35" name="attachment_1" id="phttp" value="$hpageurl" onchange="preview_icon('http')"></span>
+  		</td>
+	</tr>
+	<tr class="b">
+  		<td>专辑描述<br />
+<!--
+EOT;
+require_once (R_P.'template/default/wind/editor.htm');
+print<<<EOT
+-->
+</td>
+	</tr>
+</table>
+</div>
+<div class="mr mr2">
+	<div id="last_information" class="box1 box3">
+	  <h2>选项</h2>
+	  <div class="box1text">
+		<h3 onclick="schdiv('hide3',this);" class="heiyo2" style="cursor:pointer;">分类 &raquo;</h3>
+	 	<div class="div1" id="hide3">
+			<table cellspacing="0" cellpadding="0">
+		 	<tr class="b">
+			  <td height="50">专辑分类<br />
+			 	<select name="ab_cid" style="width:150px;">$forumcache</select>
+			  </td>
+		 	</tr>
+	  		</table>
+	  	</div>
+	  	<h3 onclick="schdiv('hide6',this);" class="heiyo2" style="cursor:pointer;">其他设定 &raquo;</h3>
+	  	<div class="div1" id="hide6">
+			<table cellspacing="0" cellpadding="0">
+		 	<tr class="b">
+				<td width="50%" height="30">允许评论<br></td>
+				<td>
+			  	<input type="radio" name="ab_allowreply" value="1" $allowreply_1> 是
+			 	<input type="radio" name="ab_allowreply" value="0" $allowreply_0> 否
+				</td>
+		  	</tr>
+	  	<!--
+EOT;
+if($db_teamifopen == '1'){
+print<<<EOT
+-->
+		  	<tr class="b">
+				<td width="50%">推送至{$db_teamname}</td>
+				<td width="50%">
+<!--
+EOT;
+foreach($teamsel as $key => $vlaue){print<<<EOT
+-->
+<input type="checkbox" name="atc_teamid[]" value="$vlaue[teamid]" $vlaue[checked]>$vlaue[name]<br />
+<!--
+EOT;
+}
+print<<<EOT
+-->
+				</td>
+		  	</tr>
+		 	</table>
+<!--
+EOT;
+}
+print<<<EOT
+-->			
+			</div>
+		</div>
+	</div>
+</div>
+<div class="c"></div><br/>
+<center><input type="submit" name="Submit" value="提 交" class="bt"></center>
+</form>
+
+<script language="JavaScript" src="js/post.js"></script>
+<script language="JavaScript">
+document.FORM.ab_title.focus();
+var cnt = 0;
+function checkpost(obj){
+	if (obj.ab_title.value=="") {
+		alert("标题不能为空");
+		obj.ab_title.focus();
+		return false;
+	} else if (strlen(obj.ab_title.value) > $db_titlemax) {
+		alert("标题超过最大长度 $db_titlemax 个字节");
+		obj.ab_title.focus();
+		return false;
+	}
+	if (strlen(obj.atc_content.value) < $db_postmin) {
+		alert("文章内容少于 $db_postmin 个字节");
+		obj.atc_content.focus();
+		return false;
+	} else if (strlen(obj.atc_content.value) > $db_postmax) {
+		alert("文章内容大于 $db_postmax 个字节");
+		obj.atc_content.focus();
+		return false;
+	}
+	document.FORM.Submit.disabled = true;
+	cnt++;
+	if (cnt!=1) {
+		alert('Submission Processing. Please Wait');
+		return false;
+	}
+	return true;
+}
+function schdiv(id,obj2){
+	if (GE(id).style.display=='none'){
+		obj2.className='heiyo2';
+		GE(id).style.display='';
+	} else {
+		obj2.className='heiyo1';
+		GE(id).style.display='none';
+	}
+}
+function preview_icon(value){
+	if (GE('p'+value).value != '' && GE('c'+value).checked == true) {
+		GE('hpage').src = GE('p'+value).value;
+	}
+}
+function ckuploadface(value){
+	var ckulface = document.getElementsByName('ckulface');
+	for (i=0;i<ckulface.length;i++) {
+		if (value && ckulface[i].value == value) {
+			ckulface[i].checked = true;
+			GE('f' + value).style.display = '';
+		}
+	}
+	if (value == 'http') {
+		GE('fupload').value = '';
+		GE('fhttp').style.display = ''
+		GE('fupload').style.display = 'none';
+	} else {
+		GE('fhttp').value = '';
+		GE('fhttp').style.display = 'none'
+		GE('fupload').style.display = '';
+	}
+}
+
+ckuploadface('$uploadface');
+
+</script>
+<!--
+EOT;
+?>
+-->

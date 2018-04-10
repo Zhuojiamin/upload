@@ -1,0 +1,16 @@
+<!--<?php
+//include_once PrintEot('top');
+print <<<EOT
+-->
+<form name='form1' method="post" action="$basename&">
+<input name='job' type=hidden value='push'>
+<input name='itemid' type=hidden value="$itemid">
+<table width='30%' align=center cellspacing=1 cellpadding=5 class="userbg">
+<tr><td colspan=2 class="head"><b>日志推送</b></td></tr>
+<tr><td>选择{$db_teamname}</td>
+<td><select name='teamid'>$teamsel</select></td></tr>
+</table>
+<br><center><input class="bt" type='Submit' value='提 交' name='Submit'></center></form>
+<!--
+EOT;
+?>

@@ -1,0 +1,123 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&" method="post">
+<input type="hidden" name="step" value="2">
+<!--
+EOT;
+if($job != 'link'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息:</td></tr>
+<tr><td class="b">
+<ul><br /><li>功能说明: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此功能是为鼓励会员宣传网站而设设计的，只要用户把您站点的 url 推荐给其他朋友，并引导其他人访问您的网站。那他的数值将会加一点， 越大越是表明某会员对网站的宣传力度越大!</li><br /><br />
+<li>使用方法: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在网站任意一动态页面的 url 后加上 a=用户名 或 u=用户数字ID <br />
+比如以下方法均正确(用户名 yuling 数字ID: 3558)<br />
+http://www.phpwind.net/index.php?a=yuling<br />
+http://www.phpwind.net/index.php?u=3558<br />
+http://www.phpwind.net/read.php?fid=7&tid=154&a=yuling<br />
+http://www.phpwind.net/read.php?fid=7&tid=154&u=3558</li><br /><br />
+<font color="red">注意</font>：<font color="blue">需要注册</font>是指：会员引导的朋友需要注册之后， 会员才会增加贡献值；而<font color="blue">勿需注册</font>则不限制，只要引导其他人访问该网沾，就会增加!</ul></td></tr>
+</table><br />
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">功能设置</td></tr>
+<tr class="b"><td width="60%">是否允许用户使用宣传代码: </td>
+<td><input type="radio" name="ads" value="2" $ads_2> 需要注册
+<input type="radio" name="ads" value="1" $ads_1> 勿需注册
+<input type="radio" name="ads" value="0" $ads_0> 关闭</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息:</td></tr>
+<tr><td class="b">
+<ul><br />前台自助申请为未审状态，后台添加的友情链接为已审状态，请在<a href="$admin_file?action=setother&job=link"><font color="blue">链接列表</font></a>批量审核</ul></td></tr>
+</table><br />
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="b">[<a href="$admin_file?action=setother&job=link">链接列表</a>] [<a href="$basename&set=add">添加链接</a>] [<a href="$admin_file?action=setother&job=link&ifcheck=0">未审链接</a>]</td></tr>
+</table><br />
+<!--
+EOT;
+if($set=='list'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="8">链接列表</td></tr>
+<tr class="head_2" align="center"><td width="5%">ID</td>
+<td width="15%">名称</td>
+<td width="8%">顺序</td>
+<td width="30%">地址</td>
+<td width="21%">说明</td>
+<td width="8%">审核</td>
+<td width="8%">编辑</td>
+<td width="5%">操作</td></tr>
+<!--
+EOT;
+$id = ($page-1)*$db_perpage;
+foreach($sharedb as $value){
+$value[ifcheck] = $value[ifcheck]?'已审':'未审';
+$id++;print <<<EOT
+-->
+<tr class="b" align="center"><td>$id</td>
+<td>$value[name]</td>
+<td><input name="orders[$value[sid]]" value="$value[threadorder]" size="5"></td>
+<td>$value[url]</td>
+<td>$value[descrip]</td>
+<td>$value[ifcheck]</td>
+<td><a href="$admin_file?action=setother&job=link&set=edit&sid=$value[sid]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[sid]"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</table><br />
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+<tr><td align="right"><input type="radio" name="type" id="delete" value="delete" CHECKED> 删除
+<input type="radio" name="type" value="ifcheck"> 审核</td></tr>
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中链接？');"></center>
+<!--
+EOT;
+}elseif($set=='add'||$set=='edit'){print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<!--
+EOT;
+if($set=='add'){print <<<EOT
+-->
+<tr><td class="head" colspan="2">添加链接</td></tr>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<tr><td class="head" colspan="2">编辑链接<input type="hidden" name="sid" value="$sid"></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+<tr class="b"><td width="55%">名 称</td>
+<td><input name="name" value="$sharedb[name]" size="35"></td></tr>
+<tr class="b"><td>顺 序: </td>
+<td><input name="threadorder" value="$sharedb[threadorder]" size="10"></td></tr>
+<tr class="b"><td>地 址: </td>
+<td><input name="url" value="$sharedb[url]" size="35"></td></tr>
+<tr class="b"><td>说 明: </td>
+<td><input name="descrip" value="$sharedb[descrip]" size="35"></td></tr>
+<tr class="b"><td>Logo(设置文字链接请留空): </td>
+<td><input name="logo" value="$sharedb[logo]" size="35"></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}}print <<<EOT
+-->
+</form>
+<!--
+EOT;
+?>-->

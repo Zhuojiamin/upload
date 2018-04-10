@@ -1,0 +1,508 @@
+<!--<?php print <<<EOT
+-->
+<!--main-->
+<div id="main">
+<!--
+EOT;
+if($teamid > 0){print <<<EOT
+-->
+  <div id="in-content">
+	<div class="boxA">
+	  <dl class="quanOne">
+		<dd class="left pic"><img src="$imgpath/upload/$teamdb[icon]" class="left"/></dd>
+		<dt>
+		  <span class="right gray">
+<!--
+EOT;
+if($ifteammember == '1'){print<<<EOT
+-->
+		  <a href="user_index.php?action=post&type=blog&teamid=$teamid">写文章</a>
+<!--
+EOT;
+}
+if($ifteammember != '1'){print<<<EOT
+-->
+　<a href="job.php?action=jointeam&teamid=$teamid">加入</a>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+  群主：<a href="blog.php?uid=$teamdb[uid]">$teamdb[username]</a></span>
+		  <h4>$teamdb[name]</h4>
+		</dt>
+		<dd class="gray">描述：<br />
+		$teamdb[descrip]</dd>
+	  </dl>
+	</div>
+	<!--main content -->
+<!--
+EOT;
+if($job == 'showteam'){print<<<EOT
+-->
+	<div class="boxA">
+	  <h5 class="tabB">
+		最新日志
+	  </h5>
+	  <div class="c"></div>
+	  <ul class="listArticle">
+<!--
+EOT;
+foreach($_NEWBLOG as $value){print <<<EOT
+-->
+		<li>
+		  <em><cite><a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></cite></a> $value[postdate]</em>
+		  <a href="blog.php?do=showone&uid=$value[uid]&type=blog&itemid=$value[itemid]" class="colorA" target="_blank">$value[subject]</a>
+		</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	</div>
+	<div class="boxA">
+	  <div style="padding:.5em">
+		<span class="right">共有 $teamdb[albums] 个相册</span>
+		<h5 class="colorC">最新相册</h5>
+	  </div>
+	  <div class="boxAcontent">
+		<div class="listPic">
+<!--
+EOT;
+foreach($_NEWALBUM as $value){print <<<EOT
+-->
+		  <dl>
+			<dd><a href="blog.php?do=list&uid=$value[uid]&type=photos&job=view&aid=$value[itemid]&" target="_blank"><img src="$value[attachurl]"/></a></dd>
+			<dt>$value[subject]</dt>
+			<dt>作者：<a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></dt>
+		  </dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  <div class="c"></div>
+		</div>
+		<div class="c"></div>
+	  </div>
+	</div>
+	<div class="boxA">
+	  <div style="padding:.5em">
+		<span class="right">共有 $teamdb[malbums] 个专辑</span>
+		<h5 class="colorC">最新专辑</h5>
+	  </div>
+	  <div class="boxAcontent">
+		<div class="listPic">
+<!--
+EOT;
+foreach($_NEWMALBUM as $value){print <<<EOT
+-->
+		  <dl>
+			<dd><a href="blog.php?do=showone&uid=$value[uid]&type=music&maid=$value[itemid]&" target="_blank"><img src="$value[hpageurl]"/></a></dd>
+			<dt>$value[subject]</dt>
+			<dt>作者：<a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></dt>
+		  </dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  <div class="c"></div>
+		</div>
+		<div class="c"></div>
+	  </div>
+	</div>
+	<div class="boxA">
+	  <div style="padding:.5em">
+		<span class="right">共有 $teamdb[bloggers] 个成员</span>
+		<h5 class="colorC">最新成员</h5>
+	  </div>
+	  <div class="boxAcontent">
+		<div class="listPic">
+<!--
+EOT;
+foreach($_NEWUSER as $value){print <<<EOT
+-->
+		  <dl>
+			<dd><a href="blog.php?uid=$value[uid]" target="_blank"><img src="$value[icon]"/></a></dd>
+			<dt><a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></dt>
+		  </dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  <div class="c"></div>
+		</div>
+		<div class="c"></div>
+	  </div>
+	</div>
+  </div>
+<!--
+EOT;
+}elseif($job == 'blog'){print<<<EOT
+-->
+<div class="boxA">
+	  <h5 class="tabB">日志</h5>
+	  <div class="c"></div>
+	  <ul class="listArticle">
+<!--
+EOT;
+foreach($tblogdb as $value){print <<<EOT
+-->
+		<li>
+		  <em><cite><a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></cite></a> $value[postdate]</em>
+		  <a href="blog.php?do=showone&uid=$value[uid]&type=blog&itemid=$value[itemid]" class="colorA" target="_blank">$value[subject]</a>
+		</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	  $pages
+</div>
+</div>
+<!--
+EOT;
+}elseif($job == 'album'){print<<<EOT
+-->
+<div class="boxA">
+	  <div style="padding:.5em">
+		<span class="right">共有 $teamdb[albums] 个相册</span>
+		<h5 class="colorC">相册</h5>
+	  </div>
+	  <div class="boxAcontent">
+		<div class="listPic">
+<!--
+EOT;
+foreach($talbumdb as $value){print <<<EOT
+-->
+		  <dl>
+			<dd><a href="blog.php?do=list&uid=$value[uid]&type=photos&job=view&aid=$value[itemid]&" target="_blank"><img src="$value[attachurl]"/></a></dd>
+			<dt>$value[subject]</dt>
+			<dt>作者：<a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></dt>
+		  </dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  $pages
+		  <div class="c"></div>
+		</div>
+		<div class="c"></div>
+	  </div>
+</div>
+</div>
+<!--
+EOT;
+}elseif($job == 'malbum'){print<<<EOT
+-->
+<div class="boxA">
+	  <div style="padding:.5em">
+		<span class="right">共有 $teamdb[malbums] 个音乐专辑</span>
+		<h5 class="colorC">专辑</h5>
+	  </div>
+	  <div class="boxAcontent">
+		<div class="listPic">
+<!--
+EOT;
+foreach($tmalbumdb as $value){print <<<EOT
+-->
+		  <dl>
+			<dd><a href="blog.php?do=showone&uid=$value[uid]&type=music&maid=$value[itemid]&" target="_blank"><img src="$value[hpageurl]"/></a></dd>
+			<dt>$value[subject]</dt>
+			<dt>作者：<a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></dt>
+		  </dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  $pages
+		  <div class="c"></div>
+		</div>
+		<div class="c"></div>
+	  </div>
+</div>
+</div>
+<!--
+EOT;
+}elseif($job == 'user'){print<<<EOT
+-->
+<div class="boxA">
+	  <div style="padding:.5em">
+		<span class="right">共有 $teamdb[bloggers] 个成员</span>
+		<h5 class="colorC">成员</h5>
+	  </div>
+	  <div class="boxAcontent">
+		<div class="listPic">
+<!--
+EOT;
+foreach($tuserdb as $value){print <<<EOT
+-->
+		  <dl>
+			<dd><a href="blog.php?uid=$value[uid]"><img src="$value[icon]"/></a></dd>
+			<dt><a href="blog.php?uid=$value[uid]">$value[username]</a></dt>
+			<dt><a href="user_index.php?action=message&type=write&touid=$value[uid]">短消息</a></dt>
+		  </dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  $pages
+		  <div class="c"></div>
+		</div>
+		<div class="c"></div>
+	  </div>
+</div>
+</div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+  <!--sidebar-->
+   <div id="in-sidebar">
+	<div>
+	  <div class="list">
+		<ul>
+		<li><a href="team.php?job=showteam&cid=$cid&teamid=$teamid">圈子首页</a></li>
+		<li><a href="team.php?job=blog&cid=$cid&teamid=$teamid">圈子日志</a></li>
+		<li><a href="team.php?job=album&cid=$cid&teamid=$teamid">圈子相册</a></li>
+		<li><a href="team.php?job=malbum&cid=$cid&teamid=$teamid">圈子音乐专辑</a></li>
+		<li><a href="team.php?job=user&cid=$cid&teamid=$teamid">圈子成员</a></li>
+		</ul>
+	  </div>
+	</div>
+  </div>
+<!--
+EOT;
+if($job == 'showteam' || $job == 'user'){print<<<EOT
+-->
+  <div id="in-sidebar">
+	<div>
+	  <h3>圈子写手排行</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+$id=0;
+foreach ($_WRITER as $value) {
+$id++;print <<<EOT
+-->
+		  <li>$id. <a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+  </div>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+<div id="in-sidebar">
+	<div>
+	  <h3>{$indexname}排行</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+$id=0;
+foreach ($_TOP as $value) {
+if($job == 'blog'){
+$id++;	
+print<<<EOT
+-->
+		  <li>$id. <a href="blog.php?do=showone&uid=$value[uid]&type=blog&itemid=$value[itemid]" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}elseif($job == 'album'){
+$id++;	
+print<<<EOT
+-->
+		  <li>$id. <a href="blog.php?do=list&uid=$value[uid]&type=photos&job=view&aid=$value[itemid]&" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}elseif($job == 'malbum'){
+$id++;
+print<<<EOT
+-->
+		  <li>$id. <a href="blog.php?do=showone&uid=$value[uid]&type=music&maid=$value[itemid]&" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+</div>
+
+<div id="in-sidebar">
+	<div>
+	  <h3>圈主推荐{$indexname}</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+$id=0;
+foreach ($_CMD as $value) {
+if($job == 'blog'){
+$id++;	
+print<<<EOT
+-->
+		  <li>$id. <a href="blog.php?do=showone&uid=$value[uid]&type=blog&itemid=$value[itemid]" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}elseif($job == 'album'){
+$id++;	
+print<<<EOT
+-->
+		  <li>$id. <a href="blog.php?do=list&uid=$value[uid]&type=photos&job=view&aid=$value[itemid]&" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}elseif($job == 'malbum'){
+$id++;
+print<<<EOT
+-->
+		  <li>$id. <a href="blog.php?do=showone&uid=$value[uid]&type=music&maid=$value[itemid]&" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+</div>
+  
+<!--
+EOT;
+}
+}elseif($cid > 0){print <<<EOT
+-->
+  <div id="in-content">
+	<div class="boxA">
+	  <dl class="quanOne">
+		<dd class="left pic"><img src="$imgpath/upload/$_TOP[icon]" class="left"/></dd>
+		<dt>
+		  <span class="right gray">群主：<a href="blog.php?uid=$_TOP[uid]">$_TOP[username]</a></span>
+		  <h4 class="gray">推荐 <a href="team.php?job=showteam&cid=$_TOP[cid]&teamid=$_TOP[teamid]" class="colorA">$_TOP[name]</a></h4>
+		  <a style="text-decoration: underline" href="team.php?job=showteam&cid=$_TOP[cid]&teamid=$_TOP[teamid]">$db_blogurl/team.php?job=showteam&cid=$_TOP[cid]&teamid=$_TOP[teamid]</a>
+		</dt>
+		<dd class="gray">$_TOP[descrip]</dd>
+	  </dl>
+	</div>
+	<!--main content -->
+	<div class="boxA">
+	  <div style="padding:.5em">
+		<span class="right">共有 $count 个圈子</span>
+		<h5 class="colorC"><img src="$imgpath/$stylepath/friends.png" /> 优秀圈子</h5>
+	  </div>
+	  <div class="boxAcontent">
+		<div class="listPic">
+<!--
+EOT;
+foreach($_COMMEND as $value){print <<<EOT
+-->
+		  <dl>
+			<dd><img src="$imgpath/upload/$value[icon]"/></dd>
+			<dt>创始人:<a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></dt>
+			<dt><a href="team.php?job=showteam&cid=$value[cid]&teamid=$value[teamid]">$value[name]</a></dt>
+			<dt><a href="job.php?action=jointeam&teamid=$value[teamid]">加入</a></dt>
+		  </dl>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  <div class="c"></div>
+		</div>
+		<div class="c"></div>
+	  </div>
+	</div>
+	<div class="boxA">
+	  <h5 class="tabB">
+		<a href="$db_blogurl">首页</a> &raquo; <a href="team.php">$typename</a> &raquo; <a href="team.php?cid=$cid">$cidname</a> &raquo; 圈子列表
+	  </h5>
+	  <div class="c"></div>
+	  <ul class="listArticle groupList">
+		<li><em><cite>创建者</cite>成员数</em>圈子名称</li>
+<!--
+EOT;
+foreach($teamdb as $value){print <<<EOT
+-->
+		<li>
+		  <em><cite><a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></cite>$value[bloggers]</em>
+		  <a href="team.php?job=showteam&cid=$cid&teamid=$value[teamid]" class="colorA">$value[name]</a>
+<!--
+EOT;
+if(in_array($value[teamid],$winddb_teamdb)){print<<<EOT
+-->
+<span class="gray">已加入</span>
+<!--
+EOT;
+}else{print<<<EOT
+-->
+	<a href="job.php?action=jointeam&teamid=$value[teamid]"><span class="gray">加入</span></a>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </ul>
+	  $pages
+	</div>
+  </div>
+  <!--sidebar-->
+  <div id="in-sidebar">
+	<div>
+	  <h3>圈子排行</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+$id=0;
+foreach ($_TEAMATCS as $value) {
+$id++;print <<<EOT
+-->
+		  <li>$id. <a href="team.php?job=showteam&cid=$value[cid]&teamid=$value[teamid]">$value[name]</a> <span class="gray">($value[cate])</span></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+	<div>
+	  <h3>新建的圈子</h3>
+	  <div class="list">
+		<ul>
+<!--
+EOT;
+foreach ($_NEWTEAM as $value) {print <<<EOT
+-->
+		  <li><a href="team.php?job=showteam&cid=$value[cid]&teamid=$value[teamid]">$value[name]</a></li>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</ul>
+	  </div>
+	</div>
+  </div>
+  <!--sidebar  end-->
+<!--
+EOT;
+}
+print<<<EOT
+-->
+  <div class="c"></div>
+</div>
+<!--main end-->
+<!--
+EOT;
+?>

@@ -1,0 +1,100 @@
+<?php
+$lang = array (
+	'bday_empty'			=> '生日为空',
+	'blogtitle_empty'		=> '博客标题为空',
+
+	'city_empty'			=> '请选择您所在的城市',
+
+	'domain_limit'			=> "个性域名长度错误，请控制在 $rg_domainmin - $rg_domainmax 字节以内，只允许数字或字母组合",
+	'domain_same'			=> "此域名已存在",
+
+	'email_empty'			=> '邮箱、MSN或YAHOO没有填写',
+	'email_error'			=> '邮箱、MSN或YAHOO不符合检查标准，请确认没有错误',
+	'email_same'			=> '此邮箱已存在',
+	
+	'gdcode_error'			=> '认证码不正确',
+	'group_right'			=> '你没有权限进行此操作',
+	
+	'illegal_tid'			=> '文章ID非法',
+	'illegal_value'			=> '此项包含不可接受字符或被管理员屏蔽,请选择其它',
+	'ip_ban'				=> '您的IP被禁止，不能访问网站',
+	'ip_change'				=> '用户密码已更改 或 站点开启了安全认证，需要重新登录！<br /><br />如果您无法退出，请点选IE 工具 => 选项，然后手动清除COOKIE',
+	'read_limit'			=> '您所属的用户组没有查看文章正文的权限',
+	
+	'login_forbid'			=> "已经连续 6 次密码输入错误,您将在 10 分钟内无法正常登陆,还剩余 $L_T 秒",
+	'login_have'			=> '您已经为会员身份，请不要重复登陆！',
+	'login_limit'			=> '登陆选项不唯一，请用其他选项登陆',
+	'login_pwd_error'		=> "密码错误,您还可以尝试 $L_T 次",
+	
+	'must_empty'			=> "必填项<font color=\"red\">{$ckvalue}</font>为空",
+	
+	'no_blog'				=> '找不到相关博客',
+	
+	'password_confirm'		=> '两次密码输入不一致，请重新输入',
+	'passport_limit'		=> "密码长度小于6字节",
+	'passport_login'		=> "系统开启通行证功能，请到 <a href=\"$loginurl\">登陆地址</a> 进行登陆！",
+	'passport_register'		=> "系统开启通行证功能，请到 <a href=\"$regurl\">注册地址</a> 进行注册！",
+	'post_wordsfb'			=> "警告： 您提交的内容中含有被禁用词语 '<font color=\"red\">$banword</font>'！",
+	
+	'qq_empty'				=> 'OICQ为空',
+	
+	'refresh_limit'			=> "站点设置：刷新不要快于 $db_refreshtime 秒",
+	'reg_close'				=> '对不起，目前网站禁止新用户注册,请返回！',
+	'reg_limit'				=> '24小时内只能注册一次',
+	'reg_repeat'			=> '您已经是注册成员，请不要重复注册！',
+	
+	'search_empty'			=> '请输入搜索条件.',
+	'search_none'			=> '找不到相关文章',
+	'search_keyword'		=> '关键字非法.',
+	'search_limit'			=> "对不起{$gp_searchtime}秒内只能进行一次搜索",
+	'search_word_limit'		=> '关键字长度要大于2',
+	'site_empty'			=> '个人主页为空',
+	'signature_limit'		=> '个性签名或自我简介长度错误,请控制在 0 - 200 字节以内',
+	
+	'teamid_false'			=> '该分类下暂无朋友圈',
+	
+	'undefined_action'		=> '非法操作',
+	'user_not_exists'		=> "{$errorname} {$errorvalue} 不存在",
+	'username_limit'		=> "用户名长度错误,请控制在 $rg_minlen - $rg_maxlen 字节以内",
+	'username_lower'		=> '为了避免网站用户名混乱,用户名中禁止使用大写字母,请使用小写字母',
+	'username_same'			=> '此用户名已经被注册,请选择其它用户名',
+	'not_votevie'           => '没有权限查看投票',
+	'not_login'             => '您还没有登入',
+	'have_join'             => '您已经是该圈子的会员',
+	'join_success_notcheck' => '请等待圈子管理员的审核',
+	'join_success'          => '成功加入该朋友圈',
+	'not_join'              => '您还不是该圈子的会员,不能浏览',
+	'qhidden'               => '该圈子完全隐藏',
+	'empty_vote'            => '投票不存在',
+	'sec_blog'				=> '该博客仅好友可见',
+	'hide_blog'				=> "该博客隐藏，不能访问!",
+	'qanswer_error'			=> "验证问题答案错误",
+	'js_close'              => "JS调用关闭",
+	'js_bindurl'            => '非法调用，系统限制了允许调用论坛内容的域名。',
+	'totalblogs'            => '总日志数',
+	'totalalbums'           => '相册数',
+	'totalmalbums'          => '专辑数',
+	'totalmember'           => '会员数',
+	'newmember'            	=> '新会员',
+	'tdblogs'            	=> '今日日志数',
+	'email_connect_failed'  => "连接邮件服务器失败，请检查：<br />1、服务器地址和端口是否设置正确！ 2、网络是否通畅！",
+	'email_user_failed'     => 'email 帐号错误！',
+	'email_pass_failed'     => 'email 密码错误！',
+	'email_from_failed'     => '发信人地址错误！',
+	'email_toemail_failed'  => '收信人地址错误！',
+	'email_data_failed'     => '数据发送失败！',
+	'mail_success'			=>"我们已经发送您的密码到您的注册邮箱,请注意查收!",
+    'mail_failed'			=>"由于服务器邮件系统配置不正确,邮件发送失败",
+    'email_error'			=>"您输入的用户名和email地址不符，请重新输入。",
+    'password_change_success'		=>"完成密码修改",
+    'sendpwd_limit'					=>"<font color=red>发送失败</font>:请不要在 $gp_postpertime 秒内连续性的使用此功能.",
+    'sendeamil_subject_limit'		=>"邮件标题为空，请填写",
+    'sendeamil_content_limit'		=>"请填写邮件内容并在20字节之上",
+    'sendeamil_limit'				=>"<font color=red>发送失败</font>:不要连续发送邮件.请等候....",
+    'sendeamil_refused'				=>"用户{$userdb[username]}不接受邮件",
+    'bbsnamefail'		            =>"该用户论坛用户名不存在，请检查数据完整性",
+    'job_attach_group_right'        =>"您没有下载附件的权限",
+    'job_attach_error'				=>"附件下载出错！",
+    'username_empty'                =>"用户不存在！"
+);
+?>

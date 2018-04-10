@@ -1,0 +1,35 @@
+<!--<?php print <<<EOT
+-->
+<script language="JavaScript">
+var dirtype = '$type';
+var uploadmaxsize = '$db_uploadmaxsize';
+var allow_ext = dirtype=='blog' ? '$db_uploadfiletype' : '$db_uploadphototype';
+var attachnum = '$db_attachnum';
+var imgpath = '$imgpath';
+var picpath = '$picpath';
+var type = '$type';
+<!--
+EOT;
+if($job=='modify'){print<<<EOT
+-->
+var control = 'edit';
+<!--
+EOT;
+}else{print<<<EOT
+-->
+var control = 'add';
+<!--
+EOT;
+}print<<<EOT
+-->
+var itemid = '$itemid';
+</script>
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript" src="js/wysiwyg_editor.js"></script>
+<div id="showmenu" style="z-index:100;display:none;"></div>
+<!--
+EOT;
+require_once PrintEot($type);print <<<EOT
+-->
+EOT;
+?>

@@ -1,0 +1,61 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<center>欢迎光临 <b>LxBlog</b> $wind_version 系统设置面板.版权所有&copy;2003-07,<b style="color: #FF9900">phpwind.net</b></center><br />
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">商业用户授权查证</td></tr>
+<tr><td class="b" style="line-height:150%">
+如果您已经购买了PHPWind 商业用户授权，您可以在PHPWind 商业授权查询网站找到您的网站的相关商业授权信息；如果您没有找到您的网站的商业授权信息或者您的网站的商业授权信息与您购买的商业授权类型不符，说明您购买的可能非法的商业授权，请及时与我们取得联系!<br />
+我们的联系方式：<br />
+Q Q：80132916，178199933 &nbsp; MSN：phpwind@qq.com<br />
+TEL：0571-86911887-800<br />
+<center><a href="http://www.phpwind.com/certificate.php" target="_blank" style="color:blue;font-size:14px;">商业授权查询网站地址</a></center>
+</td></tr></table><br />
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">PHPWind 系列产品介绍</td></tr>
+<tr><td class="b" style="line-height:200%">PHPWind 系列产品：PWForums（论坛系统），LxBlog（博客系统），VeryCMS（内容管理系统），LxShop（商城系统）<br />
+<b>PWForums：</b>PHPWind核心产品，高质量的负载能力、高强度的稳定性、飞一般的访问速度，保证您的网站实现最佳的运行状态！
+<a href="http://www.phpwind.com/?prog=sales" target="_blank"><b>详情点击</b></a><br />
+<b>VeryCMS：</b>整合论坛、博客轻松搭建社区门户网站；高速访问，高负载能力，国内最受欢迎的内容管理系统之一！
+<a href="http://www.phpwind.com/?prog=cms" target="_blank"><b>详情点击</b></a><br />
+<b>LxBlog &nbsp;：</b>完美整合论坛用户数据，又可独立运行。国内首家PHP多用户博客系统，稳定，高效，功能强大！
+<a href="http://www.phpwind.com/?prog=blog" target="_blank"><b>详情点击</b></a><br />
+<b>LxShop &nbsp;：</b>国内优秀的PHP多用户（单用户）商城系统，可完美整合PHPWind论坛用户数据，是您电子商务的最佳选择！
+<a href="http://www.phpwind.com/?prog=maxshop" target="_blank"><b>详情点击</b></a></td></tr>
+</table><br />
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">管 理 帮 助</td></tr>
+<tr><td class="b">这是由 PHPWind.Net 独立开发的建站程序,如果您在使用中遇到问题:<br /><br />
+(1)数据库与使用上的疑问 : <a href="http://www.phpwind.net/thread.php?fid=21" target="_blank"><b>请进入LxBlog 讨论区</b></a><br />
+(2)如果您想安装一些插件 : <a href="http://www.phpwind.net/thread.php?fid=52" target="_blank"><b>请进入LxBlog 插件交流</b></a><br />
+(3)如果您想拥有更多皮肤 : <a href="http://www.phpwind.net/thread.php?fid=53" target="_blank"><b>请进入LxBlog 风格交流</b></a><br /><br />
+</td></tr></table><br />
+<table width="98%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">系 统 信 息</td></tr>
+<tr><td class="b">PHP程式版本：&nbsp; &nbsp; <font color="#000066">$sysversion</font><br />
+MYSQL 版本：&nbsp; &nbsp;&nbsp; <font color="#000066">$dbversion</font><br />
+服务器端信息： &nbsp;  <font color="#000066">$sysos</font><br />
+最大上传限制： &nbsp; <font color="#000066">$max_upload</font><br />
+最大执行时间： &nbsp; <font color="#000066">$max_ex_time</font><br />
+邮件支持模式： &nbsp; <font color="#000066">$sys_mail</font><br />
+Cookie 测试：&nbsp; &nbsp; <font color="#000066">$ifcookie</font><br />
+服务器所在时间：<font color="#000066">$systemtime</font><br />
+博客显示时间：&nbsp;&nbsp; <font color="#000066">$altertime</font><br />
+博客数据库占用：&nbsp;<font color="#000066">$pw_size M</font><br />
+非博客数据库占用：&nbsp;<font color="#000066">$o_size M</font></td></tr>
+</table><br />
+<div id="system"></div>
+<!--
+EOT;
+if($admin_gid == '3' || $admin_name == $manager){
+	@extract($db->get_one("SELECT totalmember FROM pw_bloginfo WHERE id=1"));
+	@extract($db->get_one("SELECT COUNT(*) AS totalitem FROM pw_items"));
+	$rawblogname = rawurlencode($db_blogname);
+	$hash=md5($_SERVER['HTTP_HOST'].$_SERVER['HTTP_USER_AGENT'].$totalmember.$totalitem.$blog_version.$blog_repair.$charset);
+	$url = rawurlencode($_SERVER['HTTP_HOST']);
+print<<<EOT
+-->
+<script language="JavaScript" src=" http://nt.phpwind.com/notice.php?bbsname=$rawblogname&totalmember=$totalmember&threads=$totalitem&version=$blog_version&repair=$blog_repair&charset=$charset&sysversion=$sysversion&dbversion=$dbversion&url=$url&hash=$hash&t=blog"></script>
+<!--
+EOT;
+}?>-->

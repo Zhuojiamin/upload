@@ -1,0 +1,136 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<form action="$basename&" method="post" enctype="multipart/form-data">
+<input type="hidden" name="step" value="2">
+<table width="95%" cellspacing="1" cellpadding="3" class="i_table" align="center">
+<!--
+EOT;
+if($job=='set'){print <<<EOT
+-->
+<tr><td class="head" colspan="2">{$db_teamname}设置</td></tr>
+<tr class="b"><td width="40%">功能名称: </td>
+<td><input name="config[teamname]" size="35" value="$db_teamname"></td></tr>
+<tr class="b"><td>是否开启{$db_teamname}功能: </td>
+<td><input type="radio" name="config[teamifopen]" value="1" $teamifopen_Y> 是
+<input type="radio" name="config[teamifopen]" value="0" $teamifopen_N> 否</td></tr>
+<tr class="b"><td>一个会员最多能建{$db_teamname}的个数（0 表示没限制）: </td>
+<td><input name="config[teamlimit]" size="35" value="$db_teamlimit"></td></tr>
+<tr class="b"><td>允许创建{$db_teamname}的用户组：（留空不限制）: </td>
+<td>$gpslt</td></tr>
+<!--
+EOT;
+}elseif($job=='list'){
+if($set!='edit'){print <<<EOT
+-->
+<tr><td class="head" colspan="10">{$db_teamname}列表</td></tr>
+<tr class="head_2" align="center">
+<td width="7%">ID</td>
+<td width="20%">{$db_teamname}名称</td>
+<td width="10%">所属分类</td>
+<td width="10%">管理员</td>
+<td width="6%">日志</td>
+<td width="6%">用户</td>
+<td width="15%">是否验证加入</td>
+<td width="8%">推荐</td>
+<td width="13%">操作</td>
+<td width="5%">批量</td></tr>
+<!--
+EOT;
+$id = ($page-1)*$perpage;
+foreach($teamdb as $value){
+!$value[cate] && $value[cate]='未分类';
+$value[type] = $value[type] ? '不需验证': '需要验证';
+$value[commend] = $value[commend] ? '推荐': '未推荐';
+$id++;print <<<EOT
+-->
+<tr class="b" align="center">
+<td>$id</td>
+<td>$value[name]</td>
+<td>$value[cate]</td>
+<td>$value[username]</td>
+<td>$value[blogs]</td>
+<td>$value[bloggers]</td>
+<td>$value[type]</td>
+<td>$value[commend]</td>
+<td><a href="$admin_file?action=teamatc&job=list&teamid=$value[teamid]">日志管理</a>
+<a href="$basename&set=edit&teamid=$value[teamid]">编辑</a></td>
+<td><input type="checkbox" name="selid[]" value="$value[teamid]"></td></tr>
+<!--
+EOT;
+}}else{print <<<EOT
+-->
+<tr><td class="head" colspan="2">{$db_teamname}编辑
+<input type="hidden" name="teamid" value="$teamid">
+<input type="hidden" name="uid" value="$uid">
+$input</td></tr>
+<tr class="b"><td width="30%">{$db_teamname}名称: </td>
+<td><input name="teamdb[name]" size="35" value="$teamdb[name]"></td></tr>
+<tr class="b"><td width="30%">{$db_teamname}标志: </td>
+<td><img src="$imgpath/upload/$teamdb[icon]" onload="if(this.width>'180')this.width='180';if(this.height>'180')this.height='180';" /><br /><br />
+<input type="file" name="atc_attachment1" id="atc_attachment1" /></td></tr>
+<tr class="b"><td>是否需要验证加入: </td>
+<td><input type="radio" name="teamdb[type]" value="1" $type_Y> 是
+<input type="radio" name="teamdb[type]" value="0" $type_N> 否</td></tr>
+<tr class="b"><td>浏览权限: </td>
+<td><input type="radio" name="teamdb[ifshow]" value="0" $ifshow_0> 完全隐藏
+<input type="radio" name="teamdb[ifshow]" value="1" $ifshow_1> 只许{$db_teamname}成员浏览
+<input type="radio" name="teamdb[ifshow]" value="2" $ifshow_2> 只许注册用户浏览
+<input type="radio" name="teamdb[ifshow]" value="3" $ifshow_3> 完全公开</td></tr>
+<!--<tr class="b"><td>留言权限: </td>
+<td><input type="radio" name="teamdb[gbooktype]" value="0" $gbooktype_0> 不许留言
+<input type="radio" name="teamdb[gbooktype]" value="1" $gbooktype_1> 只许{$db_teamname}成员留言
+<input type="radio" name="teamdb[gbooktype]" value="2" $gbooktype_2> 只许注册用户留言
+<input type="radio" name="teamdb[gbooktype]" value="3" $gbooktype_3> 允许所有用户留言</td></tr>-->
+<tr class="b"><td>所属分类: </td>
+<td><select name="teamdb[cid]">
+$categpslt
+</select></td></tr>
+<tr class="b"><td>{$db_teamname}公告: </td>
+<td><textarea name="teamdb[notice]" rows="5" cols="50">$teamdb[notice]</textarea></td></tr>
+<tr class="b"><td>{$db_teamname}描述: </td>
+<td><textarea name="teamdb[descrip]" rows="5" cols="50">$teamdb[descrip]</textarea></td></tr>
+<!--
+EOT;
+}}print <<<EOT
+-->
+</table><br />
+<center>
+<!--
+EOT;
+if($job=='list' && $set!='edit'){print <<<EOT
+-->
+</center>
+<table width="95%" align="center" cellspacing="0" cellpadding="3">
+<tr><td>$pages</td></tr>
+<tr><td align="right"><input type="radio" name="type" id="delete" value="delete" CHECKED> 删除
+<input type="radio" name="type" value="cgcid" id="cgcid"> 修改分类
+<select name="tcid" style="width:100px;" onclick="Changselect('cgcid')">
+$categpslt
+</select>
+<input type="radio" name="type" value="cgtype" id="cgtype"> 验证加入
+<select name="ttype" style="width:100px;" onclick="Changselect('cgtype')">
+<option value="1">需要验证</option>
+<option value="0">不需验证</option>
+</select>
+<input type="radio" name="type" value="cgcmd" id="cgcmd"> 推荐设置
+<select name="commend" style="width:100px;" onclick="Changselect('cgcmd')">
+<option value="1">推荐</option>
+<option value="0">未推荐</option>
+</select></td></tr>
+</table><br />
+<center><input type="button" name="chkall" value="全 选" onclick="CheckAll(this.form)">
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<input type="hidden" id="delete" value="0">
+<!--
+EOT;
+}print <<<EOT
+-->
+<input type="submit" value="提 交" onclick="return Checkdel(this.form,'您确认要删除选中{$db_teamname}？');"></center>
+</form>
+<!--
+EOT;
+?>-->

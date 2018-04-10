@@ -1,0 +1,104 @@
+<!--<?php
+include_once PrintEot('left');print <<<EOT
+-->
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr><td class="bold">[<a href="$basename">分类列表</a>] [<a href="$basename&set=unite">合并分类</a>]</td></tr>
+</table><br />
+<!--
+EOT;
+if($set == 'list'){print<<<EOT
+-->
+<form action="$basename&set=add&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="0" cellpadding="3" class="i_table">
+<tr><td class="head">添加分类</td></tr>
+<tr><td class="b"><br />
+分类名称 <input name="name" size="20" value="">
+<select name="cup" style="width:100px;">
+<option value="0">作为根分类</option>
+$categpslt
+</select>
+<input type="submit" value="提 交"><br /><br /></td></tr>
+</table>
+</form>
+<form action="$basename&set=list&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="6">分类列表</td></tr>
+<tr align="center" class="head_2">
+<td width="25%">分类名称</td>
+<td width="20%">首页显示</td>
+<td width="15%">顺序</td>
+<td width="15%">编辑</td>
+<td width="15%">管理</td>
+<td width="10%">删除</td></tr>
+<!--
+EOT;
+foreach($catedb as $value){
+$value[_ifshow] = $value[_ifshow]==1 ? '是' : '否';print<<<EOT
+-->
+<tr class="b" align="center">
+<td align="left">$value[bname]</td>
+<td>$value[_ifshow]</td>
+<td><input name="order[$value[cid]]" value="$value[vieworder]" size="5"></td>
+<td><a href="$basename&set=edit&cid=$value[cid]&cup=$value[cup]">编辑</a></td>
+<td><a href="{$cpatcurl}$value[cid]">管理</a></td>
+<td><a style="cursor:pointer" onclick="deleteslt('$basename&set=delete&cid=$value[cid]','将删除{$catelang[$job]}下的{$value[hname]}分类，请确认!')">删除</a></td></tr>
+<!--
+EOT;
+}print<<<EOT
+-->
+</table><br />
+<center><input type="submit" value="提 交"></center>
+<!--
+EOT;
+}elseif($set == 'edit'){print<<<EOT
+-->
+<form action="$basename&set=edit&" method="post">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="cid" value="$cid">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">编辑分类</td></tr>
+<tr class="b"><td width="60%">分类名称(支持 html 代码)</td>
+<td><input name="name" size="30" value="{$catedb[$cid][name]}"></td></tr>
+<tr class="b"><td>分类简介(支持 html 代码)</td>
+<td><textarea rows="5" name="descrip" cols="45">{$catedb[$cid][descrip]}</textarea></td></tr>
+<tr class="b"><td>所属分类</td>
+<td><select name="cup">
+<option value="0">作为根分类</option>
+$categpslt
+</select></td></tr>
+<tr class="b"><td>是否首页显示</td>
+<td><input type="radio" name="ifshow" value="1" $ifshow_Y /> 是
+<input type="radio" name="ifshow" value="0" $ifshow_N /> 否</td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}elseif($set == 'unite'){print<<<EOT
+-->
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head">提示信息</td></tr>
+<tr><td class="b"><br />
+<ul>1.源分类将被删除，源分类的所有{$catelang[$job]}将移动目标分类中<br />
+2.有子分类的分类不能合并到其他分类</ul></td></tr>
+</table><br />
+<form action="$basename&set=unite&" method="post">
+<input type="hidden" name="step" value="2">
+<table width="95%" align="center" cellspacing="1" cellpadding="3" class="i_table">
+<tr><td class="head" colspan="2">合并分类</td></tr>
+<tr class="b"><td width="60%">源分类</td>
+<td><select name="cid">
+$categpslt
+</select></td></tr>
+<tr class="b"><td>目标分类</td>
+<td><select name="tocid">
+$categpslt
+</select></td></tr>
+</table><br />
+<center><input type="submit" value="提 交"></center>
+</form>
+<!--
+EOT;
+}?>-->

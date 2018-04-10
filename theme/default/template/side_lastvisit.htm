@@ -1,0 +1,21 @@
+<!--<?php print <<<EOT
+-->
+	<!--begin lastvisit-->
+	<div class="box" id="side_$side[sign]">
+	  <h2 onmousedown="Drag._move(event);return false;" style="cursor:move">$side[name]</h2>
+	  <div class="text">
+<!--
+EOT;
+foreach ($lastvisitdb as $key => $value) {print <<<EOT
+-->
+		<a href="blog.php?uid=$value[uid]" target="_blank" title="访客:$value[name]"><img src="$value[icon]" width="48px" height="48px" style="border:1px solid #666;"/></a>
+<!--
+EOT;
+}print <<<EOT
+-->
+	  </div>
+	</div>
+	<!--end lastvisit-->
+<!--
+EOT;
+?>

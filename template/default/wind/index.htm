@@ -1,0 +1,610 @@
+<!--<?php print <<<EOT
+-->
+<!--main-->
+<script language="JavaScript" src="js/ajax.js"></script>
+<script language="JavaScript">
+var articleurl = '$articleurl';
+</script>
+<div id="main">
+    <div id="maintop">
+    <div class="fenlei">
+	  <ul>
+	    <li><img src="image/note.gif" /><span><a href="user_index.php?action=post&type=blog">发表日志</a></span></li>
+		<li><img src="image/talk.gif" /><span><a href="team.php">结交朋友</a></span></li>
+		<li><img src="image/pic.gif" /><span><a href="cate.php?type=photo">记录影像</a></span></li>
+		<li><img src="image/music.gif" /><span><a href="cate.php?type=music">快乐音符</a></span></li>
+		<li><img src="image/beatf.gif" /><span><a href="user_index.php?action=userskin">打造个性</a></span></li>
+	  </ul>
+<!--
+EOT;
+if(!$winduid){print<<<EOT
+-->
+	  <div class="zhuce"><a href="$regurl">立即注册</a></div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	</div>
+    <div class="maptags">
+		<div class="maptagstop">
+			<form action="search.php?action=dosearch&" method="post">
+				<h5 class="fl" style="padding:.2em 6em 0 .1em; margin:0">Hot Tags</h5><input name="keyword" class="maptagssearch" style="width:50%; vertical-align: baseline" value="搜索" />
+				<input class="maptagsgo" name="submit" type="submit" value=""  style="font-weight:bold;vertical-align: baseline"/>
+			</form>
+		</div>
+		<div id="hot-tags">
+		<div class="maptagstext">
+		  <ul>
+<!--
+EOT;
+foreach ($_ALLTAGS as $value){print <<<EOT
+-->
+					<li><a href="tags.php?tagname=$value[tagnameurl]" target="_blank">$value[tagname]</a></li>
+					<!--
+EOT;
+}print <<<EOT
+-->
+
+		  </ul>	
+		</div>
+		</div>
+	</div>
+    </div>
+	<div id="i-content">
+		<!--main content -->
+		<div>
+			<div class="boxA">
+				<h5 class="tabA1" id="showlist1"><a id='hotatc' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist1','hotatc')">热点专题</a><a id='classatc' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist1','classatc')">分类排行</a><a id='fprint' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist1','fprint')">脚印排行</a></h5>
+				<div class="boxAcontent">
+					<div id="hotatcdiv" class="boxA" style="display:none;border:0"><div id="pic-player">
+				<script language="JavaScript">
+var imgpics = '$imgpics';
+var imglinks = '$imglinks';
+var imgtexts = '$imgtexts';
+var imgnums = '$imgnums';
+</script>
+				<!--
+EOT;
+if ($imgpics) {print <<<EOT
+-->
+				<style type="text/css">
+#player h6{ text-align:center; }
+#player h6 a{ font: bold 13px/24px Arial; color: #B305A5;}
+#player{ margin:0 auto .3em}
+#player img{ width:184px ;height:138px;margin:auto; padding:.5em ; border:1px solid #ccc; display:block}
+</style>
+				<div id="player">
+					<div id="player_img" onMouseMove="clearIntervals();" onMouseOut="setIntervals();"><a id="imglink" href="" target="_blank"><img id="imgpic" src="" style="display:none; margin:0 auto"></a></div>
+					<div class="c"></div>
+					<h6 id="imgtext" style="display:none;"></h6>
+				</div>
+				<!--
+EOT;
+}print <<<EOT
+-->
+			</div>
+						<!--
+EOT;
+if(!empty($_HOTHIT)){print <<<EOT
+-->
+						<dl class="quanOne" style="width:55%; margin:0; float:right">
+							<dt><span class="right gray"><a href="blog.php?uid=$_HOTHIT[uid]" target="_blank">$_HOTHIT[author]</a></span>
+								<h4><a href="{$articleurl}type=$_HOTHIT[type]&itemid=$_HOTHIT[itemid]" class="colorA" target="_blank">$_HOTHIT[subject]</a></h4>
+							</dt>
+							<dd>$_HOTHIT[content]</dd>
+						</dl>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</div>
+					<ul id="classatcdiv" class="listA" style="display:none;">
+						<!--
+EOT;
+foreach ($_CLASSATCS as $value) {print <<<EOT
+-->
+						<li> <a href="cate.php?type=$value[catetype]&cid=$value[cid]" target="_blank">$value[name]</a> <cite>($value[counts])</cite> </li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<ul id="fprintdiv" class="listA listC" style="display:none;">
+						<!--
+EOT;
+foreach ($_USERFPRINTS as $value) {print <<<EOT
+-->
+						<li> <em>$value[footprints]</em><a href="{$articleurl}type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a><br />
+							<cite>&raquo; <a class="blue new-article-writer" href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a> $value[postdate]</cite> </li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+				</div>
+			</div>
+			<div class="c"></div>
+			<div class="boxA">
+				<h5 class="tabA1" id="showlist2"><a id='hotatcs' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist2','hotatcs')">热门文章</a><a id='hotreplies' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist2','hotreplies')">热评文章</a><a id='newreplies' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist2','newreplies')">新评文章</a></h5>
+				<div class="boxAcontent">
+					<ul id="hotatcsdiv" class="listA listD" style="display:none;">
+						<!--
+EOT;
+foreach ($_HOTHITS as $value) {print <<<EOT
+-->
+						<li> <em><img src="$value[icon]" /></em><a href="{$articleurl}type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a><br />
+							<cite>&raquo; <a class="blue new-article-writer" href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a> $value[postdate]</cite> </li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<ul id="hotrepliesdiv" class="listA listD" style="display:none;">
+						<!--
+EOT;
+foreach ($_HOTREPLIES as $value) {print <<<EOT
+-->
+						<li> <em><img src="$value[icon]" /></em><a href="{$articleurl}type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a><br />
+							<cite>&raquo; <a class="blue new-article-writer" href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a> $value[postdate]</cite> </li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<ul id="newrepliesdiv" class="listA listD" style="display:none;">
+						<!--
+EOT;
+foreach ($_NEWREPLIES as $value) {print <<<EOT
+-->
+						<li> <em><img src="$value[icon]" /></em><a href="{$articleurl}type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a><br />
+							<cite>&raquo; <a class="blue new-article-writer" href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a> $value[postdate]</cite> </li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<div class="c"></div>
+				</div>
+			</div>
+			<div class="c"></div>
+			<div class="boxA">
+				<h5 class="tabA1" id="showlist3"><a id='newusers' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist3','newusers')">最新加入</a><a id='atcusers' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist3','atcusers')">写手排行</a><a id='cmdusers' href="javascript:;" class="tabA1A" onclick="showdivlist('showlist3','cmdusers')">推荐博客</a></h5>
+				<div class="boxAcontent">
+					<ul id="newusersdiv" class="listB" style="display:none;">
+						<!--
+EOT;
+foreach ($_NEWUSERS as $value) {print <<<EOT
+-->
+						<li><img src="$value[icon]" /><a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<ul id="atcusersdiv" class="listB" style="display:none;">
+						<!--
+EOT;
+foreach ($_ATCUSERS as $value) {print <<<EOT
+-->
+						<li><img src="$value[icon]" /><a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<ul id="cmdusersdiv" class="listB" style="display:none;">
+						<!--
+EOT;
+foreach ($_CMDUSERS as $value) {print <<<EOT
+-->
+						<li><img src="$value[icon]" /><a href="blog.php?uid=$value[uid]" target="_blank">$value[username]</a></li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<div class="c"></div>
+				</div>
+			</div>
+			<div class="c"></div>
+			<script language="JavaScript">
+var showlist1 = false;
+var showlist2 = false;
+</script>
+			<!--
+EOT;
+$showdiv1 = '';
+if(!empty($_NEWBLOGS) || !empty($_NEWPHOTOS) || !empty($_NEWMUSICS)){
+$showdiv1 .= '<a id="newblogs" href="javascript:;" class="tabA1A" onclick="showdivlist(\'showlist4\',\'newblogs\')">最新文章</a>';
+$showdiv1 .= '<a id="newphotos" href="javascript:;" class="tabA1A" onclick="showdivlist(\'showlist4\',\'newphotos\')">最新相册</a>';
+$showdiv1 .= '<a id="newmusics" href="javascript:;" class="tabA1A" onclick="showdivlist(\'showlist4\',\'newmusics\')">最新音乐</a>';print <<<EOT
+-->
+			<script language="JavaScript">
+var showlist1 = true;
+</script>
+			<div class="boxA">
+				<h5 class="tabA1" id="showlist4">$showdiv1</h5>
+				<div class="boxAcontent">
+					<ul id="newblogsdiv" class="listA" style="display:none;">
+						<!--
+EOT;
+foreach ($_NEWBLOGS as $value) {print <<<EOT
+-->
+						<li> <a href="{$articleurl}type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a><br />
+							<cite>&raquo; <a class="blue new-article-writer" href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a> $value[postdate]</cite> </li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<div id="newphotosdiv" class="listPic" style="display:none;">
+						<!--
+EOT;
+foreach ($_NEWPHOTOS as $value) {print <<<EOT
+-->
+						<dl>
+							<dd><a href="{$particleurl}uid=$value[uid]&aid=$value[aid]"><img src="$value[attachurl]"/></a></dd>
+							<dt><a href="{$particleurl}uid=$value[uid]&aid=$value[aid]">$value[subject]</a></dt>
+						</dl>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</div>
+					<div id="newmusicsdiv" class="listPic" style="display:none;">
+						<!--
+EOT;
+foreach ($_NEWMUSICS as $value) {print <<<EOT
+-->
+						<dl>
+							<dd><a href="{$articleurl}type=music&maid=$value[maid]"><img src="$value[hpageurl]"/></a></dd>
+							<dt><a href="{$articleurl}type=music&maid=$value[maid]">$value[subject]</a></dt>
+						</dl>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</div>
+					<div class="c"></div>
+				</div>
+			</div>
+			<!--
+EOT;
+}print <<<EOT
+-->
+			<div class="c"></div>
+			<!--
+EOT;
+$showdiv2 = '';
+if(!empty($_NEWGOODSS) || !empty($_NEWBOOKMARKS) || !empty($_NEWFILES)){
+!empty($_NEWGOODSS) && $showdiv2 .= '<a id="newgoodss" href="javascript:;" class="tabA1A" onclick="showdivlist(\'showlist5\',\'newgoodss\')">最新商品</a>';
+!empty($_NEWBOOKMARKS) && $showdiv2 .= '<a id="newbookmarks" href="javascript:;" class="tabA1A" onclick="showdivlist(\'showlist5\',\'newbookmarks\')">最新书签</a>';
+!empty($_NEWFILES) && $showdiv2 .= '<a id="newfiles" href="javascript:;" class="tabA1A" onclick="showdivlist(\'showlist5\',\'newfiles\')">最新文件</a>';print <<<EOT
+-->
+			<script language="JavaScript">
+var showlist2 = true;
+</script>
+			<div class="boxA">
+				<h5 class="tabA1" id="showlist5">$showdiv2</h5>
+				<div class="boxAcontent">
+					<ul id="newgoodssdiv" class="listPic" style="display:none;">
+						<!--
+EOT;
+foreach ($_NEWGOODSS as $value) {print <<<EOT
+-->
+						<dl>
+							<dd><img src="$value[attachurl]"/></dd>
+							<dt><a href="{$articleurl}type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a></dt>
+						</dl>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<ul id="newbookmarksdiv" class="listA" style="display:none;">
+						<!--
+EOT;
+foreach ($_NEWBOOKMARKS as $value) {print <<<EOT
+-->
+						<li> <a href="$value[bookmarkurl]" target="_blank">$value[subject]</a><br />
+							<cite>&raquo; <a class="blue new-article-writer" href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a> $value[postdate]</cite> </li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<ul id="newfilesdiv" class="listA" style="display:none;">
+						<!--
+EOT;
+foreach ($_NEWFILES as $value) {print <<<EOT
+-->
+						<li> <a href="{$articleurl}type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a><br />
+							<cite>&raquo; <a class="blue new-article-writer" href="blog.php?uid=$value[uid]" target="_blank">$value[author]</a> $value[postdate]</cite> </li>
+						<!--
+EOT;
+}print <<<EOT
+-->
+					</ul>
+					<div class="c"></div>
+				</div>
+			</div>
+			<!--
+EOT;
+}print <<<EOT
+-->
+			<div class="c"></div>
+		</div>
+	</div>
+	<!--sidebar-->
+	<div id="i-sidebar">
+<!--
+EOT;
+if(!$winduid && (!$db_pptifopen || $db_ppttype == 'server')){print<<<EOT
+-->
+	<div>
+	<div>
+	<form action="$loginurl" method="post">
+	<input type="hidden" name="jumpurl" value="$db_blogurl">
+	<input type="hidden" name="step" value="2">
+	<input type="hidden" name="forward" value="$forward" />
+	<table border="0" cellpadding="0" cellspacing="2" style="table-layout:fixed; margin-bottom:.5em">
+	<tr>
+		<td style="width:55px" class="tar"><!--
+EOT;
+if(!$lgslt){print <<<EOT
+-->
+	用户名 <input type="hidden" name="pwtypen" value="username">
+<!--
+EOT;
+}else{print <<<EOT
+-->
+<label><select name="pwtypen" style="width:4.0em; vertical-align:middle">
+	<option value="username">帐号</option>
+	
+			$lgslt
+	
+</select></label>
+<!--
+EOT;
+}print <<<EOT
+--></td>
+		<td><label>
+				<input name="pwtypev" value="" size="20" class="ip" style="vertical-align:middle;" />
+				<span id="showdomain" style="display:none;"></span></label></td>
+	</tr>
+	<tr>
+		<td class="tac">密　码</td>
+		<td><label><input name="pwpwd" type="password" size="20" class="ip" style="vertical-align:middle;"/></label></td>
+	</tr>
+<!--
+EOT;
+if($logingd == 1){print<<<EOT
+-->
+	<tr>
+		<td class="tac">验证码</td>
+		<td><label><input name="gdcode" value="" size="5" class="ip" style="vertical-align:middle;width:30%"/> <img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" style="cursor: pointer; vertical-align: middle" onclick="javascript:newgdcode(this,this.src);" /></label></td>
+	</tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+	<tr>
+		<td>&nbsp;</td>
+		<td><label><input type="submit" class="bt" style=" margin:.2em auto auto 0;" value=" 登 录 " /></label></td>
+	</tr>
+</table>
+	</form></div></div>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+<div class="c"></div>
+		<div id="system-notes">
+			<h3 style="margin-top:0">系统公告</h3>
+			<ul class="listE">
+				<!--
+EOT;
+foreach ($_NOTICE as $value){
+!$value[url] && $value[url] = "notice.php#$value[aid]";print <<<EOT
+-->
+				<li><a href="$value[url]" target="_blank">$value[subject]</a></li>
+				<!--
+EOT;
+}print <<<EOT
+-->
+			</ul>
+		</div>
+<div id="system-notes">
+			<h3 style="margin-top:0">博客统计</h3>
+			<ul class="listE">
+				<li>日志：$totalblogs</li>
+				<li>相册：$totalalbums</li>
+				<li>专辑：$totalmalbums</li>
+				<li>会员：$totalmember</li>
+				<li>今日日志：$tdblogs</li>
+				<li>新进会员：<a href="blog.php?uid={$newmember_uid}" target="_blank">$newmember_name</a></li>
+			</ul>
+		</div>
+		<div class="system-investigate">
+			<h3>小调查</h3>
+			<!--
+EOT;
+if(!empty($_VOTEDB['voteitem'])){print <<<EOT
+-->
+			<h5 class="tac" style="padding:0; margin:.2em 0">$_VOTEDB[subject]</h5>
+			<div class="investigate-entry">
+				<ul id="showvote">
+					<!--
+EOT;
+if($_VOTEDB['type']){
+foreach ($_VOTEDB['voteitem'] as $key => $value){print <<<EOT
+-->
+					<li>
+						<input type="checkbox" value="$key" onclick="return CheckVote(this,$_VOTEDB[id],$_VOTEDB[maxnum]);" />
+						$value</li>
+					<!--
+EOT;
+}}else{
+foreach ($_VOTEDB['voteitem'] as $key => $value){
+print <<<EOT
+-->
+					<li>
+						<input type="radio" value="$key" name="v[]" onclick="return CheckVote(this,$_VOTEDB[id],$_VOTEDB[maxnum]);" />
+						$value</li>
+					<!--
+EOT;
+}}print <<<EOT
+-->
+				</ul>
+			</div>
+			<div class="tac">
+				<input class="bt b" name="submit" type="button" value="投票" onclick="AddVote('{$_VOTEDB[id]}')" />
+				<input class="bt" name="submit" type="button" value="查看结果" onclick="window.location=('vote.php?vid=$_VOTEDB[id]');" />
+			</div>
+			<!--
+EOT;
+}print <<<EOT
+-->
+		</div>
+		<!--
+EOT;
+if ($db_teamifopen) {print <<<EOT
+-->
+		<div id="pools-billboard">
+			<h3>朋友圈排行</h3>
+			<div class="list">
+				<ul>
+					<!--
+EOT;
+$id=0;
+foreach ($_TEAMATCS as $value) {
+$id++;print <<<EOT
+-->
+					<li>$id. <a href="team.php?teamid=$value[teamid]" target="_blank">$value[name]</a> <span class="gray">($value[cate])</span></li>
+					<!--
+EOT;
+}print <<<EOT
+-->
+				</ul>
+			</div>
+		</div>
+		<div id="pools-brackets">
+			<h3>朋友圈分类</h3>
+			<div class="list">
+				<ul>
+					<!--
+EOT;
+$id=0;
+foreach ($_TEAMCLASS as $value) {
+$id++;print <<<EOT
+-->
+					<li>&raquo; <a href="team.php?cid=$value[cid]">$value[name]</a> <span class="green">($value[counts])</span> </li>
+					<!--
+EOT;
+}print <<<EOT
+-->
+				</ul>
+			</div>
+		</div>
+		<div id="pools-billboard">
+			<h3>随机访问列表 <img src="$imgpath/random.jpg" onclick="doRandom()" style="cursor:pointer;"></h3>
+			 <div class="list">
+				<ul id="randomlist">
+<!--
+EOT;
+$id=0;
+$maxid = 0;
+foreach($_RANDOMLIST as $value){
+$id++;
+$maxid = ($maxid<$id) ? $id : $maxid;
+print<<<EOT
+-->
+			<li>$id. <a href="{$articleurl}type=$value[type]&itemid=$value[itemid]" target="_blank">$value[subject]</a></li>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+				</ul>
+			<div id="maxrandomlist" style="display:none;" value="$maxid">$maxid</div>
+			</div>
+		</div>
+		<!--
+EOT;
+}print <<<EOT
+-->
+	</div>
+	<!--sidebar end-->
+	<div class="c"></div>
+	<div id="sharelinks">
+		<style type="text/css">
+	.linkmenu{position:absolute;background:#fff;border:1px solid #A6CBE7;}
+	.linkmenu td, .linkmenu center{background:#E0F0F9;}
+	.linkmenu center{list-style:none;padding:0;}
+	.linkmenu a{display:block;padding:3px 15px 3px 15px}
+	.linkmenu a:hover{background:#2f5fa1;text-decoration:none;color:#fff;}
+	</style>
+		<div id="showtable" style="z-index:100;display:none;"></div>
+		<h5><span id="linkopen" class="fr" style="cursor:pointer;" onclick="Link_open('linkopen');">自助友情链接</span>友情链接</h5>
+		<div>
+			<!--
+EOT;
+foreach ($_SHARE as $value) {print <<<EOT
+-->
+			<a href="$value[url]" title="$value[descrip]" target="_blank">$value[name]</a>
+			<!--
+EOT;
+}print <<<EOT
+-->
+			<br />
+			<!--
+EOT;
+foreach ($_SHARELOGO as $value) {print <<<EOT
+-->
+			<a href="$value[url]" title="$value[descrip]" target="_blank"><img src="$value[logo]" width="88" height="31"></a>
+			<!--
+EOT;
+}print <<<EOT
+-->
+		</div>
+		<div class="linkmenu" id="linkmenu" style="display:none;">
+			<table width="230" cellspacing="1" cellpadding="5">
+				<tbody>
+					<tr>
+						<td colspan="2"><div class="fr" style="cursor:pointer;" onclick="Link_close();" title="close"><img src="$imgpath/wysiwyg/close.gif" /></div>
+							<b>自助友情链接</b> </td>
+					</tr>
+					<tr>
+						<td width="40%" align="center">网站名称</td>
+						<td><input id="linkname" value="" size="20" class="ip" /></td>
+					</tr>
+					<tr>
+						<td align="center">网站地址</td>
+						<td><input id="linkurl" value="" size="20" class="ip" /></td>
+					</tr>
+					<tr>
+						<td align="center">网站说明</td>
+						<td><input id="linkdescrip" value="" size="20" class="ip" /></td>
+					</tr>
+					<tr>
+						<td class="center">网站Logo</td>
+						<td><input id="linklogo" value="" size="20" class="ip" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<center>
+				<input type="button" onclick="return AddLink();" class="bt" value=" 提 交 " />
+				<input type="button" onclick="return Link_close();" class="bt" value="取消" />
+			</center>
+		</div>
+	</div>
+</div>
+<script language="JavaScript" src="js/index.js"></script>
+<!--main end-->
+<!--
+EOT;
+?>
+-->

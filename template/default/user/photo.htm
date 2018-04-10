@@ -1,0 +1,83 @@
+<!--<?php print <<<EOT
+-->
+<div id="att_mode" style="display:none"><div><b>描述：</b> <input class="input" type="text" name="atc_desc" size="15" /> &nbsp;　<b>tags：</b> <input class="input" type="text" name="atc_tags" size="15" />&nbsp;　<b>附件：</b> <input class="input" type="file" name="attachment_" /></div></div>
+<form id="FORM" name="FORM" action="$basename&job=$job&" method="post" enctype="multipart/form-data" onsubmit="return checkpost(document.FORM);">
+<input name="step" type="hidden" value="2">
+<!--
+EOT;
+if($job=='modify'){print<<<EOT
+-->
+<input name="itemid" type="hidden" value="$itemid">
+<input name="atc_oldcid" type="hidden" value="$cid">
+<!--
+EOT;
+}print<<<EOT
+-->
+
+<table align="left" width="95%" class="userbg" cellspacing="0" cellpadding="5">
+<script language="JavaScript">
+var agt = navigator.userAgent.toLowerCase();
+var is_ie = ((agt.indexOf("msie") != -1) && (agt.indexOf("opera") == -1));
+</script>
+<tr><td><h2>上传图片</h2></td></tr>
+
+<tr class="b">
+  <td><b>选择图片：</b><span class="font-999">(允许上传图片的格式：$db_uploadphototype)</span></td>
+</tr>
+<tr class="b">
+	  <td style="padding:1em 0 3em 2.4em">
+<!--
+EOT;
+if($db_allowupload != '0'){
+	include_once PrintEot('upload');
+}print <<<EOT
+-->
+	  </td>
+</tr>
+<tr class="b">
+  <td>
+<table>
+  <tr>
+	  <td><b>图片专辑：</b></td>
+	  <td><select name="atc_aid" id="dirgpslt" style="width:150px;">
+		$itemcache
+		</select>
+		<a href="user_index.php?action=addalbum&type=photo&job=add">　添加相册</a>
+	  </td>
+  </tr>
+  
+<!--
+EOT;
+if ($rawwindid) {print <<<EOT
+-->
+	<tr>
+	  <td><b>认 证 码 ：</b></td><td><input name="gdcode" value="" size="5" class="input">&nbsp;<img id="ck" src="$ckurl?windid=$rawwindid" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="javascript:newgdcode(this,this.src);" /></td>
+	</tr>
+<!--
+EOT;
+} 
+if($postq == '1' && $db_question){
+$db_question = unserialize($db_question);
+$qkey = array_rand($db_question);
+print<<<EOT
+-->
+	<tr>
+		<td><b>验证问题：</b></td><td> {$db_question[$qkey]} <input class="input" type="text" name="qanswer"/><input type="hidden" name="qkey" value="$qkey" /></td>
+	</tr>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+  <table>
+</td>
+</tr>
+  </table>
+  <div class="c"></div>
+<div class="c"></div><br/>
+<center><input type="submit" name="Submit" value="提 交" class="bt"></center>
+</form>
+<br><iframe id="hideframe" name="hideframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+<!--
+EOT;
+?>

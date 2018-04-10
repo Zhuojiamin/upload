@@ -1,0 +1,168 @@
+<!--<?php print <<<EOT
+-->
+	<div class="box">
+	  <h2>$articlename</h2><div class="right"><a href="blog.php?do=showone&uid=$uid&type=$type&itemid=$itemid&goto=previous">上一篇</a>/ <a href="blog.php?do=showone&uid=$uid&type=$type&itemid=$itemid&goto=next">下一篇</a></div><br />
+	  <!--begin-->
+	  <div class="text">
+		<div class="gray">$blog[postdate]
+<!--
+EOT;
+if(!empty($blog[transfer][0])){print<<<EOT
+-->
+（转自：<a href="blog.php?uid={$blog['transfer'][0]}">{$blog['transfer'][1]}</a>）
+<!--
+EOT;
+}
+if(!empty($blog[icon][1])){print<<<EOT
+-->
+		<img src="$imgpath/weather/{$blog[icon][1]}.gif" align="absmiddle" \>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+		</div>
+		<h3>
+<!--
+EOT;
+if ($blog[icon][0]){print <<<EOT
+-->
+		  <img src="$imgpath/emotion/{$blog[icon][0]}.gif" align="absmiddle" \>
+<!--
+EOT;
+}print <<<EOT
+-->
+		$blog[subject]
+<!--
+EOT;
+if ($blog[ifhide] == '1'){print <<<EOT
+-->
+		<span class="gray fn">(隐藏)</span>
+<!--
+EOT;
+}elseif($blog[ifhide] == '2'){print <<<EOT
+-->
+		<span class="gray fn">(好友可见)</span>
+<!--
+EOT;
+}print <<<EOT
+-->
+		</h3>
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <p>
+<!--
+EOT;
+foreach($attachdb['pic'] as $value){
+if ($value[1]){ print <<<EOT
+-->
+			  描述： $value[1]<br />
+<!--
+EOT;
+}print <<<EOT
+-->
+			  图片： <br />$value[0]<br /><br />
+<!--
+EOT;
+}print <<<EOT
+-->
+			  {$blog[content]}
+<!--
+EOT;
+foreach($attachdb['down'] as $key => $value){print <<<EOT
+-->
+			  <br /><br />
+<!--
+EOT;
+if($value[3]){print <<<EOT
+-->
+			  描述： $value[3]<br />
+<!--
+EOT;
+}print <<<EOT
+-->
+			  附件： <img src="theme/$style/images/$value[2].gif" align="absbottom" />
+		  <a href="job.php?action=download&itemid=$itemid&aid=$key" target="_blank"><font color=red>$value[0]</font></a> ($value[1] K)
+<!--
+EOT;
+}print <<<EOT
+-->
+			  </p>
+<!--
+EOT;
+if (!empty($blog[tagsdb])){print <<<EOT
+-->
+			  <p><div>Tags：
+<!--
+EOT;
+foreach($blog[tagsdb] as $tags){print <<<EOT
+-->
+			  <a href="tags.php?tagname=$tags[tagname]" class="tags">$tags[name]</a> &nbsp;
+<!--
+EOT;
+}print <<<EOT
+-->	  
+			  </div></p>
+<!--
+EOT;
+}print <<<EOT
+-->
+</br>
+<!--
+EOT;
+if($blogdb['signature'] && $blogdb['ifsign']){print<<<EOT
+-->
+    <img src="theme/$style/images/sigline.gif"  border="0" /><br />
+    $blogdb[signature]
+<!--
+EOT;
+}
+print<<<EOT
+-->
+			</td>
+		  </tr>
+		</table>
+		<div class="bb">
+		  <div>类别：
+<!--
+EOT;
+if (!$blog[dirname] || $blog[dirname] == 'none'){print <<<EOT
+-->
+		  <a href="blog.php?do=list&uid=$uid&type=$type&dirid=0">无分类</a>
+<!--
+EOT;
+}else{print <<<EOT
+-->
+		  <a href="blog.php?do=list&uid=$uid&type=$type&dirid=$blogdb[dirid]">$blogdb[dirname]</a>
+<!--
+EOT;
+}print <<<EOT
+-->
+		  | &nbsp;<a href="blog.php?do=showone&type=$type&itemid=$itemid#c">评论</a>(<span id="rsum">$blogdb[replies]</span>) | &nbsp;<a href="blog.php?do=showone&type=$type&itemid=$itemid">浏览</a>($blogdb[hits]) | &nbsp;<a style="cursor:pointer;" title="收藏" onclick="Addboxes('blog','collecitems','$itemid');">收藏</a>
+<!--
+EOT;
+if($winduid == $uid){print<<<EOT
+-->
+ | &nbsp;<span id="commendtomenu"><a style="cursor:pointer;" title="推荐給好友" onclick="CommendToMenu();">推荐给好友</a></span>
+<!--
+EOT;
+}
+print<<<EOT
+-->
+</div>
+		  <div class="c"></div>
+		</div>
+<!--
+EOT;
+$do == 'showone' && @include_once(getPath('comment'));print <<<EOT
+-->
+	  </div>
+	  <!--end-->
+	</div>
+<script language="JavaScript">
+var ifsumreply=1;
+</script>
+<!--
+EOT;
+?>

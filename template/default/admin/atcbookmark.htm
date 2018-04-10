@@ -1,0 +1,81 @@
+<!--<?php print <<<EOT
+-->
+<tr class="b"><td width="30%" height="30" class="bold">书签名称: </td>
+<td><input name="atc_title" size="35" value="$atc[subject]"></td></tr>
+<tr class="b"><td height="30" class="bold">系统分类: </td>
+<td><select name="atc_cid" style="width:150px;">
+$categpslt
+</select><input name="atc_oldcid" type="hidden" value="$cid"></td></tr>
+<tr class="b"><td height="30" class="bold">个人书签分类: </td>
+<td><select name="atc_dirid" id="dirgpslt" style="width:150px;">
+<option value="0">未分类</option>
+$dirgpslt
+</select>
+<input type="button" id="dirbutton" value="管理" onclick="ShowDir()"><br />
+<span id="dirspan" style="width:300;margin:5px 0px 0px 0px;z-index:100;display:none;">
+<table cellspacing="0" cellpadding="3">
+<tbody id="dirtbody">
+<tr><td height="30">分类名称</td>
+<td>顺序</td></tr>
+<tr><td align="center" height="30"><input name="dirname" id="dirname" size="15"></td>
+<td><input name="dirorder" id="dirorder" size="5">
+<input type="button" value="添加" onclick="AddDir()"></td></tr>
+<!--
+EOT;
+foreach($dirarray as $key => $value){print <<<EOT
+-->
+<tr id="dir{$key}"><td align="center" height="30"><input id="dirnames{$key}" size="15" value="{$value[name]}"></td>
+<td><input id="dirorders{$key}" size="5" value="{$value[vieworder]}">
+<a style="cursor:pointer" onclick="EditDir('{$key}')" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';">修改</a>
+<a style="cursor:pointer" onclick="DeleteDir('{$key}')" onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';">删除</a></td></tr>
+<!--
+EOT;
+}print <<<EOT
+-->
+</tbody>
+</table>
+</span></td></tr>
+<tr class="b"><td height="30" class="bold">关键字（Tag）: </td>
+<td>
+<span id="taglist"$tdisplay>
+<!--
+EOT;
+foreach($tagdb as $value){print <<<EOT
+-->
+<a style="cursor:pointer" title="点击删除此Tag" onclick="DeleteTag(this,'$value')" style="padding-right:3px;">$value<input name="atc_tagdb[]" type="hidden" value="$value"></a>
+<!--
+EOT;
+}print <<<EOT
+-->
+<br />
+</span>
+<input id="tagname" size="35" onkeydown="if(event.keyCode==13) {AddTag(GE('tagname').value);return false;}" value="">
+<input type="button" value="添加Tag" onclick="AddTag(GE('tagname').value)"></td></tr>
+<tr class="b"><td height="30" class="bold">书签链接: </td>
+<td><input name="bookmarkurl" size="35" value="$atc[bookmarkurl]"></td></tr>
+<tr class="b"><td height="30" valign="top"></td>
+<td><table cellspacing="0" cellpadding="3" width="100%">
+<tr class="b"><td height="30">
+<!--
+EOT;
+if($_GROUP['htmlcode']){print <<<EOT
+-->
+<input type="checkbox" name="atc_htmlcode" id="atc_html" value="1" $html_CK> 使用html代码
+<!--
+EOT;
+}print <<<EOT
+-->
+<input type="checkbox" name="atc_ifsign" value="1" $ifsign_CK> 使用签名
+<input type="checkbox" name="atc_autourl" value="1" CHECKED> 自动分析url<br />
+<!--
+EOT;
+include PrintEot('wysiwyg');print <<<EOT
+-->
+<span id="showmsg" style="color:red;margin-top:5px;padding:6px;display:none;"></span>
+<span id="showupload"></span>
+</td></tr>
+</table>
+</td></tr>
+<!--
+EOT;
+?>

@@ -1,0 +1,68 @@
+<!--<?php print <<<EOT
+-->
+<tr class="b">
+  <td>商品名称<br /><input type="text" size="45" name="atc_title" value="$atc_title" class="input"></td>
+</tr>
+<tr class="b">
+  <td>
+	新旧程度<br /><input type="radio" name="quality" value="new" $quality_new> 全新
+	<input type="radio" name="quality" value="secondhand" $quality_secondhand> 二手
+  </td>
+</tr>
+<tr class="b">
+  <td>
+	商品价格<br /><input class="input" type="text" name="price" value="$price"> 元
+  </td>
+</tr>
+<tr class="b">
+  <td>
+	运费<br /><input type="radio" name="feemode" value="1" $feemode_1> 买家承担运费&nbsp; 
+	<input type="radio" name="feemode" value="2" $feemode_2> 卖家承担运费<br />
+	平邮：<input class="input" type="text" size="10" name="maillfee" value="$maillfee"> 元
+	快递：<input class="input" type="text" size="10" name="expressfee" value="$expressfee"> 元
+	EMS：  <input class="input" type="text" size="10" name="emsfee" value="$emsfee"> 元
+  </td>
+</tr>
+<tr class="b">
+  <td>
+	所在地<script src="js/initcity.js"></script><br />
+	<select onchange="initcity();" name="province" id="province"></select>
+	<select name="city" id="city"></select>
+	<script>creatprovince('$province');initcity('$city');</script>
+  </td>
+</tr>
+<tr class="b">
+  <td>支付宝帐号<br /><input type="text" class="input" size="45" name="alipay" value="$alipay"></td>
+</tr>
+<tr class="b">
+  <td>贝宝帐号<br /><input type="text" class="input" size="45" name="paypal" value="$paypal"></td>
+</tr>
+<tr class="b">
+  <td>快钱帐号<br /><input class="input" type="text" size="45" name="pay99bill" value="$pay99bill"></td>
+</tr>
+<tr class="b">
+  <td>
+<!--
+EOT;
+if($_GROUP['htmlcode']){print <<<EOT
+-->
+	<input type="checkbox" name="atc_htmlcode" id="atc_html" value="1" $html_CK> 使用html代码
+<!--
+EOT;
+}print <<<EOT
+-->
+	<input type="checkbox" name="atc_ifsign" value="1" $ifsign_CK> 使用签名
+	<input type="checkbox" name="atc_autourl" value="1" CHECKED> 自动分析url
+  </td>
+</tr>
+<tr class="b">
+  <td width="500" valign="top">
+<!--
+EOT;
+require_once PrintEot('wysiwyg');print<<<EOT
+-->
+  </td>
+</tr>
+<!--
+EOT;
+?>

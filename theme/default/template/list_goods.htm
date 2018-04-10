@@ -1,0 +1,41 @@
+<!--<?php print <<<EOT
+-->
+  <!--begin main-->
+  <div id="main" class="right">
+	<div class="box">
+	  <h2>$left_name[goodslists]</h2>
+	  <!--begin-->
+	  <div class="text">
+		<table class="blog-content">
+		  <tr>
+			<td>
+			  <ul class="pic-list goods-list">
+<!--
+EOT;
+foreach($_ITEMDB as $newgoods){print <<<EOT
+-->
+				<li>
+				  <a href="blog.php?do=showone&uid=$uid&type=$type&itemid=$newgoods[itemid]" title="$newgoods[descrip]"><img src="$newgoods[attachurl]" width="75" height="75" alt="$newgoods[descrip]" border="0" /></a>
+				  <div>$newgoods[subject]</div>
+				</li>
+<!--
+EOT;
+}print <<<EOT
+-->
+			  </ul>
+			  <div class="c"></div></td>
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <!--end-->
+	</div>
+<!--
+EOT;
+include_once(getPath('goods'));print <<<EOT
+-->	
+  </div>
+  <!--end main-->
+<!--
+EOT;
+?>
